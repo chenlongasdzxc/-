@@ -11,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  **/
 public interface StudentInfoRespority extends JpaRepository<StudentInformation,Long>, JpaSpecificationExecutor<StudentInformation> {
 
-
+        StudentInformation findByStudentClassAndGrade(String studentClass,Long grade);
 }
