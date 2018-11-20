@@ -17,13 +17,13 @@ public class StudentMoral {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private String studentName;
+    private String studentName;  //姓名
 
-    private Long studentCode;
+    private Long studentCode;  //学号
 
-    private String studentClass;
+    private String studentClass;  //班级
 
-    private Long grade;
+    private Long grade;  //年级
 
     private String moralEName;
 

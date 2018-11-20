@@ -18,25 +18,9 @@ import java.util.List;
 @Service
 public class StuMoralServiceImpl implements StuMoralService {
 
-    @Autowired
-    private StudentMoralRespority studentMoralRespority;
-
-    @Autowired
-    private StudentInfoRespority studentInfoRespority;
 
 
 
-    /**
-     * @param studentMoral
-     * */
-    @Override
-    public Commes setMoral(StudentMoral studentMoral) {
-        try {
 
-        }catch (Exception e){
-            e.printStackTrace();
-            return Commes.errorMes("500","");
-        }
-        return null;
-    }
+
 }

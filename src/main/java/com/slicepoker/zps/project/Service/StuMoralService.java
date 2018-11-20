@@ -10,5 +10,5 @@ import com.slicepoker.zps.project.Pojo.StudentMoral;
  **/
 public interface StuMoralService {
 
-    Commes setMoral(StudentMoral studentMoral);
+
 }

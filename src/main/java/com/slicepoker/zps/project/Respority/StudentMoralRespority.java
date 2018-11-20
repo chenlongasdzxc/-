@@ -12,7 +12,5 @@ import java.util.List;
  **/
 public interface StudentMoralRespority extends JpaRepository<StudentMoral,Long>, JpaSpecificationExecutor<StudentMoral> {
 
-    List findByStudentClassAAndAndGrade(String studentClass,Long grade);
 
-    StudentMoral findByStudentClassAndGrade(String studentClass,Long grade);
 }

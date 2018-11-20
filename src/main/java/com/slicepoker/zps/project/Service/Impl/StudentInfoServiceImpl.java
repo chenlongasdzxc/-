@@ -4,6 +4,7 @@ import com.slicepoker.zps.project.Pojo.Commes;
 import com.slicepoker.zps.project.Pojo.StudentInformation;
 import com.slicepoker.zps.project.Respority.StudentInfoRespority;
 import com.slicepoker.zps.project.Service.StudentInfoService;
+import com.slicepoker.zps.project.Util.CodeToGrade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,11 +27,23 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     @Autowired
     StudentInfoRespority studentInfoRespority;
-    /*
+
+    @Autowired
+    CodeToGrade codeToGrade;
+
+    /**
     * 模糊查询
+     * @param studentCode
+     * @param studentName
+     * @param sex
+     * @param roomNumber
+     * @param studentClass
     * */
     @Override
-    public Commes findFuzzy(Long studentCode, String studentName, Integer sex, String studentClass, Pageable pageable) {
+    public Commes findFuzzy(Long studentCode, String studentName, Integer sex,
+                            String studentClass,
+                            String roomNumber,
+                            Pageable pageable) {
         try{
             Page<StudentInformation> page = studentInfoRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
@@ -54,5 +67,38 @@ public class StudentInfoServiceImpl implements StudentInfoService {
             return Commes.errorMes("500","参数错误");
         }
 
+    }
+
+    /*@Override
+    public Commes findRoom(Pageable pageable) {
+        try {
+            List list =studentInfoRespority.findroomNumber();
+            return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查询失败");
+        }
+    }*/
+
+    /**
+     * 更新学生信息
+     * @param studentInformation
+     * **/
+    @Override
+    public Commes updateInfo(StudentInformation studentInformation) {
+        try {
+            StudentInformation studentInformation1 = studentInfoRespority.findByStudentCode(studentInformation.getStudentCode());
+            if (studentInformation1==null){
+                Long grade = codeToGrade.codeToGrade(studentInformation.getStudentCode());
+                studentInformation.setStudentClass(codeToGrade.codeToClass(studentInformation.getStudentCode()));
+                studentInformation.setGrade(grade);
+                return Commes.success(studentInfoRespority.save(studentInformation));
+            }else {
+                return Commes.errorMes("401","已存在");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","失败");
+        }
     }
 }

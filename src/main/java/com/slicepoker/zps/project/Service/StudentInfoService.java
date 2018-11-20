@@ -1,6 +1,7 @@
 package com.slicepoker.zps.project.Service;
 
 import com.slicepoker.zps.project.Pojo.Commes;
+import com.slicepoker.zps.project.Pojo.StudentInformation;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -9,5 +10,9 @@ import org.springframework.data.domain.Pageable;
  **/
 public interface StudentInfoService {
 
-    Commes findFuzzy(Long studentCode, String studentName, Integer sex, String studentClass, Pageable pageable);
+    Commes findFuzzy(Long studentCode, String studentName, Integer sex, String studentClass,String roomNumber, Pageable pageable);
+
+    /*Commes findRoom(Pageable pageable);*/
+
+    Commes updateInfo(StudentInformation studentInformation);
 }
