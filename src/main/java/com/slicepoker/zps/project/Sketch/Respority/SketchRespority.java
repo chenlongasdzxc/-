@@ -1,7 +1,6 @@
-package com.slicepoker.zps.project.Respority;
+package com.slicepoker.zps.project.Sketch.Respority;
 
-import com.slicepoker.zps.project.Pojo.Sketch;
-import org.springframework.data.domain.Page;
+import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

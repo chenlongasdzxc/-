@@ -1,8 +1,8 @@
-package com.slicepoker.zps.project.Controller;
+package com.slicepoker.zps.project.Sketch.Controller;
 
 import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.SketchScore;
-import com.slicepoker.zps.project.Service.SketchScoreService;
+import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
+import com.slicepoker.zps.project.Sketch.Service.SketchScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

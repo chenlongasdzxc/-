@@ -1,7 +1,7 @@
-package com.slicepoker.zps.project.Service;
+package com.slicepoker.zps.project.Sketch.Service;
 
 import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.SketchScore;
+import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 
 /**
  * @author Zps

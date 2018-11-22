@@ -1,4 +1,4 @@
-package com.slicepoker.zps.project.Pojo;
+package com.slicepoker.zps.project.Moral.Pojo;
 
 import lombok.Data;
 

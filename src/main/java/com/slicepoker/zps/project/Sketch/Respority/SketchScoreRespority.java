@@ -1,9 +1,7 @@
-package com.slicepoker.zps.project.Respority;
+package com.slicepoker.zps.project.Sketch.Respority;
 
-import com.slicepoker.zps.project.Pojo.SketchScore;
+import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 /**
  * @author Zps

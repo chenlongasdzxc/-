@@ -1,13 +1,13 @@
-package com.slicepoker.zps.project.Service.Impl;
+package com.slicepoker.zps.project.Sketch.Service.Impl;
 
 import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.Sketch;
-import com.slicepoker.zps.project.Pojo.SketchScore;
-import com.slicepoker.zps.project.Pojo.User;
-import com.slicepoker.zps.project.Respority.SketchRespority;
-import com.slicepoker.zps.project.Respority.SketchScoreRespority;
+import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
+import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
+import com.slicepoker.zps.project.Sketch.Respority.SketchRespority;
+import com.slicepoker.zps.project.Sketch.Respority.SketchScoreRespority;
 import com.slicepoker.zps.project.Respority.UserRespority;
-import com.slicepoker.zps.project.Service.SketchService;
+import com.slicepoker.zps.project.Sketch.Service.SketchService;
+import com.slicepoker.zps.project.Util.SketchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,30 +29,34 @@ public class SketchServiceImpl implements SketchService {
     private SketchRespority sketchRespority;
 
     @Autowired
+    private SketchUtil sketchUtil;
+
+    @Autowired
     private UserRespority userRespority;
 
     @Autowired
     private SketchScoreRespority sketchScoreRespority;
 
     /**
+     * 更新素拓分
      * @param sketch
      * */
     @Override
     public Commes updateSketch(Sketch sketch) {
         try{
-            double sketchnumber = sketch.getSketchScore();
+            String sketchPart = sketch.getSketchPart();
+            /*查询id是否存在*/
             Sketch sketch1 = sketchRespority.findByIdAndDeletedIsFalseAndAndSketchStatesIsFalse(sketch.getId());
             if (sketch1==null){
-           SketchScore sketchScore = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketch.getType());
-           if (sketchScore!=null){
-                sketch.setSketchTypeCode(sketchScore.getSketchTypeCode());
-                setSketchPart(sketch,sketchnumber);
-                return Commes.success(sketchRespority.save(sketch));
-           }else {
-               return Commes.errorMes("400","查询失败");
-           }
+                SketchScore sketchScore = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketch.getType());
+                    if (sketchScore!=null){
+                        sketch.setSketchScore(sketchUtil.setSketch(sketchPart));
+                        sketch.setCreateDate(new Date());
+                        sketch.setSketchTypeCode(sketchScore.getSketchTypeCode());
+                        return Commes.success(sketchRespority.save(sketch));
+                    }else {
+               return Commes.errorMes("400","查询失败"); }
             }else {
-                sketch1 = setSketchPart(sketch,sketchnumber);
                 return Commes.success(sketchRespority.save(sketch1));
             }
         }catch (Exception e){
@@ -62,6 +66,7 @@ public class SketchServiceImpl implements SketchService {
     }
 
     /**
+     * 根据学号、创建时间查询素拓分
      * @param  studentNumber 学号
      * @param createDateStart
      * @param createDateStop
@@ -93,6 +98,7 @@ public class SketchServiceImpl implements SketchService {
     }
 
     /**
+     * 根据班级名称查询素拓分
      * @param  className 班级名称
      * */
     @Override
@@ -112,6 +118,7 @@ public class SketchServiceImpl implements SketchService {
 
 
     /**
+     * 审核
      * @param id  id
      * @param states 状态
      *  true 已审核
@@ -133,19 +140,14 @@ public class SketchServiceImpl implements SketchService {
         }
     }
 
-
-
-    public Sketch setSketchPart(Sketch sketch,double sketchnumber){
-            if (sketchnumber==0.3){
-                sketch.setSketchPart("参与者");
-            }
-            if (sketchnumber==0.5){
-                sketch.setSketchPart("组织者");
-            }
-            if (sketchnumber==1||sketchnumber==1.5||sketchnumber==2){
-                sketch.setSketchPart("获奖者");
-            }
-            return sketch;
-
+    @Override
+    public Commes findAll() {
+        try {
+            List<Sketch> list = sketchRespority.findAll();
+            return Commes.success(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查询失败");
+        }
     }
 }

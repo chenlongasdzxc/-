@@ -1,10 +1,8 @@
-package com.slicepoker.zps.project.Respority;
+package com.slicepoker.zps.project.Moral.Respority;
 
-import com.slicepoker.zps.project.Pojo.StudentMoral;
+import com.slicepoker.zps.project.Moral.Pojo.StudentMoral;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-
-import java.util.List;
 
 /**
  * @author Zps

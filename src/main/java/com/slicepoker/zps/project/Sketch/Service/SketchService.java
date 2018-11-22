@@ -1,7 +1,7 @@
-package com.slicepoker.zps.project.Service;
+package com.slicepoker.zps.project.Sketch.Service;
 
 import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.Sketch;
+import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
@@ -19,4 +19,7 @@ public interface SketchService {
     Commes findByClass(String className);
 
     Commes setStates(Long id,String states);
+
+    Commes findAll();
+
 }

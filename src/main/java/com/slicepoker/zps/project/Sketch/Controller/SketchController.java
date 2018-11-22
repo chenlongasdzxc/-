@@ -1,8 +1,8 @@
-package com.slicepoker.zps.project.Controller;
+package com.slicepoker.zps.project.Sketch.Controller;
 
 import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.Sketch;
-import com.slicepoker.zps.project.Service.SketchService;
+import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
+import com.slicepoker.zps.project.Sketch.Service.SketchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,5 +39,10 @@ public class SketchController {
     @GetMapping("/fdSkByDate")
     public Commes findSketch(Long studentNumber, Date createDateStart, Date createDateStop, Pageable pageable){
         return sketchService.findSketch(studentNumber, createDateStart, createDateStop, pageable);
+    }
+
+    @GetMapping("/findAllSketch")
+    public Commes findAllSketch(){
+        return sketchService.findAll();
     }
 }

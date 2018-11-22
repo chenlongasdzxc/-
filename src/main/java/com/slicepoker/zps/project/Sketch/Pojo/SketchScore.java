@@ -1,4 +1,4 @@
-package com.slicepoker.zps.project.Pojo;
+package com.slicepoker.zps.project.Sketch.Pojo;
 
 import lombok.Data;
 
@@ -7,6 +7,7 @@ import javax.persistence.*;
 /**
  * @author Zps
  * @date 2018/11/2 15:06
+ * @description 素拓分类型表
  **/
 @Entity
 @Table(name="tb_sketchscore")

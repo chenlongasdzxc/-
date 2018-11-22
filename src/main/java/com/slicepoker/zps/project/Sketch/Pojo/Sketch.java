@@ -1,4 +1,4 @@
-package com.slicepoker.zps.project.Pojo;
+package com.slicepoker.zps.project.Sketch.Pojo;
 
 import lombok.Data;
 
@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * @author Zps
  * @date 2018/11/2 13:57
+ * @description 素拓分总表
  **/
 @Entity
 @Table(name="tb_sketch")

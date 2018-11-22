@@ -1,9 +1,9 @@
-package com.slicepoker.zps.project.Service.Impl;
+package com.slicepoker.zps.project.Sketch.Service.Impl;
 
 import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.SketchScore;
-import com.slicepoker.zps.project.Respority.SketchScoreRespority;
-import com.slicepoker.zps.project.Service.SketchScoreService;
+import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
+import com.slicepoker.zps.project.Sketch.Respority.SketchScoreRespority;
+import com.slicepoker.zps.project.Sketch.Service.SketchScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,9 @@ public class SketchScoreServiceImpl implements SketchScoreService {
     @Autowired
     private SketchScoreRespority sketchScoreRespority;
 
-    /*新增或编辑*/
+    /**新增或编辑素拓分类型
+     * @param sketchScore
+     * **/
     @Override
     public Commes addSketch(SketchScore sketchScore) {
         try {
@@ -31,13 +33,15 @@ public class SketchScoreServiceImpl implements SketchScoreService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","");
+            return Commes.errorMes("405","失败");
         }
     }
 
-    /*
-    * 删除
+    /**
+    *根据素拓分类型删除素拓分类型
+     * @param type
     * */
+
     @Override
     public Commes deleteSketch(String type) {
         try {
@@ -50,13 +54,15 @@ public class SketchScoreServiceImpl implements SketchScoreService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","删除失败");
+            return Commes.errorMes("405","删除失败");
         }
     }
 
-    /*
-    * 查询
+    /**
+    * 查询所有素拓分类型
+     *
     * */
+
     @Override
     public Commes findFuzzy() {
         try {
@@ -68,7 +74,7 @@ public class SketchScoreServiceImpl implements SketchScoreService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","error");
+            return Commes.errorMes("405","error");
         }
 
     }
