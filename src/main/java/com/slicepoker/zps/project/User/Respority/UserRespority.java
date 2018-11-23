@@ -1,6 +1,6 @@
-package com.slicepoker.zps.project.Respority;
+package com.slicepoker.zps.project.User.Respority;
 
-import com.slicepoker.zps.project.Pojo.User;
+import com.slicepoker.zps.project.User.Pojo.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

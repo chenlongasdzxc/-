@@ -1,7 +1,7 @@
-package com.slicepoker.zps.project.Controller;
+package com.slicepoker.zps.project.User.Controller;
 
-import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Service.UserService;
+import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

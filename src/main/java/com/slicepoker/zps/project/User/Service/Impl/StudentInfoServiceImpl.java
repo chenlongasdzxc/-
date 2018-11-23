@@ -1,20 +1,16 @@
-package com.slicepoker.zps.project.Service.Impl;
+package com.slicepoker.zps.project.User.Service.Impl;
 
-import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.StudentInformation;
-import com.slicepoker.zps.project.Respority.StudentInfoRespority;
-import com.slicepoker.zps.project.Service.StudentInfoService;
+import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.StudentInformation;
+import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
+import com.slicepoker.zps.project.User.Service.StudentInfoService;
 import com.slicepoker.zps.project.Util.CodeToGrade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 

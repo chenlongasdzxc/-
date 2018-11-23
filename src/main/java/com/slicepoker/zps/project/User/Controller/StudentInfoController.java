@@ -1,11 +1,10 @@
-package com.slicepoker.zps.project.Controller;
+package com.slicepoker.zps.project.User.Controller;
 
-import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.StudentInformation;
-import com.slicepoker.zps.project.Service.StudentInfoService;
+import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.StudentInformation;
+import com.slicepoker.zps.project.User.Service.StudentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 

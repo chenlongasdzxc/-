@@ -1,6 +1,6 @@
 package com.slicepoker.zps.project.Sketch.Controller;
 
-import com.slicepoker.zps.project.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 import com.slicepoker.zps.project.Sketch.Service.SketchScoreService;
 import org.springframework.beans.factory.annotation.Autowired;

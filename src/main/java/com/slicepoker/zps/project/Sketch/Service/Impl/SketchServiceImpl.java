@@ -1,11 +1,11 @@
 package com.slicepoker.zps.project.Sketch.Service.Impl;
 
-import com.slicepoker.zps.project.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 import com.slicepoker.zps.project.Sketch.Respority.SketchRespority;
 import com.slicepoker.zps.project.Sketch.Respority.SketchScoreRespority;
-import com.slicepoker.zps.project.Respority.UserRespority;
+import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.Sketch.Service.SketchService;
 import com.slicepoker.zps.project.Util.SketchUtil;
 import org.springframework.beans.factory.annotation.Autowired;

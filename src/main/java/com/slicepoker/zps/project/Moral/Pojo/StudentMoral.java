@@ -25,12 +25,12 @@ public class StudentMoral {
 
     private Long grade;  //年级
 
-    private String moralEName;
+    private String moralEName; //
 
     private double moralEScore; //德育分
 
-    private String moralJName;
+    private String moralJName;  //课外加分项目
 
-    private double moralJScore;
+    private double moralJScore;  //课外加分分数
 
 }

@@ -1,6 +1,6 @@
 package com.slicepoker.zps.project.Sketch.Service;
 
-import com.slicepoker.zps.project.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 
 /**

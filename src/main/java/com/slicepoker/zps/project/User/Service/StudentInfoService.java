@@ -1,7 +1,7 @@
-package com.slicepoker.zps.project.Service;
+package com.slicepoker.zps.project.User.Service;
 
-import com.slicepoker.zps.project.Pojo.Commes;
-import com.slicepoker.zps.project.Pojo.StudentInformation;
+import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.StudentInformation;
 import org.springframework.data.domain.Pageable;
 
 /**
