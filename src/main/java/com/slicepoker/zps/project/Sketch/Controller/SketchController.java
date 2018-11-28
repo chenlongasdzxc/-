@@ -5,9 +5,7 @@ import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import com.slicepoker.zps.project.Sketch.Service.SketchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -16,32 +14,37 @@ import java.util.Date;
  * @date 2018/11/5 17:00
  **/
 @RestController
+@RequestMapping("/Sketch")
 public class SketchController {
 
     @Autowired
     private SketchService sketchService;
 
-    @PostMapping("/updateSketch")
-    public Commes updateSketch(Sketch sketch){
+    @PostMapping("/update")
+    public Commes updateSketch(@RequestBody Sketch sketch){
         return sketchService.updateSketch(sketch);
     }
 
-    @GetMapping("/fdByCn")
-    public Commes findByClassName(String className){
+    @GetMapping("/findByClassName")
+    public Commes findByClassName(@RequestParam String className){
         return sketchService.findByClass(className);
     }
 
-    @GetMapping("/setSkStates")
-    public Commes setSkStates(Long id,String states){
+    @GetMapping("/set")
+    public Commes setSkStates(@RequestParam Long id,
+                              @RequestParam String states){
         return sketchService.setStates(id, states);
     }
 
-    @GetMapping("/fdSkByDate")
-    public Commes findSketch(Long studentNumber, Date createDateStart, Date createDateStop, Pageable pageable){
+    @GetMapping("/findFuzzy")
+    public Commes findSketch(@RequestParam Long studentNumber,
+                             @RequestParam Date createDateStart,
+                             @RequestParam Date createDateStop,
+                             @RequestParam Pageable pageable){
         return sketchService.findSketch(studentNumber, createDateStart, createDateStop, pageable);
     }
 
-    @GetMapping("/findAllSketch")
+    @GetMapping("/findAll")
     public Commes findAllSketch(){
         return sketchService.findAll();
     }
