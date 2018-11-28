@@ -1,0 +1,14 @@
+package com.slicepoker.zps.project.Moral.Respority;
+
+import com.slicepoker.zps.project.Moral.Pojo.MoralExpression;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+/**
+ * @author Zps
+ * @date 2018/11/26 17:23
+ **/
+public interface MoralExpressionRespority extends JpaRepository<MoralExpression,Long>, JpaSpecificationExecutor<MoralExpression> {
+
+    MoralExpression findByIdAndDeletedIsFalse(Long id);
+}

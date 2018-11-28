@@ -11,8 +11,8 @@ import javax.persistence.*;
  **/
 @Data
 @Entity
-@Table(name="tb_Fout")
-public class FOut {
+@Table(name="tb_moralout")
+public class MoralOut {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
