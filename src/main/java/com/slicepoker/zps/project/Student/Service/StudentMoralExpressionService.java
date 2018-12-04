@@ -10,4 +10,6 @@ import com.slicepoker.zps.project.User.Pojo.Commes;
 public interface StudentMoralExpressionService {
 
     Commes update(StudentMoralExpression studentMoralExpression);
+
+    Commes findAll();
 }
