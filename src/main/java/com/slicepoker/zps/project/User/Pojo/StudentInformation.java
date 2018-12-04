@@ -20,7 +20,7 @@ public class StudentInformation implements Serializable {
 
     private String studentName; //姓名
 
-    private Long studentCode;  //学号
+    private Long studentNumber;  //学号
 
     private Long grade;  //年级
 
@@ -29,6 +29,8 @@ public class StudentInformation implements Serializable {
     private String email;  //邮箱
 
     private Integer sex;  //男：1  女：0
+
+    private String major; //专业
 
     private String studentClass;  //班级
 

@@ -46,7 +46,7 @@ public class SketchServiceImpl implements SketchService {
         try{
             String sketchPart = sketch.getSketchPart();
             /*查询id是否存在*/
-            Sketch sketch1 = sketchRespority.findByIdAndDeletedIsFalseAndAndSketchStatesIsFalse(sketch.getId());
+            Sketch sketch1 = sketchRespority.findByIdAndDeletedIsFalseAndSketchStatesIsFalse(sketch.getId());
             if (sketch1==null){
                 SketchScore sketchScore = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketch.getType());
                     if (sketchScore!=null){
@@ -125,26 +125,67 @@ public class SketchServiceImpl implements SketchService {
      *  默认  false  未审核
      * */
     @Override
-    public Commes setStates(Long id, String states) {
+    public Commes setStates(Long id) {
         try {
-            Sketch sketch = sketchRespority.findByIdAndDeletedIsFalse(id);
+            Sketch sketch = sketchRespority.findByIdAndDeletedIsFalseAndSketchStatesIsFalse(id);
             if (sketch!=null){
                 sketch.setSketchStates(true);
                 return Commes.success(sketchRespority.save(sketch));
             }else {
-                return Commes.errorMes("500","没有数据");
+                return Commes.errorMes("401","没有数据");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","error");
+            return Commes.errorMes("405","审核失败");
         }
     }
 
+
+    /**
+     * 查询所有素拓分
+     * **/
     @Override
     public Commes findAll() {
         try {
             List<Sketch> list = sketchRespority.findAll();
             return Commes.success(list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查询失败");
+        }
+    }
+
+    /**
+     * @param studentNumber
+     * 根据学号查询该学号所有素拓分
+     * **/
+    @Override
+    public Commes findByStudentNumber(Long studentNumber) {
+        try {
+            List<Sketch> list = sketchRespority.findByStudentNumberAndDeletedIsFalse(studentNumber);
+            if (list!=null){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查询失败");
+        }
+    }
+
+    /**
+     *根据审核状态查询素拓分
+     * **/
+    @Override
+    public Commes findByStates() {
+        try {
+            List<Sketch> list = sketchRespority.findBySketchStatesIsFalse();
+            if (!list.isEmpty()){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");

@@ -1,4 +1,4 @@
-package com.slicepoker.zps.project.User.Pojo;
+package com.slicepoker.zps.project.Comprehensive.Pojo;
 
 import lombok.Data;
 
@@ -21,7 +21,9 @@ public class ComprehensiveQuality {
 
     private String  studentName; //姓名
 
-    private Long grade;
+    private Long grade; //年级
+
+    private String major; //专业
 
     private double moralEScore; //德育表现分
 

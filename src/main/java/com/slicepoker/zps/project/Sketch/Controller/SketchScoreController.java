@@ -18,12 +18,12 @@ public class SketchScoreController {
     private SketchScoreService sketchScoreService;
 
     @PostMapping("/add")
-    public Commes add(@RequestBody SketchScore sketchScore){
+    public Commes add( SketchScore sketchScore){
         return sketchScoreService.addSketch(sketchScore);
     }
 
     @PostMapping("/delete")
-    public Commes delete(@RequestParam String type){
+    public Commes delete(String type){
         return sketchScoreService.deleteSketch(type);
     }
 

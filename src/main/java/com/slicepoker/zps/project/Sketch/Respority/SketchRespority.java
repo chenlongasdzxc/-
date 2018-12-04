@@ -3,6 +3,7 @@ package com.slicepoker.zps.project.Sketch.Respority;
 import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -18,5 +19,11 @@ public interface SketchRespority extends JpaRepository<Sketch,Long>, JpaSpecific
 
     Sketch findByIdAndDeletedIsFalse(Long id);
 
-    Sketch findByIdAndDeletedIsFalseAndAndSketchStatesIsFalse(Long id);
+    Sketch findByIdAndDeletedIsFalseAndSketchStatesIsFalse(Long id);
+
+    List findByStudentNumberAndDeletedIsFalse(Long studentNumber);
+
+    List findBySketchStatesIsFalse();
+
+
 }

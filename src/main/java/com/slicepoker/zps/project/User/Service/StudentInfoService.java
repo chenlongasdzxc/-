@@ -15,4 +15,8 @@ public interface StudentInfoService {
     /*Commes findRoom(Pageable pageable);*/
 
     Commes updateInfo(StudentInformation studentInformation);
+
+    Commes setFileCard(Long studentNumber);
+
+    Commes findByStudentClass(String studentClass);
 }

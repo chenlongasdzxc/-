@@ -28,7 +28,8 @@ public class LoginServiceImpl implements LoginService {
             User user = userRespority.findByUserNameAndDeletedIsFalse(userName);
             if (user!=null){
                 Objects.equals(user.getUserPassword(),userPassword);
-                session.setAttribute("user",user);
+                session.setAttribute("studentNumber",user.getStudentNumber());
+                session.setMaxInactiveInterval(30*60);
                 System.out.println(session.getId());
                 return Commes.successMes();
             }else {

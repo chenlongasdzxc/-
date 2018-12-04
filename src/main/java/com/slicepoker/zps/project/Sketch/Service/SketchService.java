@@ -18,8 +18,11 @@ public interface SketchService {
 
     Commes findByClass(String className);
 
-    Commes setStates(Long id,String states);
+    Commes setStates(Long id);
 
     Commes findAll();
 
+    Commes findByStudentNumber(Long studentNumber);
+
+    Commes findByStates();
 }

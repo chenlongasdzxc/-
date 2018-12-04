@@ -18,12 +18,12 @@ public class MoralExpressionController {
     private MoralExpressionService moralExpressionService;
 
     @PostMapping("/add")
-    public Commes add(@RequestBody MoralExpression moralExpression){
+    public Commes add( MoralExpression moralExpression){
         return moralExpressionService.add(moralExpression);
     }
 
     @PostMapping("/delete")
-    public Commes delete(@RequestParam Long id){
+    public Commes delete( Long id){
         return moralExpressionService.delete(id);
     }
 

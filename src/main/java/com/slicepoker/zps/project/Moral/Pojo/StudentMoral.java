@@ -25,12 +25,26 @@ public class StudentMoral {
 
     private Long grade;  //年级
 
-    private String moralEName; //
+    private double moralExpression; //德育表现
 
-    private double moralEScore; //德育分
+    private String moralPlusName; //德育加分项目名称
 
-    private String moralJName;  //课外加分项目
+    private double moralPlusScore; //德育加分项目分数
 
-    private double moralJScore;  //课外加分分数
+    private String moralDeductionName;  //德育减分项目名称
+
+    private double moralDeductionScore; //德育减分项目分数
+
+    private double scoreOfK; //K值
+
+    private String moralOutName; //课外加分项目名称
+
+    private double moralOutScore;  //课外加分项目分数
+
+    private double averageScore; //平均绩点
+
+    private double score; //绩点得分
+
+    private double scoreSum; //总分
 
 }

@@ -23,13 +23,7 @@ public class User {
 
     private String studentName; //姓名
 
-    private String className;  //班级
-
-    private String grade;  //年级
-
     private Long studentNumber;  //学号
-
-    private String collegeName;  //学院名称
 
     private Long gradeLeave;   //等级
 

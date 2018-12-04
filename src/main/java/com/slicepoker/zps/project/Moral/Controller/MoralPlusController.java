@@ -18,12 +18,12 @@ public class MoralPlusController {
     private MoralPlusService moralPlusService;
 
     @PostMapping("/add")
-    public Commes add(@RequestBody MoralPlus moralPlus){
+    public Commes add(MoralPlus moralPlus){
         return moralPlusService.add(moralPlus);
     }
 
     @GetMapping("/delete")
-    public Commes deleted(@RequestParam Long id){
+    public Commes deleted(Long id){
         return moralPlusService.delete(id);
     }
 

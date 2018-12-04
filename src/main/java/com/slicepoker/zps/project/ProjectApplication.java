@@ -18,7 +18,6 @@ public class ProjectApplication implements WebMvcConfigurer{
         SpringApplication.run(ProjectApplication.class, args);
     }
 
-    public final static String SESSION_KEY = "user";
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -29,16 +28,5 @@ public class ProjectApplication implements WebMvcConfigurer{
                 .maxAge(3600);
     }
 
-    class SecurityInterceptor extends HandlerInterceptorAdapter{
-        @Override
-        public boolean preHandle(HttpServletRequest request,HttpServletResponse response,Object handler) throws Exception{
-            User user = (User) request.getSession().getAttribute("user");
-            if (user==null){
-                response.sendRedirect("/login.html");
-                return false;
-            }
-            return true;
-        }
-    }
 
 }

@@ -17,11 +17,11 @@ public class Moral {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private Long studentCode;
+    private Long studentCode;  //学号
 
-    private String studentName;
+    private String studentName;  //姓名
 
-    private String politicalThought;
+    private String politicalThought; //
 
     private double politicalThoughtScore;
 

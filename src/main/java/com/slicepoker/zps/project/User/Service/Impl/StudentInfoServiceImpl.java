@@ -65,16 +65,6 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     }
 
-    /*@Override
-    public Commes findRoom(Pageable pageable) {
-        try {
-            List list =studentInfoRespority.findroomNumber();
-            return Commes.success(page);
-        }catch (Exception e){
-            e.printStackTrace();
-            return Commes.errorMes("405","查询失败");
-        }
-    }*/
 
     /**
      * 更新学生信息
@@ -83,18 +73,60 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     @Override
     public Commes updateInfo(StudentInformation studentInformation) {
         try {
-            StudentInformation studentInformation1 = studentInfoRespority.findByStudentCode(studentInformation.getStudentCode());
-            if (studentInformation1==null){
-                Long grade = codeToGrade.codeToGrade(studentInformation.getStudentCode());
-                studentInformation.setStudentClass(codeToGrade.codeToClass(studentInformation.getStudentCode()));
+            StudentInformation studentInformation1=studentInfoRespority.findByStudentNumber(studentInformation.getStudentNumber());
+            if (studentInformation1 == null) {
+                Long grade=codeToGrade.codeToGrade(studentInformation.getStudentNumber());
+                studentInformation.setStudentClass(codeToGrade.codeToClass(studentInformation.getStudentNumber()));
                 studentInformation.setGrade(grade);
                 return Commes.success(studentInfoRespority.save(studentInformation));
+            } else {
+                return Commes.errorMes("401", "已存在");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Commes.errorMes("405", "失败");
+        }
+    }
+
+    /**
+     * 设置建档立卡
+     * @param studentNumber
+     * **/
+    @Override
+    public Commes setFileCard(Long studentNumber) {
+        try {
+            StudentInformation studentInformation = studentInfoRespority.findByStudentNumber(studentNumber);
+            if (studentInformation!=null){
+                if (!studentInformation.isFileCard()){
+                    studentInformation.setFileCard(true);
+                    return Commes.success(studentInfoRespority.save(studentInformation));
+                }else {
+                    return Commes.errorMes("401","已是建档立卡");
+                }
             }else {
-                return Commes.errorMes("401","已存在");
+                return Commes.errorMes("405","学号不存在");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("405","失败");
+            return Commes.errorMes("405","设置失败");
+        }
+    }
+
+    /**
+     * @param studentClass
+     * **/
+    @Override
+    public Commes findByStudentClass(String studentClass) {
+        try {
+            List<StudentInformation> list = studentInfoRespority.findByStudentClass(studentClass);
+            if (!list.isEmpty()){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查询失败");
         }
     }
 }

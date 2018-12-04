@@ -1,6 +1,7 @@
 package com.slicepoker.zps.project.User.Service;
 
 import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.User;
 
 /**
  * @author Zps
@@ -13,5 +14,5 @@ public interface UserService {
 
     Commes setGradeLevels(Long gradeLevels,Long studentNumber);
 
-
+    Commes undateUser(User user);
 }

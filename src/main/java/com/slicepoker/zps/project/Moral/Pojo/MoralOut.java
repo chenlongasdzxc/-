@@ -3,6 +3,7 @@ package com.slicepoker.zps.project.Moral.Pojo;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author Zps
@@ -18,9 +19,13 @@ public class MoralOut {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private String foutName; //课外加分名称
+    private String moralOutName; //课外加分名称
 
-    private String foutScore; //课外加分分数
+    private double moralOutScore; //课外加分分数
 
-    private Long foutCode;  //课外加分Code
+    private String moralOutType;  //课外加分类型
+
+    private Date createTime; //创建时间
+
+    private boolean deleted=false; //删除
 }

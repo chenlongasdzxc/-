@@ -19,33 +19,62 @@ public class SketchController {
 
     @Autowired
     private SketchService sketchService;
-
+    /**
+     * 更新素拓分
+     * **/
     @PostMapping("/update")
-    public Commes updateSketch(@RequestBody Sketch sketch){
+    public Commes updateSketch(Sketch sketch){
         return sketchService.updateSketch(sketch);
     }
 
+
+    /**
+     * 通过班级查询素拓分List
+     * **/
     @GetMapping("/findByClassName")
-    public Commes findByClassName(@RequestParam String className){
+    public Commes findByClassName(String className){
         return sketchService.findByClass(className);
     }
 
+    /**
+     * 审核素拓分
+     * **/
     @GetMapping("/set")
-    public Commes setSkStates(@RequestParam Long id,
-                              @RequestParam String states){
-        return sketchService.setStates(id, states);
+    public Commes setSkStates( Long id){
+        return sketchService.setStates(id);
     }
 
+
+    /**
+     * 模糊查询
+     * **/
     @GetMapping("/findFuzzy")
-    public Commes findSketch(@RequestParam Long studentNumber,
-                             @RequestParam Date createDateStart,
-                             @RequestParam Date createDateStop,
-                             @RequestParam Pageable pageable){
+    public Commes findSketch(Long studentNumber, Date createDateStart, Date createDateStop, Pageable pageable){
         return sketchService.findSketch(studentNumber, createDateStart, createDateStop, pageable);
     }
 
+
+    /**
+     * 查询所有素拓分
+     * **/
     @GetMapping("/findAll")
     public Commes findAllSketch(){
         return sketchService.findAll();
+    }
+
+    /**
+     * 根据学号查询素拓分
+     * **/
+    @GetMapping("/findByStudentNumber")
+    public Commes findByStudentNumber(Long studentNumber){
+        return sketchService.findByStudentNumber(studentNumber);
+    }
+
+    /**
+     * 根据审核状态查询素拓分
+     * **/
+    @GetMapping("/findByStates")
+    public Commes findByStates(){
+        return sketchService.findByStates();
     }
 }

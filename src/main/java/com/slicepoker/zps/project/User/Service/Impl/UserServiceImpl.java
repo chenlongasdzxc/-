@@ -17,6 +17,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRespority userRespority;
 
+
+    /**
+     * @param studentNumber 学号
+     * @param userPassword  密码
+     * 通过学号修改密码
+     * **/
     @Override
     public Commes changePassword(Long studentNumber, String userPassword) {
         try {
@@ -25,16 +31,19 @@ public class UserServiceImpl implements UserService {
                 user.setUserPassword(userPassword);
                 return Commes.success(userRespority.save(user));
             }else {
-                return Commes.errorMes("500","学号错误");
+                return Commes.errorMes("401","学号错误");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","修改密码失败");
+            return Commes.errorMes("405","修改密码失败");
         }
     }
 
 
-    //设置权限
+    /**
+     * @param studentNumber 学号
+     * @param gradeLevels
+     * **/
     @Override
     public Commes setGradeLevels(Long gradeLevels, Long studentNumber) {
         try{
@@ -43,13 +52,29 @@ public class UserServiceImpl implements UserService {
                 user.setGradeLeave(gradeLevels);
                 return Commes.success(userRespority.save(user));
             }else {
-                return Commes.errorMes("500","不存在该人员");
+                return Commes.errorMes("401","不存在该人员");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","设置权限失败");
+            return Commes.errorMes("405","设置权限失败");
         }
     }
 
-
+    /**
+     * @param user
+     * **/
+    @Override
+    public Commes undateUser(User user) {
+        try {
+            User user1 = userRespority.findByUserNameAndDeletedIsFalse(user.getUserName());
+            if (user1==null){
+                return Commes.success(userRespority.save(user));
+            }else {
+                return Commes.errorMes("401","账号已存在");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","添加失败");
+        }
+    }
 }
