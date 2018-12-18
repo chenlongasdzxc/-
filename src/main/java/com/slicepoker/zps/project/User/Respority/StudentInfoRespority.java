@@ -17,4 +17,8 @@ public interface StudentInfoRespority extends JpaRepository<StudentInformation,L
 
     List<StudentInformation> findByStudentClass(String studentClass);
 
+    /**查找所有学号**/
+    @Query(value="select studentNumber from StudentInformation ")
+    List findStudentNumber();
+
 }

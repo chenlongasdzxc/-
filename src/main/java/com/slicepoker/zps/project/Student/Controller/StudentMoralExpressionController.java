@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/12/4 16:15
  **/
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/Student")
 public class StudentMoralExpressionController {
 
     @Autowired

@@ -104,7 +104,7 @@ public class SketchServiceImpl implements SketchService {
     @Override
     public Commes findByClass(String className) {
         try {
-            List<Sketch> list = sketchRespority.findByClassNameAndDeletedIsFalse(className);
+            List<Sketch> list = sketchRespority.findByClassNameAndDeletedIsFalseAndAndSketchStatesIsTrue(className);
             if (list.size()>0){
                 return Commes.success(list);
             }else {
@@ -120,7 +120,6 @@ public class SketchServiceImpl implements SketchService {
     /**
      * 审核
      * @param id  id
-     * @param states 状态
      *  true 已审核
      *  默认  false  未审核
      * */
@@ -186,6 +185,21 @@ public class SketchServiceImpl implements SketchService {
             }else {
                 return Commes.errorMes("401","没有数据");
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查询失败");
+        }
+    }
+
+    /**
+     * @param studentNumber
+     * 计算个人素拓分
+     * **/
+    @Override
+    public Commes countSketch(Long studentNumber) {
+        try {
+            double personalScore = sketchRespority.sumSketchScore(studentNumber);
+            return Commes.success(personalScore);
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");

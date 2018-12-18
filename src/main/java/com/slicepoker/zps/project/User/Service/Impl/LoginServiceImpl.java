@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
                 session.setAttribute("studentNumber",user.getStudentNumber());
                 session.setMaxInactiveInterval(30*60);
                 System.out.println(session.getId());
-                return Commes.successMes();
+                return Commes.success(user.getStudentNumber());
             }else {
                 return Commes.errorMes("500","学号不存在");
             }

@@ -25,4 +25,6 @@ public interface SketchService {
     Commes findByStudentNumber(Long studentNumber);
 
     Commes findByStates();
+
+    Commes countSketch(Long studentNumber);
 }

@@ -1,9 +1,12 @@
 package com.slicepoker.zps.project.Util;
 
 import com.slicepoker.zps.project.Sketch.Respority.SketchScoreRespority;
+import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,6 +20,9 @@ public class SketchUtil {
 
     @Autowired
     private SketchScoreRespority sketchScoreRespority;
+
+    @Autowired
+    private StudentInfoRespority studentInfoRespority;
 
     /**
      * 根据参与角色设置素拓分
@@ -41,5 +47,13 @@ public class SketchUtil {
         }else {
             return 0;
         }
+    }
+
+    /**
+     * 查找所有学号
+     * **/
+    public List findStudentNumber(){
+        List list = studentInfoRespority.findStudentNumber();
+        return list;
     }
 }

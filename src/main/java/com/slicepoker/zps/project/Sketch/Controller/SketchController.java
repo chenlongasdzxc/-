@@ -14,7 +14,7 @@ import java.util.Date;
  * @date 2018/11/5 17:00
  **/
 @RestController
-@RequestMapping("/Sketch")
+@RequestMapping("/ ")
 public class SketchController {
 
     @Autowired
@@ -77,4 +77,10 @@ public class SketchController {
     public Commes findByStates(){
         return sketchService.findByStates();
     }
+
+    /**
+     *计算素拓分
+     * **/
+    @GetMapping("/sumSketch")
+    public Commes sumSketchScore(Long studentNumber){return sketchService.countSketch(studentNumber);}
 }

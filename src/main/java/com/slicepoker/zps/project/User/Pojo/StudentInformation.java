@@ -1,5 +1,7 @@
 package com.slicepoker.zps.project.User.Pojo;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,14 +14,15 @@ import java.io.Serializable;
 @Entity
 @Table(name="TB_StudentInformation")
 @Data
+@ExcelTarget("studentInformation")
 public class StudentInformation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Excel(name= "姓名")
     private String studentName; //姓名
-
+    @Excel(name="学号")
     private Long studentNumber;  //学号
 
     private Long grade;  //年级
@@ -31,7 +34,7 @@ public class StudentInformation implements Serializable {
     private Integer sex;  //男：1  女：0
 
     private String major; //专业
-
+    @Excel(name="班级")
     private String studentClass;  //班级
 
     private String duty;  //职务

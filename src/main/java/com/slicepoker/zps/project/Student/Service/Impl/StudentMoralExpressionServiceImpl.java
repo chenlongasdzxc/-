@@ -28,14 +28,21 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
     @Override
     public Commes update(StudentMoralExpression studentMoralExpression) {
         try {
-            studentMoralExpression.setCreateDate(new Date());
-            return Commes.success(studentMoralExpressionRespority.save(studentMoralExpression));
+            if (studentMoralExpression.getStudentNumber()!=null) {
+                studentMoralExpression.setCreateDate(new Date());
+                return Commes.success(studentMoralExpressionRespority.save(studentMoralExpression));
+            }else {
+                return Commes.errorMes("401","没有数据");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","编辑失败");
         }
     }
 
+    /**
+     * 查找全部
+     * **/
     @Override
     public Commes findAll() {
         try {
