@@ -2,10 +2,13 @@ package com.slicepoker.zps.project.User.Service.Impl;
 
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Pojo.User;
+import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
 import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Zps
@@ -17,16 +20,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRespority userRespority;
 
+    @Autowired
+    private StudentInfoRespority studentInfoRespority;
 
     /**
-     * @param studentNumber 学号
+     * @param id 学号
      * @param userPassword  密码
      * 通过学号修改密码
      * **/
     @Override
-    public Commes changePassword(Long studentNumber, String userPassword) {
+    public Commes changePassword(Long id, String userPassword) {
         try {
-            User user = userRespority.findByStudentNumberAndDeletedIsFalse(studentNumber);
+            User user = userRespority.findByIdAndDeletedIsFalse(id);
             if (user!=null){
                 user.setUserPassword(userPassword);
                 return Commes.success(userRespority.save(user));
@@ -75,6 +80,22 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","添加失败");
+        }
+    }
+
+    /**
+     * @param studentNumber
+     * **/
+    public void setUser(Long studentNumber){
+        if (studentNumber!=null){
+            User user = userRespority.findByStudentNumberAndDeletedIsFalse(studentNumber);
+            if (user==null){
+                user = new User();
+                user.setStudentNumber(studentNumber);
+                user.setUserName(Long.toString(studentNumber));
+                user.setUserPassword(Long.toString(studentNumber));
+            }
+            userRespority.save(user);
         }
     }
 }

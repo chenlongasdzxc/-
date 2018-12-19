@@ -18,8 +18,8 @@ public class UserController {
 
     //修改密码
     @PostMapping("/changePassword")
-    public Commes changePassword(Long studentNumber,String userPassword){
-        return userService.changePassword(studentNumber, userPassword);
+    public Commes changePassword(Long id,String userPassword){
+        return userService.changePassword(id, userPassword);
     }
 
     //权限人员设置用户权限
@@ -27,4 +27,6 @@ public class UserController {
     public Commes setLevels(Long studentNumber,Long gradeLevels){
         return userService.setGradeLevels(studentNumber, gradeLevels);
     }
+
+
 }

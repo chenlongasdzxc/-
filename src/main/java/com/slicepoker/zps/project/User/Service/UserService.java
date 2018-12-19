@@ -10,9 +10,10 @@ import com.slicepoker.zps.project.User.Pojo.User;
 public interface UserService {
 
 
-    Commes changePassword(Long studentNumber,String userPassword);
+    Commes changePassword(Long id,String userPassword);
 
     Commes setGradeLevels(Long gradeLevels,Long studentNumber);
 
     Commes undateUser(User user);
+
 }

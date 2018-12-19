@@ -21,8 +21,6 @@ public class User {
 
     private String userPassword; //密码
 
-    private String studentName; //姓名
-
     private Long studentNumber;  //学号
 
     private Long gradeLeave;   //等级

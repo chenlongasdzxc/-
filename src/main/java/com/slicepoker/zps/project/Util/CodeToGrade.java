@@ -11,37 +11,35 @@ public class CodeToGrade {
 
 
     /**
+     * @param studentCode
      *根据学号设置年级
      * **/
     public Long codeToGrade(Long studentCode){
-        try {
             double b = (double) studentCode;
             double c ;
             if (studentCode!=null){
                 double a = Math.pow(10,8);
                 c = b/a;
                 Long grade = Math.round(c);
-                System.out.println(grade);
                 return grade;
             }else {
                 return null;
             }
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
+     * @param grade
      * 根据学号设置专业
      * **/
     public String codeToClass(Long grade){
         String stuClass;
+        String studentCode =Long.toString(grade);
+        studentCode=studentCode.substring(4);
+        studentCode=studentCode.substring(0,4);
         double a = (double) grade;
         double b = Math.pow(10,4);
-        if (grade!=null){
+        if (grade!=null&&"1080".equals(studentCode)){
             Long c = Math.round((a%b)/1000);
-            System.out.println(c);
             if (c==4){
                 stuClass="软件工程";
                return stuClass;
