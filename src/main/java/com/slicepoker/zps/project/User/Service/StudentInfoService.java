@@ -19,4 +19,7 @@ public interface StudentInfoService {
     Commes setFileCard(Long studentNumber);
 
     Commes findByStudentClass(String studentClass);
+
+    Commes findStudentByStudentNumber(String userName);
+
 }

@@ -2,13 +2,17 @@ package com.slicepoker.zps.project.User.Service.Impl;
 
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Pojo.User;
+import com.slicepoker.zps.project.User.Respority.RoleRespority;
 import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.User.Service.LoginService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -21,23 +25,40 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserRespority userRespority;
 
+    @Autowired
+    private RoleRespority roleRespority;
+
     @Override
     public Commes Login(String userName, String userPassword, HttpServletRequest request) {
         try {
-            HttpSession session = request.getSession();
+            /*HttpSession session = request.getSession();*/
             User user = userRespority.findByUserNameAndDeletedIsFalse(userName);
             if (user!=null){
-                Objects.equals(user.getUserPassword(),userPassword);
-                session.setAttribute("studentNumber",user.getStudentNumber());
-                session.setMaxInactiveInterval(30*60);
-                System.out.println(session.getId());
-                return Commes.success(user.getStudentNumber());
+                if(Objects.equals(user.getUserPassword(),userPassword)) {
+                   /* session.setAttribute("studentNumber", user.getStudentNumber());
+                    session.setMaxInactiveInterval(30 * 60);
+                    System.out.println(session.getId());*/
+                    return Commes.success(setToken(user));
+                }else{
+                    return Commes.errorMes("401","密码错误");
+                }
             }else {
-                return Commes.errorMes("500","学号不存在");
+                return Commes.errorMes("405","学号不存在");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("500","密码错误");
+            return Commes.errorMes("500","error");
         }
     }
+
+
+    public Commes setToken(User user){
+        String role = roleRespority.findRoleName(user.getId());
+        String token = Jwts.builder().setSubject(user.getUserName()).claim("roles",role).setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256,"secretkey").compact();
+        return Commes.success(token);
+
+    }
+
+
 }

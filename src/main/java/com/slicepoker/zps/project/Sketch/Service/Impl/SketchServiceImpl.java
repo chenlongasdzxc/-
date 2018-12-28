@@ -104,7 +104,7 @@ public class SketchServiceImpl implements SketchService {
     @Override
     public Commes findByClass(String className) {
         try {
-            List<Sketch> list = sketchRespority.findByClassNameAndDeletedIsFalseAndAndSketchStatesIsTrue(className);
+            List<Sketch> list = sketchRespority.findByStudentClassAndDeletedIsFalseAndAndSketchStatesIsTrue(className);
             if (list.size()>0){
                 return Commes.success(list);
             }else {

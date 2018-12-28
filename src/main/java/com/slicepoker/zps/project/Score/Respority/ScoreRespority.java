@@ -12,5 +12,5 @@ import java.util.List;
  **/
 public interface ScoreRespority extends JpaRepository<Score,Long>, JpaSpecificationExecutor<Score> {
 
-    List findByStudentCode(Long studentCode);
+    List findByStudentNumber(Long studentNumber);
 }

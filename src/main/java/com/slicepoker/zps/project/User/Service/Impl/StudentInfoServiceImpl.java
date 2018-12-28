@@ -3,6 +3,7 @@ package com.slicepoker.zps.project.User.Service.Impl;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Pojo.StudentInformation;
 import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
+import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.User.Service.StudentInfoService;
 import com.slicepoker.zps.project.Util.CodeToGrade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     @Autowired
     CodeToGrade codeToGrade;
+
+    @Autowired
+    UserRespority userRespority;
 
     /**
     * 模糊查询
@@ -127,6 +131,27 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");
+        }
+    }
+
+    /**
+     * @param userName
+     * 根据学号查找该实体
+     * @return studentInformation
+     * **/
+    @Override
+    public Commes findStudentByStudentNumber(String userName) {
+        try {
+            Long studentNumber = userRespority.findNumber(userName,false);
+            StudentInformation studentInformation = studentInfoRespority.findByStudentNumber(studentNumber);
+            if (studentInformation!=null){
+                return Commes.success(studentInformation);
+            }else {
+                return Commes.errorMes("401","数据为空");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查找失败");
         }
     }
 }

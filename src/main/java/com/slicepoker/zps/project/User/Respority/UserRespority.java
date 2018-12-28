@@ -3,6 +3,7 @@ package com.slicepoker.zps.project.User.Respority;
 import com.slicepoker.zps.project.User.Pojo.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Zps
@@ -20,4 +21,7 @@ public interface UserRespority extends JpaRepository<User,Long>, JpaSpecificatio
     User findByUserNameAndDeletedIsFalse(Long userName);
 
     User findByIdAndDeletedIsFalse(Long id);
+
+    @Query("select studentNumber from User where userName =?1 and deleted =?2")
+    Long findNumber(String userName,boolean isdelete);
 }

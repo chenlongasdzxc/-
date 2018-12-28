@@ -14,7 +14,7 @@ import java.util.Date;
  * @date 2018/11/5 17:00
  **/
 @RestController
-@RequestMapping("/ ")
+@RequestMapping("/Sketch")
 public class SketchController {
 
     @Autowired

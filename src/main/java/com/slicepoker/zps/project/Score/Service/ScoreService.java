@@ -10,5 +10,5 @@ public interface ScoreService {
 
     Commes findAllScore();
 
-    Commes findByStuCode(Long studentCode);
+    Commes findByStuCode(Long studentNumber);
 }

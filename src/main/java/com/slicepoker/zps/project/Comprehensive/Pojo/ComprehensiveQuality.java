@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.Comprehensive.Pojo;
 
+import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,19 +12,8 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name="tb_comprehensiveQuality")
-public class ComprehensiveQuality {
+public class ComprehensiveQuality extends BaseEntily {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-
-    private Long studentCode; //学号
-
-    private String  studentName; //姓名
-
-    private Long grade; //年级
-
-    private String major; //专业
 
     private double moralEScore; //德育表现分
 

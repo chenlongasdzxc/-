@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.Score.Pojo;
 
+import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,15 +13,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name="tb_score")
-public class Score {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-
-    private Long studentCode;  //学号
-
-    private String studentName;  //学生姓名
+public class Score extends BaseEntily {
 
     private String subjectName;  //科目名称
 

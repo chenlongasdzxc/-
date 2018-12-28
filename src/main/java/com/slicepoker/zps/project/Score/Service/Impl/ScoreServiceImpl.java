@@ -38,12 +38,12 @@ public class ScoreServiceImpl implements ScoreService {
 
     /**
      * 通过学号查询成绩
-     * @param studentCode
+     * @param studentNumber
      * **/
     @Override
-    public Commes findByStuCode(Long studentCode) {
+    public Commes findByStuCode(Long studentNumber) {
         try {
-            List<Score> list = scoreRespority.findByStudentCode(studentCode);
+            List<Score> list = scoreRespority.findByStudentNumber(studentNumber);
             if (list.size()>0){
             return Commes.success(list);
             }else {

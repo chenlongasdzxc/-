@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.Sketch.Pojo;
 
+import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,17 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name="tb_sketch")
 @Data
-public class Sketch {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String userName;  //姓名
-
-    private Long studentNumber; //学号
-
-    private String className; //班级
+public class Sketch extends BaseEntily {
 
     private String sketchName;  //素拓名称
 

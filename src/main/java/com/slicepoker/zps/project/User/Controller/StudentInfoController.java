@@ -5,7 +5,9 @@ import com.slicepoker.zps.project.User.Pojo.StudentInformation;
 import com.slicepoker.zps.project.User.Service.StudentInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/10/26 17:22
  **/
 @RestController
+@RequestMapping("/studentInfo")
 public class StudentInfoController {
 
     @Autowired
@@ -23,13 +26,13 @@ public class StudentInfoController {
         return studentInfoService.findFuzzy(studentCode,studentName,sex,studentClass,roomNumber,pageable);
     }
 
-    /*@GetMapping("/findRoom")
-    public Commes findRoom(Pageable pageable){
-        return studentInfoService.findRoom(pageable);
-    }*/
-
-    @PostMapping("/updateInfo")
+    @PostMapping("/update")
     public Commes updateInfo(StudentInformation studentInformation){
         return studentInfoService.updateInfo(studentInformation);
+    }
+
+    @GetMapping("/get")
+    public Commes getInfo(String userName){
+        return studentInfoService.findStudentByStudentNumber(userName);
     }
 }

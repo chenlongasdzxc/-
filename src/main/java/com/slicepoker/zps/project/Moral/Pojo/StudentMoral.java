@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.Moral.Pojo;
 
+import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,20 +11,8 @@ import javax.persistence.*;
  **/
 @Data
 @Entity
-@Table(name="tb_studentMiral")
-public class StudentMoral {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-
-    private String studentName;  //姓名
-
-    private Long studentCode;  //学号
-
-    private String studentClass;  //班级
-
-    private Long grade;  //年级
+@Table(name="tb_studentMoral")
+public class StudentMoral extends BaseEntily {
 
     private double moralExpression; //德育表现
 
