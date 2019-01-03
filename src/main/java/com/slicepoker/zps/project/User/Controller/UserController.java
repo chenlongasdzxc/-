@@ -3,7 +3,9 @@ package com.slicepoker.zps.project.User.Controller;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/10/12 17:41
  **/
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -26,6 +29,11 @@ public class UserController {
     @PostMapping("/setLevels")
     public Commes setLevels(Long studentNumber,Long gradeLevels){
         return userService.setGradeLevels(studentNumber, gradeLevels);
+    }
+
+    @GetMapping("/find")
+    public Commes findId(String userName){
+        return userService.findId(userName);
     }
 
 

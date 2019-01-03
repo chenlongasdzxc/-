@@ -24,4 +24,8 @@ public interface UserRespority extends JpaRepository<User,Long>, JpaSpecificatio
 
     @Query("select studentNumber from User where userName =?1 and deleted =?2")
     Long findNumber(String userName,boolean isdelete);
+
+
+    @Query("select id from User where userName =?1")
+    Long findId(String userName);
 }

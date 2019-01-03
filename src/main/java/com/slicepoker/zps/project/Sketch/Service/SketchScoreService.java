@@ -15,5 +15,6 @@ public interface SketchScoreService {
 
     Commes findFuzzy();
 
+    Commes findTypeList();
 
 }

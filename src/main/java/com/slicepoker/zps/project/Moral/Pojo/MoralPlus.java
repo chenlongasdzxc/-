@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name="tb_moralplus")
-public class MoralPlus {
+public class    MoralPlus {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

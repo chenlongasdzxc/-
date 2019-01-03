@@ -31,13 +31,13 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Commes Login(String userName, String userPassword, HttpServletRequest request) {
         try {
-            /*HttpSession session = request.getSession();*/
+            HttpSession session = request.getSession();
             User user = userRespority.findByUserNameAndDeletedIsFalse(userName);
             if (user!=null){
                 if(Objects.equals(user.getUserPassword(),userPassword)) {
-                   /* session.setAttribute("studentNumber", user.getStudentNumber());
+                    session.setAttribute("studentNumber", user.getStudentNumber());
                     session.setMaxInactiveInterval(30 * 60);
-                    System.out.println(session.getId());*/
+                    System.out.println(session.getId());
                     return Commes.success(setToken(user));
                 }else{
                     return Commes.errorMes("401","密码错误");

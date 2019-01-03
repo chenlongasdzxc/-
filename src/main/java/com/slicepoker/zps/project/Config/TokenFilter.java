@@ -36,14 +36,15 @@ public class TokenFilter extends GenericFilterBean {
                 throw new ServerException("无效或缺失授权");
             }
             final String token = authHeader.substring(7);
-
-            try {
-                final Claims claims =Jwts.parser().setSigningKey("secretKey").parseClaimsJws(token).getBody();
-                request.setAttribute("claims", claims);
-
-            }catch (final SignatureException e) {
-                throw new ServletException("无效的token");
-            }
+            if (token!=null)
+//
+//            try {
+//                final Claims claims =Jwts.parser().setSigningKey("secretKey").parseClaimsJws(token).getBody();
+//                request.setAttribute("claims", claims);
+//
+//            }catch (final SignatureException e) {
+//                throw new ServletException("无效的token");
+//            }
 
             chain.doFilter(req,rep);
         }

@@ -16,4 +16,6 @@ public interface UserService {
 
     Commes undateUser(User user);
 
+    Commes findId(String userName);
+
 }

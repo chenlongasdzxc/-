@@ -15,9 +15,8 @@ public class Config {
     public FilterRegistrationBean TokenFilter(){
         final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new TokenFilter());
+        registrationBean.addUrlPatterns("/Score/*");
         registrationBean.addUrlPatterns("/Sketch/*");
-        registrationBean.addUrlPatterns("/");
-
         return registrationBean;
     }
 

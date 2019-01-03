@@ -78,4 +78,10 @@ public class SketchScoreServiceImpl implements SketchScoreService {
         }
 
     }
+
+
+    @Override
+    public Commes findTypeList() {
+        return null;
+    }
 }

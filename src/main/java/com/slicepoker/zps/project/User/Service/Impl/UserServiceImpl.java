@@ -98,4 +98,23 @@ public class UserServiceImpl implements UserService {
             userRespority.save(user);
         }
     }
+
+    /**
+     * @param userName
+     * 查找id
+     * **/
+    @Override
+    public Commes findId(String userName) {
+        try {
+            Long id = userRespority.findId(userName);
+            if (id!=null){
+                return Commes.success(id);
+            }else {
+                return Commes.errorMes("401","查找失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","error");
+        }
+    }
 }
