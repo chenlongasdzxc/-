@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Zps
@@ -33,8 +34,12 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userRespority.findByIdAndDeletedIsFalse(id);
             if (user!=null){
+                if (!Objects.equals(userPassword,user.getUserPassword())){
                 user.setUserPassword(userPassword);
                 return Commes.success(userRespority.save(user));
+                }else {
+                    return Commes.errorMes("402","密码相同");
+                }
             }else {
                 return Commes.errorMes("401","学号错误");
             }

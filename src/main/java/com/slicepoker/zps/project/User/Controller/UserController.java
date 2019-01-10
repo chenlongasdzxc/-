@@ -1,12 +1,11 @@
 package com.slicepoker.zps.project.User.Controller;
 
 import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.User;
 import com.slicepoker.zps.project.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Zps
@@ -21,8 +20,8 @@ public class UserController {
 
     //修改密码
     @PostMapping("/changePassword")
-    public Commes changePassword(Long id,String userPassword){
-        return userService.changePassword(id, userPassword);
+    public Commes changePassword(@RequestBody User user){
+        return userService.changePassword(user.getId(), user.getUserPassword());
     }
 
     //权限人员设置用户权限

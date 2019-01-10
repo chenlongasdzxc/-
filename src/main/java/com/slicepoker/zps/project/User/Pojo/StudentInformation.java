@@ -25,6 +25,10 @@ public class StudentInformation implements Serializable {
     @Excel(name="学号")
     private Long studentNumber;  //学号
 
+    private String originPlace; //籍贯
+
+    private String nation; //民族
+
     private Long grade;  //年级
 
     private Long phoneNumber;  //联系电话
@@ -41,9 +45,9 @@ public class StudentInformation implements Serializable {
 
     private String roomNumber; //寝室号
 
-    private Long idCard; //身份证号码
+    private String idCard; //身份证号码
 
-    private Long bankNumber; //银行卡号
+    private String bankNumber; //银行卡号
 
     private String bankName; //开户银行
 

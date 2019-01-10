@@ -77,14 +77,13 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     @Override
     public Commes updateInfo(StudentInformation studentInformation) {
         try {
-            StudentInformation studentInformation1=studentInfoRespority.findByStudentNumber(studentInformation.getStudentNumber());
-            if (studentInformation1 == null) {
-                Long grade=codeToGrade.codeToGrade(studentInformation.getStudentNumber());
-                studentInformation.setStudentClass(codeToGrade.codeToClass(studentInformation.getStudentNumber()));
-                studentInformation.setGrade(grade);
-                return Commes.success(studentInfoRespority.save(studentInformation));
-            } else {
-                return Commes.errorMes("401", "已存在");
+                if(studentInformation.getId()!=null){
+                    return Commes.success(studentInfoRespority.save(studentInformation));
+                }else {
+                    Long grade=codeToGrade.codeToGrade(studentInformation.getStudentNumber());
+                    studentInformation.setStudentClass(codeToGrade.codeToClass(studentInformation.getStudentNumber()));
+                    studentInformation.setGrade(grade);
+                    return Commes.success(studentInfoRespority.save(studentInformation));
             }
         } catch (Exception e) {
             e.printStackTrace();
