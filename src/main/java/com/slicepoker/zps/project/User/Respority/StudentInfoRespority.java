@@ -21,4 +21,7 @@ public interface StudentInfoRespority extends JpaRepository<StudentInformation,L
     @Query(value="select studentNumber from StudentInformation ")
     List findStudentNumber();
 
+
+    List<StudentInformation> findByFileCard(Boolean fileCard);
+
 }

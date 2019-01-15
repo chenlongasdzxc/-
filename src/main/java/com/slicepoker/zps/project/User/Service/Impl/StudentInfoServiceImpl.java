@@ -33,35 +33,30 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     /**
     * 模糊查询
-     * @param studentCode
-     * @param studentName
-     * @param sex
-     * @param roomNumber
-     * @param studentClass
+     * @param studentInformation
     * */
     @Override
-    public Commes findFuzzy(Long studentCode, String studentName, Integer sex,
-                            String studentClass,
-                            String roomNumber,
-                            Pageable pageable) {
+    public Commes findFuzzy(StudentInformation studentInformation) {
         try{
-            Page<StudentInformation> page = studentInfoRespority.findAll(((root, query, cb) -> {
+            List<StudentInformation> list1 = studentInfoRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
-                //学号
-                if (studentCode!=null){
-                    list.add(cb.equal(root.get("studentCode"),studentCode));
-                }
-                //姓名
-                if(studentName!=null){
-                    list.add(cb.equal(root.get("studentName"),studentName));
-                }
-                //班级
-                if (studentClass!=null){
-                    list.add(cb.equal(root.get("studentClass"),studentClass));
-                }
+                    if (studentInformation.getFindWord() != null && !"".equals(studentInformation.getFindWord())) {
+                            if (studentInformation.getFindWord().length()==12){
+                            Long findWord=Long.parseLong(studentInformation.getFindWord());
+                            list.add(cb.or(cb.equal(root.get("studentNumber"), findWord)));
+                            }else {
+                                list.add(
+                                        cb.or(
+                                                cb.equal(root.get("studentName"),studentInformation.getFindWord()),
+                                                cb.equal(root.get("studentClass"),studentInformation.getFindWord()),
+                                                cb.equal(root.get("idCard"),studentInformation.getFindWord())
+                                        )
+                                );
+                            }
+                    }
                 return cb.and(list.toArray(new Predicate[list.size()]));
-            }),pageable);
-            return Commes.success(page);
+            }));
+            return Commes.success(list1);
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("500","参数错误");
@@ -77,7 +72,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     @Override
     public Commes updateInfo(StudentInformation studentInformation) {
         try {
-                if(studentInformation.getId()!=null){
+                if(studentInformation.getId()!=null&&studentInformation!=null){
                     return Commes.success(studentInfoRespority.save(studentInformation));
                 }else {
                     Long grade=codeToGrade.codeToGrade(studentInformation.getStudentNumber());
@@ -147,6 +142,24 @@ public class StudentInfoServiceImpl implements StudentInfoService {
                 return Commes.success(studentInformation);
             }else {
                 return Commes.errorMes("401","数据为空");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("405","查找失败");
+        }
+    }
+
+    /**
+     * @description 查找建档立卡
+     * **/
+    @Override
+    public Commes findFileCard() {
+        try {
+            List<StudentInformation> list = studentInfoRespority.findByFileCard(true);
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
             }
         }catch (Exception e){
             e.printStackTrace();

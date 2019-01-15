@@ -19,8 +19,18 @@ public class StudentInfoController {
     private StudentInfoService studentInfoService;
 
     @GetMapping("/findFuzzy")
-    public Commes findFuzzy(Long studentCode, String studentName, Integer sex, String studentClass,String roomNumber, Pageable pageable){
-        return studentInfoService.findFuzzy(studentCode,studentName,sex,studentClass,roomNumber,pageable);
+    public Commes findFuzzy( StudentInformation studentInformation, Pageable pageable){
+        try {
+            if(studentInformation.getFindWord()!=null){
+                return studentInfoService.findFuzzy(studentInformation);
+            }else {
+                return Commes.errorMes("403","findword为null");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("402","error");
+        }
+
     }
 
     @PostMapping("/update")
@@ -31,5 +41,10 @@ public class StudentInfoController {
     @GetMapping("/get")
     public Commes getInfo(String userName){
         return studentInfoService.findStudentByStudentNumber(userName);
+    }
+
+    @GetMapping("/getFileCard")
+    public Commes getFileCard(){
+        return studentInfoService.findFileCard();
     }
 }

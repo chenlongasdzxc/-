@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
  **/
 public interface StudentInfoService {
 
-    Commes findFuzzy(Long studentCode, String studentName, Integer sex, String studentClass,String roomNumber, Pageable pageable);
+    Commes findFuzzy(StudentInformation studentInformation);
 
     /*Commes findRoom(Pageable pageable);*/
 
@@ -21,5 +21,7 @@ public interface StudentInfoService {
     Commes findByStudentClass(String studentClass);
 
     Commes findStudentByStudentNumber(String userName);
+
+    Commes findFileCard();
 
 }

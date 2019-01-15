@@ -56,4 +56,7 @@ public class StudentInformation implements Serializable {
     private String politicesStatus; //政治面貌(群众，共青团员，预备党员，党员)
 
     private boolean fileCard = false; //是否建档立卡（默认为否）
+
+    @Transient
+    protected String findWord;   //查询字段
 }
