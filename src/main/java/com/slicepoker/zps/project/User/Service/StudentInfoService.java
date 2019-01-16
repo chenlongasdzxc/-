@@ -24,4 +24,5 @@ public interface StudentInfoService {
 
     Commes findFileCard();
 
+    Commes getStudentInfoExcel();
 }

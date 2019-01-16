@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public Commes changePassword(Long id, String userPassword) {
         try {
             User user = userRespority.findByIdAndDeletedIsFalse(id);
-            if (user!=null){
+            if (user!=null && !"".equals(userPassword)){
                 if (!Objects.equals(userPassword,user.getUserPassword())){
                 user.setUserPassword(userPassword);
                 return Commes.success(userRespority.save(user));
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
                     return Commes.errorMes("402","密码相同");
                 }
             }else {
-                return Commes.errorMes("401","学号错误");
+                return Commes.errorMes("401","密码为空");
             }
         }catch (Exception e){
             e.printStackTrace();

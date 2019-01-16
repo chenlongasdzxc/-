@@ -48,8 +48,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
                                 list.add(
                                         cb.or(
                                                 cb.equal(root.get("studentName"),studentInformation.getFindWord()),
-                                                cb.equal(root.get("studentClass"),studentInformation.getFindWord()),
-                                                cb.equal(root.get("idCard"),studentInformation.getFindWord())
+                                                cb.like(root.get("studentClass"),"%" + studentInformation.getFindWord() + "%"),
+                                                cb.equal(root.get("idCard"),studentInformation.getFindWord()),
+                                                cb.like(root.get("roomNumber"),"%"+ studentInformation.getFindWord() +"%")
                                         )
                                 );
                             }
@@ -165,5 +166,11 @@ public class StudentInfoServiceImpl implements StudentInfoService {
             e.printStackTrace();
             return Commes.errorMes("405","查找失败");
         }
+    }
+
+
+    @Override
+    public Commes getStudentInfoExcel() {
+        return null;
     }
 }

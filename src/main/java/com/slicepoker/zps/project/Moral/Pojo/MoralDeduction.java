@@ -28,4 +28,7 @@ public class MoralDeduction {
     private Date createTime; //创建时间
 
     private boolean deleted=false;
+
+    @Transient
+    protected String keyWord;
 }

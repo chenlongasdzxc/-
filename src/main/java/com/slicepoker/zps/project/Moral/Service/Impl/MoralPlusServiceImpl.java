@@ -5,8 +5,12 @@ import com.slicepoker.zps.project.Moral.Respority.MoralPlusRespority;
 import com.slicepoker.zps.project.Moral.Service.MoralPlusService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,7 +70,7 @@ public class MoralPlusServiceImpl implements MoralPlusService {
     }
 
     /**
-     *
+     * @description 查找德育加分类型
      * **/
     @Override
     public Commes find() {
@@ -80,6 +84,36 @@ public class MoralPlusServiceImpl implements MoralPlusService {
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查找失败");
+        }
+    }
+
+
+    /**
+     * @description模糊查询
+     * @param moralPlus
+     * @param pageable
+     * **/
+    @Override
+    public Commes findFuzzy(MoralPlus moralPlus, Pageable pageable) {
+        try {
+            Page<MoralPlus> page = moralPlusRespority.findAll(((root, query, cb) -> {
+                List<Predicate> list = new ArrayList<>();
+                if (moralPlus.getKeyWord()!=null && !"".equals(moralPlus.getKeyWord())){
+                    list.add(
+                            cb.or(
+                                    cb.like(root.get("moralPlusType"),"%" + moralPlus.getKeyWord() + "%" ),
+                                    cb.like(root.get("moralPlusName"),"%" + moralPlus.getKeyWord() + "%")
+                                    )
+                            );
+
+                    list.add(cb.like(root.get("moralPlusName"),"%" + moralPlus.getKeyWord() + "%"));
+                }
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+            return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","没有数据");
         }
     }
 }

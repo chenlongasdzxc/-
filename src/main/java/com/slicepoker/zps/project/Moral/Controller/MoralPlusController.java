@@ -4,6 +4,7 @@ import com.slicepoker.zps.project.Moral.Pojo.MoralPlus;
 import com.slicepoker.zps.project.Moral.Service.MoralPlusService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -18,7 +19,7 @@ public class MoralPlusController {
     private MoralPlusService moralPlusService;
 
     @PostMapping("/add")
-    public Commes add(MoralPlus moralPlus){
+    public Commes add(@RequestBody MoralPlus moralPlus){
         return moralPlusService.add(moralPlus);
     }
 
@@ -35,5 +36,10 @@ public class MoralPlusController {
     @GetMapping("/find")
     public Commes find(){
         return moralPlusService.find();
+    }
+
+    @GetMapping("/findFuzzy")
+    public Commes findFuzzy(MoralPlus moralPlus, Pageable pageable){
+        return moralPlusService.findFuzzy(moralPlus, pageable);
     }
 }

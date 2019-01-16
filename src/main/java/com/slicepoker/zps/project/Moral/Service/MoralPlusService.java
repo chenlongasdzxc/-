@@ -2,6 +2,7 @@ package com.slicepoker.zps.project.Moral.Service;
 
 import com.slicepoker.zps.project.Moral.Pojo.MoralPlus;
 import com.slicepoker.zps.project.User.Pojo.Commes;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Zps
@@ -16,4 +17,6 @@ public interface MoralPlusService {
     Commes findAll();
 
     Commes find();
+
+    Commes findFuzzy(MoralPlus moralPlus, Pageable pageable);
 }

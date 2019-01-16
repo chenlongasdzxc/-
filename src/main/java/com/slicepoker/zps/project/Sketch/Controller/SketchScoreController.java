@@ -18,7 +18,7 @@ public class SketchScoreController {
     private SketchScoreService sketchScoreService;
 
     @PostMapping("/add")
-    public Commes add( SketchScore sketchScore){
+    public Commes add(@RequestBody SketchScore sketchScore){
         return sketchScoreService.addSketch(sketchScore);
     }
 

@@ -30,4 +30,7 @@ public class    MoralPlus {
 
     private boolean deleted=false;
 
+    @Transient
+    protected String keyWord;
+
 }
