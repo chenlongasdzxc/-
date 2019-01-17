@@ -33,5 +33,7 @@ public class SketchScore {
 
     private String sketchTypeCode; //代码
 
+    private String description; //描述
+
     private boolean deleted=false;
 }

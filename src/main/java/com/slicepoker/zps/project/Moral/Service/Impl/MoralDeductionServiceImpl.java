@@ -5,8 +5,12 @@ import com.slicepoker.zps.project.Moral.Respority.MoralDeductionRespority;
 import com.slicepoker.zps.project.Moral.Service.MoralDeductionService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +27,7 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
 
     /**
      * @param id
-     * 逻辑删除德育加分项目
+     * 逻辑删除德育减分项目
      * **/
     @Override
     public Commes delete(Long id) {
@@ -42,7 +46,7 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
     }
 
     /**
-     * 查找德育加分项目所有数据
+     * 查找德育减分项目所有数据
      * **/
     @Override
     public Commes findAll() {
@@ -116,7 +120,7 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
     }
 
     /**
-     * 查询未删除的德育加分项目类型
+     * 查询未删除的德育减分项目类型
      * **/
     @Override
     public Commes findMoralDeductionType() {
@@ -130,6 +134,34 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");
+        }
+    }
+
+
+    /**
+     * @param moralDeduction
+     * @param pageable
+     * @description 模糊查询
+     * **/
+    @Override
+    public Commes findFuzzy(MoralDeduction moralDeduction, Pageable pageable) {
+        try{
+            Page<MoralDeduction> page = moralDeductionRespority.findAll(((root, query, cb) -> {
+                List<Predicate> list = new ArrayList<>();
+                if (moralDeduction.getKeyWord()!=null && !"".equals(moralDeduction.getKeyWord())){
+                    list.add(
+                            cb.or(
+                                    cb.like(root.get("moralDeductionName"),"%" + moralDeduction.getKeyWord() + "%"),
+                                    cb.like(root.get("moralDeductionType"),"%" + moralDeduction.getKeyWord() + "%")
+                            )
+                    );
+                }
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+            return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
         }
     }
 }
