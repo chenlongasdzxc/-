@@ -29,6 +29,7 @@ public class MoralDeduction {
 
     private boolean deleted=false;
 
+    private String description; //描述
     @Transient
     protected String keyWord;
 }

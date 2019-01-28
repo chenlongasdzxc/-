@@ -5,8 +5,12 @@ import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 import com.slicepoker.zps.project.Sketch.Respority.SketchScoreRespority;
 import com.slicepoker.zps.project.Sketch.Service.SketchScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,27 +29,34 @@ public class SketchScoreServiceImpl implements SketchScoreService {
     @Override
     public Commes addSketch(SketchScore sketchScore) {
         try {
-            SketchScore sketchScore1 = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketchScore.getType());
-            if (sketchScore1!=null){
-                return Commes.errorMes("400","类型已存在");
+            if (sketchScore.getType()!=null && !"".equals(sketchScore.getType())){
+                SketchScore sketchScore1 = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketchScore.getType());
+                if (sketchScore1 == null){
+                    return Commes.success(sketchScoreRespority.save(sketchScore));
+                }
+                if(sketchScore.getId()!=null){
+                    return Commes.success(sketchScoreRespority.save(sketchScore));
+                }else {
+                    return Commes.errorMes("401","数据已存在");
+                }
             }else {
-                return Commes.success(sketchScoreRespority.save(sketchScore));
+                return Commes.errorMes("402","数据为空");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return Commes.errorMes("405","失败");
+            return Commes.errorMes("405","保存失败");
         }
     }
 
     /**
-    *根据素拓分类型删除素拓分类型
-     * @param type
+    *根据id删除素拓分类型
+     * @param id
     * */
 
     @Override
-    public Commes deleteSketch(String type) {
+    public Commes deleteSketch(Long id) {
         try {
-            SketchScore sketchScore = sketchScoreRespority.findByTypeAndDeletedIsFalse(type);
+            SketchScore sketchScore = sketchScoreRespority.findByIdAndDeletedIsFalse(id);
             if (sketchScore!=null){
                 sketchScore.setDeleted(true);
                 return Commes.success(sketchScoreRespority.save(sketchScore));
@@ -59,14 +70,12 @@ public class SketchScoreServiceImpl implements SketchScoreService {
     }
 
     /**
-    * 查询所有素拓分类型
-     *
+    * 查询未删除所有素拓分类型
     * */
-
     @Override
     public Commes findFuzzy() {
         try {
-            List<SketchScore> list= sketchScoreRespority.findAll();
+            List<SketchScore> list= sketchScoreRespority.findAllByDeletedIsFalse();
             if (list.size()!=0){
                 return Commes.success(list);
             }else {
@@ -83,5 +92,28 @@ public class SketchScoreServiceImpl implements SketchScoreService {
     @Override
     public Commes findTypeList() {
         return null;
+    }
+
+
+    @Override
+    public Commes findfuzzy(SketchScore sketchScore, Pageable pageable) {
+        try {
+            Page<SketchScore> page = sketchScoreRespority.findAll(((root, query, cb) -> {
+                List<Predicate> list = new ArrayList<>();
+                list.add(cb.equal(root.get("deleted"),false));
+                if (sketchScore.getKeyWord()!=null && !"".equals(sketchScore.getKeyWord())){
+                    list.add(
+                            cb.or(
+                                    cb.like(root.get("type"),"%" + sketchScore.getKeyWord() + "%")
+                            )
+                    );
+                }
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+            return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("402","error");
+        }
     }
 }

@@ -59,4 +59,6 @@ public class StudentInformation implements Serializable {
 
     @Transient
     protected String findWord;   //查询字段
+
+    private boolean deleted = false;
 }

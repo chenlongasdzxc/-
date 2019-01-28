@@ -31,14 +31,22 @@ public class MoralPlusServiceImpl implements MoralPlusService {
     @Override
     public Commes findAll() {
         try {
-            List<MoralPlus> list = moralPlusRespority.findAll();
+            List<MoralPlus> list = moralPlusRespority.findByDeletedIsFalse();
+            if (list.size()>0){
             return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查找失败");
         }
     }
 
+    /**
+     * @param id
+     * @description 删除德育加分数据字典
+     * **/
     @Override
     public Commes delete(Long id) {
         try {
@@ -98,15 +106,14 @@ public class MoralPlusServiceImpl implements MoralPlusService {
         try {
             Page<MoralPlus> page = moralPlusRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
+                    list.add(cb.equal(root.get("deleted"),false));
                 if (moralPlus.getKeyWord()!=null && !"".equals(moralPlus.getKeyWord())){
                     list.add(
                             cb.or(
-                                    cb.like(root.get("moralPlusType"),"%" + moralPlus.getKeyWord() + "%" ),
+                                    cb.like(root.get("moralPlusType"),"%" + moralPlus.getKeyWord() + "%"  ),
                                     cb.like(root.get("moralPlusName"),"%" + moralPlus.getKeyWord() + "%")
                                     )
                             );
-
-                    list.add(cb.like(root.get("moralPlusName"),"%" + moralPlus.getKeyWord() + "%"));
                 }
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);

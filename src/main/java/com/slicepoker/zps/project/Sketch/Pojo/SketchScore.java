@@ -31,9 +31,9 @@ public class SketchScore {
 
     private double winnerThree; //获奖者3
 
-    private String sketchTypeCode; //代码
-
     private String description; //描述
+
+    protected String keyWord;
 
     private boolean deleted=false;
 }

@@ -10,19 +10,15 @@ import org.springframework.data.domain.Pageable;
  **/
 public interface StudentInfoService {
 
-    Commes findFuzzy(StudentInformation studentInformation);
-
-    /*Commes findRoom(Pageable pageable);*/
+    Commes findFuzzy(StudentInformation studentInformation,Pageable pageable);
 
     Commes updateInfo(StudentInformation studentInformation);
-
-    Commes setFileCard(Long studentNumber);
-
-    Commes findByStudentClass(String studentClass);
 
     Commes findStudentByStudentNumber(String userName);
 
     Commes findFileCard();
 
     Commes getStudentInfoExcel();
+
+    Commes findStudentInformation(Long studentNumber);
 }

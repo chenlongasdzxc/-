@@ -2,6 +2,7 @@ package com.slicepoker.zps.project.Sketch.Service;
 
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
+import org.springframework.data.domain.Pageable;
 
 /**
  * @author Zps
@@ -11,10 +12,12 @@ public interface SketchScoreService {
 
     Commes addSketch(SketchScore sketchScore);
 
-    Commes deleteSketch(String type);
+    Commes deleteSketch(Long id);
 
     Commes findFuzzy();
 
     Commes findTypeList();
+
+    Commes findfuzzy(SketchScore sketchScore ,Pageable pageable);
 
 }

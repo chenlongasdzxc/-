@@ -74,7 +74,7 @@ public class ExcelUtil {
                 importParams.setTitleRows(1);
                 List<StudentInformation> list =ExcelImportUtil.importExcel(file.getInputStream(),StudentInformation.class,importParams);
                 for (StudentInformation studentInformation: list){
-                    StudentInformation studentInformation1 = studentInfoRespority.findByStudentNumber(studentInformation.getStudentNumber());
+                    StudentInformation studentInformation1 = studentInfoRespority.findByStudentNumberAndDeletedIsFalse(studentInformation.getStudentNumber());
                     if (studentInformation1!=null){
                         studentInformation.setId(studentInformation1.getId());
                         studentInformation.setGrade(codeToGrade.codeToGrade(studentInformation1.getStudentNumber()));

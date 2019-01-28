@@ -23,9 +23,9 @@ public class MoralPlusController {
         return moralPlusService.add(moralPlus);
     }
 
-    @GetMapping("/delete")
-    public Commes deleted(Long id){
-        return moralPlusService.delete(id);
+    @PostMapping("/delete")
+    public Commes deleted(@RequestBody MoralPlus moralPlus){
+        return moralPlusService.delete(moralPlus.getId());
     }
 
     @GetMapping("/findAll")
@@ -38,6 +38,9 @@ public class MoralPlusController {
         return moralPlusService.find();
     }
 
+    /**
+     * @description 模糊查询
+     * **/
     @GetMapping("/findFuzzy")
     public Commes findFuzzy(MoralPlus moralPlus, Pageable pageable){
         return moralPlusService.findFuzzy(moralPlus, pageable);

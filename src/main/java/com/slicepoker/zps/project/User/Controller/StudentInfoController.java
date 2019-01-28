@@ -19,17 +19,17 @@ public class StudentInfoController {
     private StudentInfoService studentInfoService;
 
     @GetMapping("/findFuzzy")
-    public Commes findFuzzy( StudentInformation studentInformation){
-        return studentInfoService.findFuzzy(studentInformation);
+    public Commes findFuzzy( StudentInformation studentInformation,Pageable pageable){
+            return studentInfoService.findFuzzy(studentInformation,pageable);
     }
 
     @PostMapping("/update")
     public Commes updateInfo(@RequestBody StudentInformation studentInformation){
-        return studentInfoService.updateInfo(studentInformation);
+            return studentInfoService.updateInfo(studentInformation);
     }
 
     @GetMapping("/get")
-    public Commes getInfo(String userName){
+    public Commes getClassName(String userName){
         return studentInfoService.findStudentByStudentNumber(userName);
     }
 
@@ -38,5 +38,13 @@ public class StudentInfoController {
         return studentInfoService.findFileCard();
     }
 
-
+    @GetMapping("/findPersonalInfo")
+    public Commes findPersonalInfo(String userName){
+        if (userName!=null && !"".equals(userName)){
+        Long studentNumber = Long.parseLong(userName);
+        return studentInfoService.findStudentInformation(studentNumber);
+        }else {
+            return Commes.errorMes("401","userName为空");
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class MoralDeductionController {
     private MoralDeductionService moralDeductionService;
 
     @PostMapping("/add")
-    public Commes add(MoralDeduction moralDeduction){
+    public Commes add(@RequestBody MoralDeduction moralDeduction){
         return moralDeductionService.add(moralDeduction);
     }
 
@@ -38,9 +38,9 @@ public class MoralDeductionController {
         return moralDeductionService.findAll();
     }
 
-    @GetMapping("/delete")
-    public Commes delete(Long id){
-        return moralDeductionService.delete(id);
+    @PostMapping("/delete")
+    public Commes delete(@RequestBody MoralDeduction moralDeduction){
+        return moralDeductionService.delete(moralDeduction.getId());
     }
 
     @GetMapping("/findType")

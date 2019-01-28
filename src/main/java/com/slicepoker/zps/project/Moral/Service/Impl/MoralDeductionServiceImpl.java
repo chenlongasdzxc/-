@@ -148,6 +148,7 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
         try{
             Page<MoralDeduction> page = moralDeductionRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
+                    list.add(cb.equal(root.get("deleted"),false));
                 if (moralDeduction.getKeyWord()!=null && !"".equals(moralDeduction.getKeyWord())){
                     list.add(
                             cb.or(

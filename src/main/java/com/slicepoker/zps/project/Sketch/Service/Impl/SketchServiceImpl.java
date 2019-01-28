@@ -52,7 +52,6 @@ public class SketchServiceImpl implements SketchService {
                     if (sketchScore!=null){
                         sketch.setSketchScore(sketchUtil.setSketch(sketchPart));
                         sketch.setCreateDate(new Date());
-                        sketch.setSketchTypeCode(sketchScore.getSketchTypeCode());
                         return Commes.success(sketchRespority.save(sketch));
                     }else {
                return Commes.errorMes("400","查询失败"); }

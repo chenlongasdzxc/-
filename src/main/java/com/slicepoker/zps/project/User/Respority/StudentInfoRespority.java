@@ -13,9 +13,7 @@ import java.util.List;
  **/
 public interface StudentInfoRespority extends JpaRepository<StudentInformation,Long>, JpaSpecificationExecutor<StudentInformation> {
 
-    StudentInformation findByStudentNumber(Long studentNumber);
-
-    List<StudentInformation> findByStudentClass(String studentClass);
+    StudentInformation findByStudentNumberAndDeletedIsFalse(Long studentNumber);
 
     /**查找所有学号**/
     @Query(value="select studentNumber from StudentInformation ")
@@ -23,5 +21,6 @@ public interface StudentInfoRespority extends JpaRepository<StudentInformation,L
 
 
     List<StudentInformation> findByFileCard(Boolean fileCard);
+
 
 }
