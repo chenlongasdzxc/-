@@ -13,4 +13,18 @@ public interface StudentCheckingService {
     Commes update(StudentChecking studentChecking);
 
     Commes get(Pageable pageable);
+
+    Commes findFuzzy(StudentChecking studentChecking,Pageable pageable);
+
+    Commes getPersonalData(Long studentNumber,Pageable pageable);
+
+    Commes getMajorData(String major,Pageable pageable);
+
+    Commes findFuzzyByMajor(StudentChecking studentChecking,Pageable pageable);
+
+    Commes findDeletedApply(StudentChecking studentChecking,Pageable pageable);
+
+    Commes deleteStudentChecking(Long id);
+
+    Commes rejectApply(Long id);
 }

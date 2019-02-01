@@ -13,4 +13,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface StudentCheckingRespority extends JpaRepository<StudentChecking,Long>, JpaSpecificationExecutor<StudentChecking> {
 
     Page<StudentChecking> findByDeletedIsFalse(Pageable pageable);
+
+    Page<StudentChecking> findByStudentNumberAndDeletedIsFalse(Long studentNumber,Pageable pageable);
+
+    Page<StudentChecking> findByMajorAndDeletedIsFalse(String major,Pageable pageable);
+
+    StudentChecking findByIdAndDeletedIsFalseAndDeletedApplyIsTrue(Long id);
 }
