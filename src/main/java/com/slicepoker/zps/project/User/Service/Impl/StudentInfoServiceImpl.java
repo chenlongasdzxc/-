@@ -92,7 +92,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     /**
      * @param userName
-     * 根据学号查找班级
+     * 根据学号查找所在班级
      * @return studentInformation
      * **/
     @Override

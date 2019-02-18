@@ -147,6 +147,7 @@ public class StudentCheckingServiceImpl implements StudentCheckingService {
                 List<Predicate> list = new ArrayList<>();
                 list.add(
                         cb.and(
+                                cb.equal(root.get("deleted"),false),
                                 cb.equal(root.get("major"),studentChecking.getMajor()),
                                 cb.equal(root.get("grade"),studentChecking.getGrade())
                         )
