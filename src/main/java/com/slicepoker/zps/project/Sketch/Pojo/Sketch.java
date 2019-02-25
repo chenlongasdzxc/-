@@ -30,6 +30,10 @@ public class Sketch extends BaseEntily {
 
     private boolean deleted=false;  //删除
 
-    private boolean sketchStates=false; //状态
+    private String sketchStates; //状态
+
+    protected String keyWord; //查询字段
+
+
 
 }

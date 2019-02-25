@@ -22,9 +22,11 @@ public interface SketchService {
 
     Commes findAll();
 
-    Commes findByStudentNumber(Long studentNumber);
+    Commes findByStudentNumber(Long studentNumber,Pageable pageable);
 
     Commes findByStates();
 
     Commes countSketch(Long studentNumber);
+
+    Commes delete(Long id);
 }

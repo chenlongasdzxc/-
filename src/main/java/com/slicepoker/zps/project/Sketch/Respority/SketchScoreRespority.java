@@ -22,4 +22,6 @@ public interface SketchScoreRespority extends JpaRepository<SketchScore,Long>, J
 
     List findAllByDeletedIsFalse();
 
+
+
 }

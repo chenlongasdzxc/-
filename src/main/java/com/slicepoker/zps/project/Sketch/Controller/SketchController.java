@@ -20,10 +20,10 @@ public class SketchController {
     @Autowired
     private SketchService sketchService;
     /**
-     * 更新素拓分
+     * @description更新素拓分
      * **/
     @PostMapping("/update")
-    public Commes updateSketch(Sketch sketch){
+    public Commes updateSketch(@RequestBody Sketch sketch){
         return sketchService.updateSketch(sketch);
     }
 
@@ -65,9 +65,9 @@ public class SketchController {
     /**
      * 根据学号查询素拓分
      * **/
-    @GetMapping("/findByStudentNumber")
-    public Commes findByStudentNumber(Long studentNumber){
-        return sketchService.findByStudentNumber(studentNumber);
+    @GetMapping("/personal")
+    public Commes findByStudentNumber(Sketch sketch,Pageable pageable){
+        return sketchService.findByStudentNumber(sketch.getStudentNumber(),pageable);
     }
 
     /**
@@ -79,8 +79,16 @@ public class SketchController {
     }
 
     /**
-     *计算素拓分
+     *@description计算素拓分
      * **/
     @GetMapping("/sumSketch")
     public Commes sumSketchScore(Long studentNumber){return sketchService.countSketch(studentNumber);}
+
+    /**
+     * @description删除素拓分
+     * **/
+    @GetMapping("/delete")
+    public Commes delete(Long id){
+        return sketchService.delete(id);
+    }
 }

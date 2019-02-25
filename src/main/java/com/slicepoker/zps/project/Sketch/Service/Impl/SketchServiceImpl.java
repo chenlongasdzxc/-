@@ -46,17 +46,17 @@ public class SketchServiceImpl implements SketchService {
         try{
             String sketchPart = sketch.getSketchPart();
             /*查询id是否存在*/
-            Sketch sketch1 = sketchRespority.findByIdAndDeletedIsFalseAndSketchStatesIsFalse(sketch.getId());
-            if (sketch1==null){
+            if (sketch.getId()==null){
                 SketchScore sketchScore = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketch.getType());
                     if (sketchScore!=null){
                         sketch.setSketchScore(sketchUtil.setSketch(sketchPart));
                         sketch.setCreateDate(new Date());
+                        sketch.setSketchStates("SK001"); //未审核
                         return Commes.success(sketchRespority.save(sketch));
                     }else {
                return Commes.errorMes("400","查询失败"); }
             }else {
-                return Commes.success(sketchRespority.save(sketch1));
+                return Commes.success(sketchRespority.save(sketch));
             }
         }catch (Exception e){
                 e.printStackTrace();
@@ -127,7 +127,7 @@ public class SketchServiceImpl implements SketchService {
         try {
             Sketch sketch = sketchRespority.findByIdAndDeletedIsFalseAndSketchStatesIsFalse(id);
             if (sketch!=null){
-                sketch.setSketchStates(true);
+                sketch.setSketchStates("SK003");
                 return Commes.success(sketchRespority.save(sketch));
             }else {
                 return Commes.errorMes("401","没有数据");
@@ -158,14 +158,19 @@ public class SketchServiceImpl implements SketchService {
      * 根据学号查询该学号所有素拓分
      * **/
     @Override
-    public Commes findByStudentNumber(Long studentNumber) {
+    public Commes findByStudentNumber(Long studentNumber,Pageable pageable) {
         try {
-            List<Sketch> list = sketchRespority.findByStudentNumberAndDeletedIsFalse(studentNumber);
-            if (list!=null){
-                return Commes.success(list);
-            }else {
-                return Commes.errorMes("401","没有数据");
-            }
+            Page<Sketch> page = sketchRespority.findAll(((root, query, cb) -> {
+                List<Predicate> list = new ArrayList<>();
+                list.add(
+                        cb.and(
+                                cb.equal(root.get("deleted"),false),
+                                cb.equal(root.get("studentNumber"),studentNumber)
+                        )
+                );
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+           return Commes.success(page);
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");
@@ -202,6 +207,26 @@ public class SketchServiceImpl implements SketchService {
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");
+        }
+    }
+
+    /**
+     * @param id
+     * @descriptions删除素拓分
+     * **/
+    @Override
+    public Commes delete(Long id) {
+        try {
+            Sketch sketch = sketchRespority.findByIdAndDeletedIsFalse(id);
+            if (sketch!=null){
+                sketch.setDeleted(true);
+                return Commes.success(sketchRespority.saveAndFlush(sketch));
+            }else {
+                return Commes.errorMes("401","该条数据不存在");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("402","删除失败");
         }
     }
 }

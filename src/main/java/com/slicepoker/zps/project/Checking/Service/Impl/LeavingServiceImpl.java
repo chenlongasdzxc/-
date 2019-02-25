@@ -90,7 +90,19 @@ public class LeavingServiceImpl implements LeavingService {
         try {
             Page<AskForLeave> page = leavingRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
-
+                list.add(
+                        cb.and(
+                                cb.equal(root.get("deleted"),false),
+                                cb.equal(root.get("major"),askForLeave.getMajor()),
+                                cb.equal(root.get("grade"),askForLeave.getGrade()),
+                                cb.equal(root.get("states"),"DO001")
+                        )
+                );
+                list.add(
+                        cb.or(
+                                cb.equal(root.get("studentName"),askForLeave.getKeyWord())
+                        )
+                );
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);
             return Commes.success(page);

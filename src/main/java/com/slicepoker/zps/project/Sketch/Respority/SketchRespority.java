@@ -13,15 +13,10 @@ import java.util.List;
  **/
 public interface SketchRespority extends JpaRepository<Sketch,Long>, JpaSpecificationExecutor<Sketch> {
 
-    /*List findByClassNameAndDeletedIsFalse(String className);*/
-
-    /*Sketch findByStudentNumberAndDeletedIsFalse(Long studentNumber);*/
 
     Sketch findByIdAndDeletedIsFalse(Long id);
 
     Sketch findByIdAndDeletedIsFalseAndSketchStatesIsFalse(Long id);
-
-    List findByStudentNumberAndDeletedIsFalse(Long studentNumber);
 
     List findBySketchStatesIsFalse();
 
@@ -29,4 +24,5 @@ public interface SketchRespority extends JpaRepository<Sketch,Long>, JpaSpecific
 
     @Query(value="select sum(sketchScore) from Sketch where studentNumber = ?1")
     double sumSketchScore(Long studentNumber);
+
 }

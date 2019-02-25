@@ -20,4 +20,5 @@ public interface SketchScoreService {
 
     Commes findfuzzy(SketchScore sketchScore ,Pageable pageable);
 
+
 }

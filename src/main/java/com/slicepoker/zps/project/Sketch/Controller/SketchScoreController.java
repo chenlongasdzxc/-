@@ -33,4 +33,14 @@ public class SketchScoreController {
     public Commes findFuzzy(SketchScore sketchScore ,Pageable pageable){
         return sketchScoreService.findfuzzy(sketchScore, pageable);
     }
+
+    @GetMapping("/findSketchPart")
+    public Commes findSketchPart(){
+        return null;
+    }
+
+    @GetMapping("/find")
+    public Commes find(){
+        return sketchScoreService.findFuzzy();
+    }
 }
