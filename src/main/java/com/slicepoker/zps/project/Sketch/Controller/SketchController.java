@@ -40,8 +40,8 @@ public class SketchController {
      * 审核素拓分
      * **/
     @GetMapping("/set")
-    public Commes setSkStates( Long id){
-        return sketchService.setStates(id);
+    public Commes setSkStates( Sketch sketch){
+        return sketchService.setStates(sketch);
     }
 
 
@@ -49,8 +49,8 @@ public class SketchController {
      * 模糊查询
      * **/
     @GetMapping("/findFuzzy")
-    public Commes findSketch(Long studentNumber, Date createDateStart, Date createDateStop, Pageable pageable){
-        return sketchService.findSketch(studentNumber, createDateStart, createDateStop, pageable);
+    public Commes findFuzzy(Sketch sketch,Pageable pageable){
+        return sketchService.findFuzzy(sketch, pageable);
     }
 
 
@@ -78,11 +78,7 @@ public class SketchController {
         return sketchService.findByStates();
     }
 
-    /**
-     *@description计算素拓分
-     * **/
-    @GetMapping("/sumSketch")
-    public Commes sumSketchScore(Long studentNumber){return sketchService.countSketch(studentNumber);}
+
 
     /**
      * @description删除素拓分

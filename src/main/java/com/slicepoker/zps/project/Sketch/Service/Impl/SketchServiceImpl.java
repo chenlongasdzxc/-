@@ -1,10 +1,14 @@
 package com.slicepoker.zps.project.Sketch.Service.Impl;
 
+import com.slicepoker.zps.project.Sketch.Pojo.SketchAnalysis;
+import com.slicepoker.zps.project.Sketch.Service.SketchAnalysisService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
 import com.slicepoker.zps.project.Sketch.Respority.SketchRespority;
 import com.slicepoker.zps.project.Sketch.Respority.SketchScoreRespority;
+import com.slicepoker.zps.project.User.Pojo.StudentInformation;
+import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
 import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.Sketch.Service.SketchService;
 import com.slicepoker.zps.project.Util.SketchUtil;
@@ -35,7 +39,13 @@ public class SketchServiceImpl implements SketchService {
     private UserRespority userRespority;
 
     @Autowired
+    private StudentInfoRespority studentInfoRespority;
+
+    @Autowired
     private SketchScoreRespority sketchScoreRespority;
+
+    @Autowired
+    private SketchAnalysisService sketchAnalysisService;
 
     /**
      * 更新素拓分
@@ -52,7 +62,21 @@ public class SketchServiceImpl implements SketchService {
                         sketch.setSketchScore(sketchUtil.setSketch(sketchPart));
                         sketch.setCreateDate(new Date());
                         sketch.setSketchStates("SK001"); //未审核
-                        return Commes.success(sketchRespority.save(sketch));
+                        sketchRespority.save(sketch);
+                        Double sum = sketchRespority.sumSketchScore(sketch.getStudentNumber(),sketch.getType(),"SK002");
+                        if (sum==null){
+                            sum = 0.0;
+                        }
+                        SketchAnalysis sketchAnalysis = new SketchAnalysis();
+                        sketchAnalysis.setScoreCount(sum);
+                        sketchAnalysis.setSketchTypeName(sketch.getType());
+                        sketchAnalysis.setStudentNumber(sketch.getStudentNumber());
+                        sketchAnalysis.setGrade(sketch.getGrade());
+                        sketchAnalysis.setStudentName(sketch.getStudentName());
+                        sketchAnalysis.setMajor(sketch.getMajor());
+                        sketchAnalysis.setStudentClass(sketch.getStudentClass());
+                        sketchAnalysisService.update(sketchAnalysis);
+                        return Commes.successMes();
                     }else {
                return Commes.errorMes("400","查询失败"); }
             }else {
@@ -64,37 +88,6 @@ public class SketchServiceImpl implements SketchService {
         }
     }
 
-    /**
-     * 根据学号、创建时间查询素拓分
-     * @param  studentNumber 学号
-     * @param createDateStart
-     * @param createDateStop
-     * */
-    @Override
-    public Commes findSketch(Long studentNumber, Date createDateStart, Date createDateStop, Pageable pageable) {
-        try {
-            Page<Sketch> page = sketchRespority.findAll(((root, query, cb) -> {
-                List<Predicate> list = new ArrayList<>();
-                if (studentNumber!=null){
-                    list.add(cb.equal(root.get("studentNumber"),studentNumber));
-                }
-                if (createDateStart!=null&&createDateStop!=null){
-                    list.add(cb.between(root.get("createDate"),createDateStart,createDateStop));
-                }
-                if (createDateStart==null&&createDateStop!=null){
-                    list.add(cb.equal(root.get("createDate"),createDateStop));
-                }
-                if (createDateStart!=null&&createDateStop==null){
-                    list.add(cb.equal(root.get("createDate"),createDateStart));
-                }
-                return cb.and(list.toArray(new Predicate[list.size()]));
-            }),pageable);
-            return Commes.success(page);
-        }catch (Exception e){
-            e.printStackTrace();
-            return Commes.errorMes("500","查询失败");
-        }
-    }
 
     /**
      * 根据班级名称查询素拓分
@@ -117,18 +110,25 @@ public class SketchServiceImpl implements SketchService {
 
 
     /**
-     * 审核
-     * @param id  id
-     *  true 已审核
-     *  默认  false  未审核
+     * @param sketch
+     * @description 审核
      * */
     @Override
-    public Commes setStates(Long id) {
+    public Commes setStates(Sketch sketch) {
         try {
-            Sketch sketch = sketchRespority.findByIdAndDeletedIsFalseAndSketchStatesIsFalse(id);
-            if (sketch!=null){
-                sketch.setSketchStates("SK003");
-                return Commes.success(sketchRespority.save(sketch));
+            Sketch sketch1 = sketchRespority.findByIdAndDeletedIsFalse(sketch.getId());
+            if (sketch1!=null){
+                sketch1.setSketchStates(sketch.getSketchStates());
+                sketch1.setApplyStudentName(sketch.getApplyStudentName());
+                sketch1.setApplyStudentNumber(sketch.getApplyStudentNumber());
+                sketchRespority.save(sketch1);
+                double sum = sketchRespority.sumSketchScore(sketch1.getStudentNumber(),sketch1.getType(),"SK002");
+                SketchAnalysis sketchAnalysis = new SketchAnalysis();
+                sketchAnalysis.setScoreCount(sum);
+                sketchAnalysis.setSketchTypeName(sketch1.getType());
+                sketchAnalysis.setStudentNumber(sketch1.getStudentNumber());
+                sketchAnalysisService.update(sketchAnalysis);
+                return Commes.successMes();
             }else {
                 return Commes.errorMes("401","没有数据");
             }
@@ -196,21 +196,6 @@ public class SketchServiceImpl implements SketchService {
     }
 
     /**
-     * @param studentNumber
-     * 计算个人素拓分
-     * **/
-    @Override
-    public Commes countSketch(Long studentNumber) {
-        try {
-            double personalScore = sketchRespority.sumSketchScore(studentNumber);
-            return Commes.success(personalScore);
-        }catch (Exception e){
-            e.printStackTrace();
-            return Commes.errorMes("405","查询失败");
-        }
-    }
-
-    /**
      * @param id
      * @descriptions删除素拓分
      * **/
@@ -229,4 +214,33 @@ public class SketchServiceImpl implements SketchService {
             return Commes.errorMes("402","删除失败");
         }
     }
+
+    /**
+     * @param pageable
+     * @param sketch
+     * @description 查询同班级未审核或已审核素拓分
+     * **/
+    @Override
+    public Commes findFuzzy(Sketch sketch, Pageable pageable) {
+        try {
+            Page<Sketch> page = sketchRespority.findAll(((root, query, cb) -> {
+                List<Predicate> list = new ArrayList<>();
+                list.add(
+                        cb.and(
+                                cb.equal(root.get("studentClass"),sketch.getStudentClass()),
+                                cb.equal(root.get("sketchStates"),sketch.getSketchStates()),
+                                cb.equal(root.get("deleted"),false)
+                        )
+                );
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+            return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("402","查询失败");
+        }
+    }
+
+
+
 }

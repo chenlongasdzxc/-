@@ -14,11 +14,11 @@ public interface SketchService {
 
     Commes updateSketch(Sketch sketch);
 
-    Commes findSketch(Long studentNumber, Date createDateStart, Date createDateStop, Pageable pageable);
+    Commes findFuzzy(Sketch sketch, Pageable pageable);
 
     Commes findByClass(String className);
 
-    Commes setStates(Long id);
+    Commes setStates(Sketch sketch);
 
     Commes findAll();
 
@@ -26,7 +26,6 @@ public interface SketchService {
 
     Commes findByStates();
 
-    Commes countSketch(Long studentNumber);
-
     Commes delete(Long id);
+
 }

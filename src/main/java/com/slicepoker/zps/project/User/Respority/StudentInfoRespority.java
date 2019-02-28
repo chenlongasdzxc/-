@@ -15,10 +15,12 @@ public interface StudentInfoRespority extends JpaRepository<StudentInformation,L
 
     StudentInformation findByStudentNumberAndDeletedIsFalse(Long studentNumber);
 
-    /**查找所有学号**/
-    @Query(value="select studentNumber from StudentInformation ")
-    List findStudentNumber();
+    /**通过专业查询学号List**/
+    @Query(value="select studentNumber from StudentInformation where major =?1")
+    List findStudentNumberListByMajor(String major);
 
+    @Query(value="select studentNumber from StudentInformation ")
+    List findStudentNumberList();
 
     List<StudentInformation> findByFileCard(Boolean fileCard);
 

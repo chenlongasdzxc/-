@@ -22,7 +22,7 @@ public interface SketchRespority extends JpaRepository<Sketch,Long>, JpaSpecific
 
     List findByStudentClassAndDeletedIsFalseAndAndSketchStatesIsTrue(String studentClass);
 
-    @Query(value="select sum(sketchScore) from Sketch where studentNumber = ?1")
-    double sumSketchScore(Long studentNumber);
+    @Query(value="select sum(sketchScore) from Sketch where studentNumber = ?1 and type =?2 and deleted = false and sketchStates =?3")
+    Double sumSketchScore(Long studentNumber,String type,String sketchStates);
 
 }

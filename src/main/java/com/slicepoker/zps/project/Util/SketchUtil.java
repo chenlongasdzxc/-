@@ -53,7 +53,7 @@ public class SketchUtil {
      * 查找所有学号
      * **/
     public List findStudentNumber(){
-        List list = studentInfoRespority.findStudentNumber();
+        List list = studentInfoRespority.findStudentNumberList();
         return list;
     }
 }

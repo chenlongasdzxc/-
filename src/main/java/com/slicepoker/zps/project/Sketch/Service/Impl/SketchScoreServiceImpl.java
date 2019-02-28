@@ -75,7 +75,7 @@ public class SketchScoreServiceImpl implements SketchScoreService {
     @Override
     public Commes findFuzzy() {
         try {
-            List<SketchScore> list= sketchScoreRespority.findAllByDeletedIsFalse();
+            List<SketchScore> list= sketchScoreRespority.findType();
             if (list.size()!=0){
                 return Commes.success(list);
             }else {

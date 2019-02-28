@@ -34,6 +34,8 @@ public class Sketch extends BaseEntily {
 
     protected String keyWord; //查询字段
 
+    private String applyStudentName; //审核人姓名
 
+    private Long applyStudentNumber; //审核人学号
 
 }

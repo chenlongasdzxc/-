@@ -17,8 +17,8 @@ public interface SketchScoreRespority extends JpaRepository<SketchScore,Long>, J
 
     SketchScore findByTypeAndDeletedIsFalse(String type);
 
-    @Query(value="select type from SketchScore")
-    List<SketchScore> findType();
+    @Query(value="select type from SketchScore where deleted = false ")
+    List findType();
 
     List findAllByDeletedIsFalse();
 
