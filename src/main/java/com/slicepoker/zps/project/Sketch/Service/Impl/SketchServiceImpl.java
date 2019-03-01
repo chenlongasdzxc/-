@@ -2,6 +2,7 @@ package com.slicepoker.zps.project.Sketch.Service.Impl;
 
 import com.slicepoker.zps.project.Sketch.Pojo.SketchAnalysis;
 import com.slicepoker.zps.project.Sketch.Service.SketchAnalysisService;
+import com.slicepoker.zps.project.Sketch.Service.SketchCountService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.Sketch.Pojo.Sketch;
 import com.slicepoker.zps.project.Sketch.Pojo.SketchScore;
@@ -47,6 +48,9 @@ public class SketchServiceImpl implements SketchService {
     @Autowired
     private SketchAnalysisService sketchAnalysisService;
 
+    @Autowired
+    private SketchCountService sketchCountService;
+
     /**
      * 更新素拓分
      * @param sketch
@@ -55,8 +59,6 @@ public class SketchServiceImpl implements SketchService {
     public Commes updateSketch(Sketch sketch) {
         try{
             String sketchPart = sketch.getSketchPart();
-            /*查询id是否存在*/
-            if (sketch.getId()==null){
                 SketchScore sketchScore = sketchScoreRespority.findByTypeAndDeletedIsFalse(sketch.getType());
                     if (sketchScore!=null){
                         sketch.setSketchScore(sketchUtil.setSketch(sketchPart));
@@ -76,12 +78,10 @@ public class SketchServiceImpl implements SketchService {
                         sketchAnalysis.setMajor(sketch.getMajor());
                         sketchAnalysis.setStudentClass(sketch.getStudentClass());
                         sketchAnalysisService.update(sketchAnalysis);
+                        sketchCountService.undateCount(sketch);
                         return Commes.successMes();
                     }else {
                return Commes.errorMes("400","查询失败"); }
-            }else {
-                return Commes.success(sketchRespority.save(sketch));
-            }
         }catch (Exception e){
                 e.printStackTrace();
                 return Commes.errorMes("500","error");
@@ -128,6 +128,7 @@ public class SketchServiceImpl implements SketchService {
                 sketchAnalysis.setSketchTypeName(sketch1.getType());
                 sketchAnalysis.setStudentNumber(sketch1.getStudentNumber());
                 sketchAnalysisService.update(sketchAnalysis);
+                sketchCountService.undateCount(sketch1);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("401","没有数据");
@@ -165,8 +166,12 @@ public class SketchServiceImpl implements SketchService {
                 list.add(
                         cb.and(
                                 cb.equal(root.get("deleted"),false),
-                                cb.equal(root.get("studentNumber"),studentNumber)
+                                cb.equal(root.get("studentNumber"),studentNumber),
+                                cb.or(
+                                        cb.equal(root.get("sketchStates"),"SK002")
+                                )
                         )
+
                 );
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);
@@ -242,5 +247,13 @@ public class SketchServiceImpl implements SketchService {
     }
 
 
-
+    @Override
+    public Commes getClassSum(String studentClass) {
+        try {
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("402","计算失败");
+        }
+    }
 }

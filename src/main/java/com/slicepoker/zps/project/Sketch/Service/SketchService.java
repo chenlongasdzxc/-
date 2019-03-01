@@ -28,4 +28,6 @@ public interface SketchService {
 
     Commes delete(Long id);
 
+    Commes getClassSum(String studentClass);
+
 }
