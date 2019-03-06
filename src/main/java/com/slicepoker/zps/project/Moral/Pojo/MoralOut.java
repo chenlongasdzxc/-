@@ -25,7 +25,13 @@ public class MoralOut {
 
     private String moralOutType;  //课外加分类型
 
+    private String value; //描述
+
+    private String states; //级别
+
     private Date createTime; //创建时间
 
     private boolean deleted=false; //删除
+
+    protected String keyWord; //查询字段
 }

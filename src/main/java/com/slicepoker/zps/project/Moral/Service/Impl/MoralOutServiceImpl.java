@@ -5,8 +5,13 @@ import com.slicepoker.zps.project.Moral.Respority.MoralOutRespority;
 import com.slicepoker.zps.project.Moral.Service.MoralOutService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,7 +20,7 @@ import java.util.List;
  * @description 课外加分实现方法
  **/
 @Service
-public class MoralServiceImpl implements MoralOutService {
+public class MoralOutServiceImpl implements MoralOutService {
 
     @Autowired
     private MoralOutRespority moralOutRespority;
@@ -64,13 +69,19 @@ public class MoralServiceImpl implements MoralOutService {
      * 新增或编辑课外加分项目
      * **/
     @Override
-    public Commes add(MoralOut moralOut) {
+    public Commes update(MoralOut moralOut) {
         try {
-            if (moralOut!=null){
-            return Commes.success(moralOutRespority.save(moralOut));
-            }else {
-                return Commes.errorMes("401","数据为空");
-            }
+           if (moralOut.getId()!=null){
+               return Commes.success(moralOutRespority.save(moralOut));
+           }else {
+               MoralOut moralOut1 = moralOutRespority.findByMoralOutNameAndDeletedIsFalse(moralOut.getMoralOutName());
+                if (moralOut1!=null){
+                    return Commes.errorMes("401","保存失败，已有该条数据");
+                }else {
+                    moralOut.setCreateTime(new Date());
+                    return Commes.success(moralOutRespority.saveAndFlush(moralOut));
+                }
+           }
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("405","保存失败");
@@ -95,5 +106,32 @@ public class MoralServiceImpl implements MoralOutService {
             e.printStackTrace();
             return Commes.errorMes("405","查询失败");
         }
+    }
+
+    /**
+     * @param moralOut
+     * @description模糊查询
+     * **/
+    @Override
+    public Commes findFuzzy(MoralOut moralOut, Pageable pageable) {
+       try {
+           Page<MoralOut> page = moralOutRespority.findAll(((root, query, cb) -> {
+               List<Predicate> list = new ArrayList<>();
+               list.add(cb.equal(root.get("deleted"),false));
+               if (moralOut.getKeyWord()!=null && !"".equals(moralOut.getKeyWord())){
+                   list.add(
+                           cb.or(
+                                   cb.equal(root.get("moralOutName"),moralOut.getKeyWord()),
+                                   cb.equal(root.get("moralOutType"),moralOut.getKeyWord())
+                           )
+                   );
+               }
+               return cb.and(list.toArray(new Predicate[list.size()]));
+           }),pageable);
+           return Commes.success(page);
+       }catch (Exception e){
+           e.printStackTrace();
+           return Commes.errorMes("402","查询失败");
+       }
     }
 }

@@ -23,4 +23,6 @@ public interface MoralOutRespority extends JpaRepository<MoralOut,Long>, JpaSpec
 
     @Query(value="select moralOutName from MoralOut where deleted = false and moralOutType =?1")
     List findByType(String moralOutType);
+
+    MoralOut findByMoralOutNameAndDeletedIsFalse(String moralOutName);
 }
