@@ -123,4 +123,20 @@ public class MoralPlusServiceImpl implements MoralPlusService {
             return Commes.errorMes("401","没有数据");
         }
     }
+
+
+    @Override
+    public Commes findByType(String moralPlusType) {
+        try {
+            List<MoralPlus> list = moralPlusRespority.findByMoralPlusTypeAndDeletedIsFalse(moralPlusType);
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("402","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
 }

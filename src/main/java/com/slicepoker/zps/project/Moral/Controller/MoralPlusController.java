@@ -33,7 +33,7 @@ public class MoralPlusController {
         return moralPlusService.findAll();
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findType")
     public Commes find(){
         return moralPlusService.find();
     }
@@ -44,5 +44,10 @@ public class MoralPlusController {
     @GetMapping("/findFuzzy")
     public Commes findFuzzy(MoralPlus moralPlus, Pageable pageable){
         return moralPlusService.findFuzzy(moralPlus, pageable);
+    }
+
+    @GetMapping("/findNameList")
+    public Commes findByType(String moralPlusType){
+        return moralPlusService.findByType(moralPlusType);
     }
 }

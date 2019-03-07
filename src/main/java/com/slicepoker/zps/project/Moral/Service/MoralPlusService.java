@@ -19,4 +19,7 @@ public interface MoralPlusService {
     Commes find();
 
     Commes findFuzzy(MoralPlus moralPlus, Pageable pageable);
+
+    Commes findByType(String moralPlusType);
+
 }

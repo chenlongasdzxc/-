@@ -16,8 +16,13 @@ public interface MoralPlusRespority extends JpaRepository<MoralPlus,Long>, JpaSp
 
     MoralPlus findByIdAndDeletedIsFalse(Long id);
 
-    @Query(value="select moralPlusName  from MoralPlus where deleted = false ")
+    @Query(value="select distinct(moralPlusType) from MoralPlus where deleted = false ")
     List findMoralPlus();
 
     List findByDeletedIsFalse();
+
+    List findByMoralPlusTypeAndDeletedIsFalse(String moralPlusType);
+
+    @Query(value="select moralPlusScore from MoralPlus where  moralPlusType =?1 and moralPlusName =?2 and deleted = false ")
+     Double find(String moralPlusType,String moralPlusName);
 }
