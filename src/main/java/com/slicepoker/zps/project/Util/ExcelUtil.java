@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.slicepoker.zps.project.Student.Service.StudentMoralService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Pojo.StudentInformation;
 import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
@@ -36,6 +37,9 @@ public class ExcelUtil {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private StudentMoralService studentMoralService;
 
     /**
      * @param response
@@ -80,11 +84,12 @@ public class ExcelUtil {
                         studentInformation.setGrade(codeToGrade.codeToGrade(studentInformation1.getStudentNumber()));
                         studentInformation.setMajor(codeToGrade.codeToClass(studentInformation1.getStudentNumber()));
                         userService.setUser(studentInformation.getStudentNumber());
+                        studentMoralService.setStudentMoral(studentInformation.getStudentNumber(),studentInformation.getStudentName());
                     } studentInfoRespority.saveAndFlush(studentInformation);
                 }
             }catch (Exception e){
                 e.printStackTrace();
-                return Commes.errorMes("","");
+                return Commes.errorMes("401","导入失败");
             }
             return Commes.successMes();
         }

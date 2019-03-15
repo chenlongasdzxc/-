@@ -10,7 +10,17 @@ import org.springframework.data.domain.Pageable;
  **/
 public interface StudentMoralPlusService {
 
-    Commes update(StudentMoralPlus studentMoralPlus);
+    Commes add(StudentMoralPlus studentMoralPlus);
 
     Commes findStudentMoralPlus(StudentMoralPlus studentMoralPlus, Pageable pageable);
+
+    Commes findFuzzy(StudentMoralPlus studentMoralPlus,Pageable pageable);
+
+    Commes setStates(StudentMoralPlus studentMoralPlus);
+
+    Commes delete(Long id);
+
+    Commes update(StudentMoralPlus studentMoralPlus);
+
+    Commes search(StudentMoralPlus studentMoralPlus,Pageable pageable);
 }

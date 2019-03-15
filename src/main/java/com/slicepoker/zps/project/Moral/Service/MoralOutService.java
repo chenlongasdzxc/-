@@ -19,4 +19,8 @@ public interface MoralOutService {
     Commes findByType(String moralOutType);
 
     Commes findFuzzy(MoralOut moralOut, Pageable pageable);
+
+    Commes findMoralOutType();
+
+    Commes findMoralOutName(String moralOutType);
 }

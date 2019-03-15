@@ -1,4 +1,4 @@
-package com.slicepoker.zps.project.Moral.Pojo;
+package com.slicepoker.zps.project.Student.Pojo;
 
 import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
@@ -35,5 +35,11 @@ public class StudentMoral extends BaseEntily {
     private double score; //绩点得分
 
     private double scoreSum; //总分
+
+    private boolean deleted=false; //删除
+
+    private String year; //学年
+
+    private String keyWord; //查询字段
 
 }

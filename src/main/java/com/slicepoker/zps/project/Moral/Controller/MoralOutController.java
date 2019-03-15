@@ -43,4 +43,14 @@ public class MoralOutController {
         return moralOutService.findFuzzy(moralOut, pageable);
     }
 
+    @GetMapping("/findMoralOutType")
+    public Commes findMoralOutType(){
+        return moralOutService.findMoralOutType();
+    }
+
+    @GetMapping("/findMoralOutName")
+    public Commes findMoralOutName(MoralOut moralOut){
+        return moralOutService.findMoralOutName(moralOut.getMoralOutType());
+    }
+
 }

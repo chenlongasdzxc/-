@@ -5,6 +5,7 @@ import com.slicepoker.zps.project.Student.Service.StudentMoralExpressionService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class StudentMoralExpressionController {
     private StudentMoralExpressionService moralExpressionService;
 
     @PostMapping("/update")
-    public Commes undate(StudentMoralExpression studentMoralExpression){
+    public Commes update(@RequestBody StudentMoralExpression studentMoralExpression){
         return moralExpressionService.update(studentMoralExpression);
     }
 }

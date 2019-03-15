@@ -134,4 +134,38 @@ public class MoralOutServiceImpl implements MoralOutService {
            return Commes.errorMes("402","查询失败");
        }
     }
+
+    /**
+     * @description 查找课外加分类型
+     * **/
+    @Override
+    public Commes findMoralOutType() {
+        try {
+            List list = moralOutRespority.findMoralOutType();
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("402","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查找失败");
+        }
+    }
+
+
+    @Override
+    public Commes findMoralOutName(String moralOutType) {
+        try {
+            List list = moralOutRespority.findMoralOutName(moralOutType);
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("402","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查找失败");
+        }
+    }
 }

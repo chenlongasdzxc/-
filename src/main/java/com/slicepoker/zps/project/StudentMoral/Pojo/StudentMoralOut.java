@@ -9,18 +9,18 @@ import java.util.Date;
 
 /**
  * @author Zps
- * @date 2019/3/6 16:15
+ * @date 2019/3/14 8:51
  **/
 @Data
 @Entity
-@Table(name="tb_studentMoralPlus")
-public class StudentMoralPlus extends BaseEntily {
+@Table(name="tb_studentMoralOut")
+public class StudentMoralOut extends BaseEntily {
 
-    private String moralPlusName;  //名称
+    private String moralOutName;  //名称
 
-    private String moralPlusType;  //类型
+    private String moralOutType;  //类型
 
-    private double moralPlusScore; //分数
+    private double moralOutScore; //分数
 
     private String year; //年度
 
