@@ -61,13 +61,15 @@ public class StudentMoralPlusServiceImpl implements StudentMoralPlusService {
             Page<StudentMoralPlus> page = studentMoralPlusRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
                 list.add(
-                        cb.equal(root.get("deleted"),false)
-                );
-                list.add(
                         cb.or(
-                                cb.equal(root.get("studentNumber"),studentMoralPlus.getStudentNumber()),
-                                cb.equal(root.get("states"),studentMoralPlus.getStates()),
-                                cb.equal(root.get("year"),studentMoralPlus.getYear())
+                                cb.and(
+                                        cb.equal(root.get("studentNumber"),studentMoralPlus.getStudentNumber()),
+                                        cb.equal(root.get("deleted"),false)
+                                ),
+                                cb.or(
+                                        cb.equal(root.get("states"),studentMoralPlus.getStates()),
+                                        cb.equal(root.get("year"),studentMoralPlus.getYear())
+                                )
                         )
                 );
                 return cb.and(list.toArray(new Predicate[list.size()]));
