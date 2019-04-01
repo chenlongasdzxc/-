@@ -107,11 +107,14 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
             Page<StudentMoralOut> page = studentMoralOutRespority.findAll(((root, query, cb) ->{
                 List<Predicate> list = new ArrayList<>();
                 list.add(
-                        cb.and(
-                                cb.equal(root.get("deleted"),false),
-                                cb.equal(root.get("studentNumber"),studentMoralOut.getStudentNumber())
-                                )
+                                cb.and(
+                                        cb.equal(root.get("deleted"),false),
+                                        cb.equal(root.get("studentNumber"),studentMoralOut.getStudentNumber())
+                                 )
                 );
+                if (studentMoralOut.getStates()!=null && !"".equals(studentMoralOut.getStates())){
+                    list.add(cb.equal(root.get("states"),studentMoralOut.getStates()));
+                }
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);
             return Commes.success(page);
@@ -147,6 +150,30 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);
             return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
+
+    /**
+     * @param studentMoralOut
+     * @description
+     * **/
+    @Override
+    public Commes update(StudentMoralOut studentMoralOut) {
+        try {
+            StudentMoralOut studentMoralOut1 = studentMoralOutRespority.findByIdAndDeletedIsFalse(studentMoralOut.getId());
+            if (studentMoralOut1!=null){
+                studentMoralOut1.setMoralOutType(studentMoralOut.getMoralOutType());
+                studentMoralOut1.setMoralOutName(studentMoralOut.getMoralOutName());
+                studentMoralOut1.setYear(studentMoralOut.getYear());
+                studentMoralOut1.setMoralOutScore(findMoralOutScore(studentMoralOut.getMoralOutName(),studentMoralOut.getMoralOutType()));
+                studentMoralOutRespority.saveAndFlush(studentMoralOut1);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("402","没有该实体");
+            }
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("401","查询失败");

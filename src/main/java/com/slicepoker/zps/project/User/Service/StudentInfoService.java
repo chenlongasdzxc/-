@@ -21,4 +21,6 @@ public interface StudentInfoService {
     Commes getStudentInfoExcel();
 
     Commes findStudentInformation(Long studentNumber);
+
+    Commes findStudentList(StudentInformation studentInformation);
 }

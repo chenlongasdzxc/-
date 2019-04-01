@@ -24,5 +24,7 @@ public interface StudentInfoRespority extends JpaRepository<StudentInformation,L
 
     List<StudentInformation> findByFileCard(Boolean fileCard);
 
+    List<StudentInformation> findByGradeAndStudentClassAndDeletedIsFalse(Long grade,String studentClass);
+
 
 }

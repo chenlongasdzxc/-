@@ -1,7 +1,6 @@
 package com.slicepoker.zps.project.Util;
 
 import lombok.Data;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
@@ -10,7 +9,6 @@ import javax.persistence.*;
  * @date 2018/12/20 10:35
  **/
 @Data
-
 @MappedSuperclass
 public class BaseEntily {
 

@@ -20,4 +20,6 @@ public interface StudentMoralOutService {
     Commes findPersonalMoralOut(StudentMoralOut studentMoralOut, Pageable pageable);
 
     Commes findFuzzy(StudentMoralOut studentMoralOut,Pageable pageable);
+
+    Commes update(StudentMoralOut studentMoralOut);
 }

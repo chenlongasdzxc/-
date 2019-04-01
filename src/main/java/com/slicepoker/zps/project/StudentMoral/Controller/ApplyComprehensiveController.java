@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.StudentMoral.Controller;
 
+import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOut;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralPlus;
 import com.slicepoker.zps.project.StudentMoral.Service.ApplyMoralPlusService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
@@ -33,5 +34,16 @@ public class ApplyComprehensiveController {
     @GetMapping("/cancelApply")
     public Commes cancelApply(Long id){
         return applyMoralPlusService.cancelApply(id);
+    }
+
+
+    @GetMapping("/updateMoralOut")
+    public Commes updateMoralOut(StudentMoralOut studentMoralOut){
+        return applyMoralPlusService.updateMoralOut(studentMoralOut);
+    }
+
+    @GetMapping("/findFuzzyMoralOut")
+    public Commes findFuzzyMoralOut(StudentMoralOut studentMoralOut,Pageable pageable){
+        return applyMoralPlusService.findFuzzyMoralOut(studentMoralOut, pageable);
     }
 }

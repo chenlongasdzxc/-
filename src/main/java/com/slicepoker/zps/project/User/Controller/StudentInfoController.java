@@ -47,4 +47,9 @@ public class StudentInfoController {
             return Commes.errorMes("401","userName为空");
         }
     }
+
+    @GetMapping("/findStudentList")
+    public Commes findStudentList(StudentInformation studentInformation){
+        return studentInfoService.findStudentList(studentInformation);
+    }
 }

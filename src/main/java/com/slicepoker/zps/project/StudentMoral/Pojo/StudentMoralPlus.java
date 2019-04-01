@@ -27,21 +27,8 @@ public class StudentMoralPlus extends ApplyEntity {
 
     private Date updateDate; //上传时间
 
-    private String states; //状态
-
     private String keyWord; //查询字段
 
     private boolean deleted=false;
 
-   /* private String value;
-
-    private Long applyPersonNumber; //审核人学号
-
-    private String applyPersonName; // 审核人姓名
-
-    private String comprehensiveQualityStates; //申请综合素质状态
-
-    private Long applyComprehensiveNumber;  //同意申请综合素质人学号
-
-    private String applyComprehensiveName;  //同意申请综合素质人姓名*/
 }

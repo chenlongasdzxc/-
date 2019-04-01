@@ -34,7 +34,6 @@ public class StudentInformation implements Serializable {
     private Long phoneNumber;  //联系电话
     @Excel(name="邮箱")
     private String email;  //邮箱
-
     private Integer sex;  //男：1  女：0
     @Excel(name="专业")
     private String major; //专业

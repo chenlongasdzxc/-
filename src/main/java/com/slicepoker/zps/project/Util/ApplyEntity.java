@@ -14,6 +14,10 @@ public class ApplyEntity extends BaseEntily{
 
     private String value;
 
+    private String applyValue;
+
+    private String states;
+
     private Long applyPersonNumber; //审核人学号
 
     private String applyPersonName; // 审核人姓名

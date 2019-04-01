@@ -42,4 +42,9 @@ public class StudentMoralOutController {
     public Commes findFuzzy(StudentMoralOut studentMoralOut,Pageable pageable){
         return studentMoralOutService.findFuzzy(studentMoralOut, pageable);
     }
+
+    @PostMapping("/update")
+    public Commes update(@RequestBody StudentMoralOut studentMoralOut){
+        return studentMoralOutService.update(studentMoralOut);
+    }
 }

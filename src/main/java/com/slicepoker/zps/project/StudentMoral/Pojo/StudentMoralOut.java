@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.StudentMoral.Pojo;
 
+import com.slicepoker.zps.project.Util.ApplyEntity;
 import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name="tb_studentMoralOut")
-public class StudentMoralOut extends BaseEntily {
+public class StudentMoralOut extends ApplyEntity {
 
     private String moralOutName;  //名称
 
@@ -26,15 +27,7 @@ public class StudentMoralOut extends BaseEntily {
 
     private Date updateDate; //上传时间
 
-    private String states; //状态
-
     private String keyWord; //查询字段
-
-    private String value;
-
-    private Long applyPersonNumber; //审核人学号
-
-    private String applyPersonName; // 审核人姓名
 
     private boolean deleted=false;
 }

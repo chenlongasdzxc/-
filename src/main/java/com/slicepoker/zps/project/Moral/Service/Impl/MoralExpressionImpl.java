@@ -76,4 +76,22 @@ public class MoralExpressionImpl implements MoralExpressionService {
             return Commes.errorMes("500","查找失败");
         }
     }
+
+    /**
+     * @description 查找德育表现项目名称
+     * **/
+    @Override
+    public Commes findMoralExpressionName() {
+        try {
+            List list = moralExpressionRespority.findMoralExpressionName();
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("402","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
 }

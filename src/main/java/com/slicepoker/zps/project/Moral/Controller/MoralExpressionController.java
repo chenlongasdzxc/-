@@ -31,4 +31,9 @@ public class MoralExpressionController {
     public Commes findAll(){
         return moralExpressionService.findAll();
     }
+
+    @GetMapping("/findMoralExpressionName")
+    public Commes findMoralExpressionName(){
+        return moralExpressionService.findMoralExpressionName();
+    }
 }

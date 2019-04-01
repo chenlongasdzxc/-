@@ -1,10 +1,12 @@
 package com.slicepoker.zps.project.User.Service.Impl;
 
 import com.slicepoker.zps.project.User.Pojo.Commes;
+import com.slicepoker.zps.project.User.Pojo.Student;
 import com.slicepoker.zps.project.User.Pojo.StudentInformation;
 import com.slicepoker.zps.project.User.Respority.StudentInfoRespority;
 import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.User.Service.StudentInfoService;
+import com.slicepoker.zps.project.Util.BaseEntily;
 import com.slicepoker.zps.project.Util.CodeToGrade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -152,5 +154,46 @@ public class StudentInfoServiceImpl implements StudentInfoService {
             e.printStackTrace();
             return Commes.errorMes("401","查找失败");
         }
+    }
+
+    /**
+     * @param studentInformation
+     * @description 查找学生list
+     * **/
+    @Override
+    public Commes findStudentList(StudentInformation studentInformation) {
+        try {
+            List<StudentInformation> list = studentInfoRespority.findByGradeAndStudentClassAndDeletedIsFalse(
+                    studentInformation.getGrade(),
+                    studentInformation.getStudentClass()
+            );
+            List list1 = setStudentData(list);
+            if (list1.size()>0){
+                return Commes.success(list1);
+            } else {
+                return Commes.errorMes("402","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
+
+
+    private List setStudentData(List<StudentInformation> list){
+        List<Student> list1= new ArrayList<>();
+        if (list.size()>0){
+            for (StudentInformation studentInformation:list) {
+                Student student = new Student();
+                student.setGrade(studentInformation.getGrade());
+                student.setMajor(studentInformation.getMajor());
+                student.setStudentClass(studentInformation.getStudentClass());
+                student.setStudentName(studentInformation.getStudentName());
+                student.setStudentClass(studentInformation.getStudentClass());
+                student.setStudentNumber(studentInformation.getStudentNumber());
+                list1.add(student);
+            }
+        }
+        return list1;
     }
 }

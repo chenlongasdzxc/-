@@ -1,7 +1,9 @@
 package com.slicepoker.zps.project.StudentMoral.Service.Impl;
 
 import com.slicepoker.zps.project.Moral.Pojo.MoralPlus;
+import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOut;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralPlus;
+import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralOutRespority;
 import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralPlusRespority;
 import com.slicepoker.zps.project.StudentMoral.Service.ApplyMoralPlusService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
@@ -24,6 +26,9 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
     @Autowired
     private StudentMoralPlusRespority studentMoralPlusRespority;
 
+    @Autowired
+    private StudentMoralOutRespority studentMoralOutRespority;
+
     @Override
     public Commes applyMoral(StudentMoralPlus studentMoralPlus) {
         try {
@@ -45,6 +50,8 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
             StudentMoralPlus studentMoralPlus1 = studentMoralPlusRespority.findByIdAndStatesAndDeletedIsFalse(studentMoralPlus.getId(),"MP002");
             if (studentMoralPlus1!=null){
                 studentMoralPlus1.setComprehensiveQualityStates(studentMoralPlus.getComprehensiveQualityStates());
+                studentMoralPlus1.setApplyComprehensiveName(studentMoralPlus.getApplyComprehensiveName());
+                studentMoralPlus1.setApplyComprehensiveNumber(studentMoralPlus.getApplyComprehensiveNumber());
                 if (moralPlusFunction(studentMoralPlus1)){
                     studentMoralPlusRespority.save(studentMoralPlus1);
                     return Commes.successMes();
@@ -128,6 +135,54 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
             }else {
                 return Commes.errorMes("402","没有该实体");
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
+
+    /**
+     * @param studentMoralOut
+     * @description 申请综合素质课外加分
+     * **/
+    @Override
+    public Commes updateMoralOut(StudentMoralOut studentMoralOut) {
+        try {
+            StudentMoralOut studentMoralOut1 = studentMoralOutRespority.findByIdAndDeletedIsFalse(studentMoralOut.getId());
+            if (studentMoralOut1!=null){
+                studentMoralOut1.setComprehensiveQualityStates(studentMoralOut.getComprehensiveQualityStates());
+                studentMoralOutRespority.saveAndFlush(studentMoralOut1);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("402","没有该实体");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
+
+
+    @Override
+    public Commes findFuzzyMoralOut(StudentMoralOut studentMoralOut, Pageable pageable) {
+        try {
+            Page<StudentMoralOut> page = studentMoralOutRespority.findAll(((root, query, cb) ->{
+                List<Predicate> list = new ArrayList<>();
+                list.add(
+                        cb.or(
+                                cb.and(
+                                        cb.equal(root.get("deleted"),false),
+                                        cb.equal(root.get("states"),"MO002"),
+                                        cb.equal(root.get("comprehensiveQualityStates"),studentMoralOut.getComprehensiveQualityStates())
+                                ),
+                                cb.or(
+                                  cb.equal(root.get("studentClass"),studentMoralOut.getStudentClass())
+                                )
+                        )
+                );
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+            return Commes.success(page);
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("401","查询失败");
