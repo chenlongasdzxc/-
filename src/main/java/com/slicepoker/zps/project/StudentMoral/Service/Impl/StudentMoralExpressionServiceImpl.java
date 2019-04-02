@@ -113,11 +113,19 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
                                 ),
                                 cb.or(
                                         cb.equal(root.get("studentClass"),studentMoralExpression.getStudentClass()),
-                                        cb.equal(root.get("studentName"),studentMoralExpression.getStudentName()),
-                                        cb.equal(root.get("moralExpressionYear"),studentMoralExpression.getMoralExpressionYear())
+                                        cb.equal(root.get("studentName"),studentMoralExpression.getStudentName())
                                 )
                         )
                 );
+                if (studentMoralExpression.getMoralExpressionName()!=null && !"".equals(studentMoralExpression.getMoralExpressionName())){
+                    list.add(cb.equal(root.get("moralExpressionName"),studentMoralExpression.getMoralExpressionName()));
+                }
+                if (studentMoralExpression.getMoralExpressionYear()!=null && !"".equals(studentMoralExpression.getMoralExpressionYear())){
+                    list.add(cb.equal(root.get("moralExpressionYear"),studentMoralExpression.getMoralExpressionYear()));
+                }
+                if (studentMoralExpression.getStates()!=null && !"".equals(studentMoralExpression.getStates())){
+                    list.add(cb.equal(root.get("states"),studentMoralExpression.getStates()));
+                }
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);
             return Commes.success(page);
@@ -136,6 +144,7 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
         try {
             StudentMoralExpression studentMoralExpression1 = studentMoralExpressionRespority.findByIdAndDeletedIsFalse(studentMoralExpression.getId());
             if (studentMoralExpression1!=null){
+                studentMoralExpression1.setValue(studentMoralExpression.getValue());
                 studentMoralExpression1.setStates(studentMoralExpression.getStates());
                 studentMoralExpressionRespority.saveAndFlush(studentMoralExpression1);
                 if (Objects.equals(studentMoralExpression.getStates(),"ME002")){
@@ -178,6 +187,11 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
         }
     }
 
+    /**
+     * @param studentMoralExpressionTotal
+     * @param pageable
+     * @description 查找德育表现总分
+     * **/
     @Override
     public Commes findMoralExpressionTotal(StudentMoralExpressionTotal studentMoralExpressionTotal,Pageable pageable) {
         try {
@@ -203,4 +217,28 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
             return Commes.errorMes("401","查询失败");
         }
     }
+
+
+    /**
+     * @param id
+     * @description 删除德育表现
+     * **/
+    @Override
+    public Commes deleteMoralExpression(Long id) {
+        try {
+            StudentMoralExpression studentMoralExpression = studentMoralExpressionRespority.findByIdAndDeletedIsFalse(id);
+            if (studentMoralExpression!=null){
+                studentMoralExpression.setDeleted(true);
+                studentMoralExpressionRespority.saveAndFlush(studentMoralExpression);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("402","没有该实体");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
+
+
 }

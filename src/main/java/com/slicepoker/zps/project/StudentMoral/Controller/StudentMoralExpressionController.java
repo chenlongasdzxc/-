@@ -56,7 +56,14 @@ public class StudentMoralExpressionController {
     }
 
     @GetMapping("/findMoralExpressionTotal")
-    public Commes findMoralExpressioTotal(StudentMoralExpressionTotal studentMoralExpressionTotal,Pageable pageable){
+    public Commes findMoralExpressionTotal(StudentMoralExpressionTotal studentMoralExpressionTotal,Pageable pageable){
         return studentMoralExpressionService.findMoralExpressionTotal(studentMoralExpressionTotal,pageable);
     }
+
+    @GetMapping("/deleteMoralExpression")
+    public Commes deleteMoralExpression(StudentMoralExpression studentMoralExpression){
+        return studentMoralExpressionService.deleteMoralExpression(studentMoralExpression.getId());
+    }
+
+
 }

@@ -20,4 +20,8 @@ public interface StudentMoralExpressionService {
     Commes checkMoralExpression(StudentMoralExpression studentMoralExpression);
 
     Commes findMoralExpressionTotal(StudentMoralExpressionTotal studentMoralExpressionTotal,Pageable pageable);
+
+    Commes deleteMoralExpression(Long id);
+
+
 }
