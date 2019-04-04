@@ -23,5 +23,5 @@ public interface StudentMoralExpressionService {
 
     Commes deleteMoralExpression(Long id);
 
-
+    Commes editMoralExpression(StudentMoralExpression studentMoralExpression);
 }

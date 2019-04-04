@@ -16,10 +16,6 @@ public interface UserRespority extends JpaRepository<User,Long>, JpaSpecificatio
 
     User findByUserNameAndDeletedIsFalse(String userName);
 
-    User findByGradeLeaveAndAndDeletedIsFalse(Long gradeLeave);
-
-    User findByUserNameAndDeletedIsFalse(Long userName);
-
     User findByIdAndDeletedIsFalse(Long id);
 
     @Query("select studentNumber from User where userName =?1 and deleted =?2")

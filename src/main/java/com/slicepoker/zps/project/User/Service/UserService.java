@@ -12,9 +12,7 @@ public interface UserService {
 
     Commes changePassword(Long id,String userPassword);
 
-    Commes setGradeLevels(Long gradeLevels,Long studentNumber);
-
-    Commes undateUser(User user);
+    Commes updateUser(User user);
 
     Commes findId(String userName);
 

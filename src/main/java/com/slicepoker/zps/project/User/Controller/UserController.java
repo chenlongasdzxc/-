@@ -24,12 +24,6 @@ public class UserController {
         return userService.changePassword(user.getId(), user.getUserPassword());
     }
 
-    //权限人员设置用户权限
-    @PostMapping("/setLevels")
-    public Commes setLevels(Long studentNumber,Long gradeLevels){
-        return userService.setGradeLevels(studentNumber, gradeLevels);
-    }
-
     @GetMapping("/find")
     public Commes findId(String userName){
         return userService.findId(userName);

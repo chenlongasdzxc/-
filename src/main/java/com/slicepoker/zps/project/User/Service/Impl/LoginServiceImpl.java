@@ -1,8 +1,10 @@
 package com.slicepoker.zps.project.User.Service.Impl;
 
+import com.slicepoker.zps.project.Permission.Pojo.UserRoleContact;
+import com.slicepoker.zps.project.Permission.Respority.RoleRespority;
+import com.slicepoker.zps.project.Permission.Respority.UserRoleContactRespority;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Pojo.User;
-import com.slicepoker.zps.project.User.Respority.RoleRespority;
 import com.slicepoker.zps.project.User.Respority.UserRespority;
 import com.slicepoker.zps.project.User.Service.LoginService;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +28,7 @@ public class LoginServiceImpl implements LoginService {
     private UserRespority userRespority;
 
     @Autowired
-    private RoleRespority roleRespority;
+    private UserRoleContactRespority userRoleContactRespority;
 
     @Override
     public Commes Login(String userName, String userPassword, HttpServletRequest request) {
@@ -53,7 +55,8 @@ public class LoginServiceImpl implements LoginService {
 
 
     public Commes setToken(User user){
-        String role = roleRespority.findRoleName(user.getId());
+        UserRoleContact userRoleContact = userRoleContactRespority.findByStudentNumberAndDeletedIsFalse(user.getId());
+        String role = userRoleContact.getRoleName();
         String token = Jwts.builder().setSubject(user.getUserName()).claim("roles",role).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256,"secretkey").compact();
         return Commes.success(token);

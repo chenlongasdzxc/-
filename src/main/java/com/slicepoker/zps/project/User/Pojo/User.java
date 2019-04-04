@@ -23,7 +23,5 @@ public class User {
 
     private Long studentNumber;  //学号
 
-    private Long gradeLeave;   //等级
-
     boolean deleted = false;  //删除
 }

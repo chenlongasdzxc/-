@@ -1,4 +1,4 @@
-package com.slicepoker.zps.project.User.Pojo;
+package com.slicepoker.zps.project.Permission.Pojo;
 
 import lombok.Data;
 
@@ -17,7 +17,9 @@ public class Role {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId; //用户ID
-
     private String roleName; //角色名称
+
+    private Long roleCode; //角色代码
+
+    private boolean deleted = false; //删除
 }

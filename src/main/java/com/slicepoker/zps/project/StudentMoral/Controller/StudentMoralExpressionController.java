@@ -65,5 +65,22 @@ public class StudentMoralExpressionController {
         return studentMoralExpressionService.deleteMoralExpression(studentMoralExpression.getId());
     }
 
+    @PostMapping("/saveMoralExpressionEdit")
+    @Transactional(rollbackOn = Exception.class)
+    public Commes editMoralExpression(@RequestBody List<StudentMoralExpression> editList){
+        Boolean success = true;
+        Commes commes;
+        for (StudentMoralExpression studentMoralExpression:editList){
+            if (success){
+                commes = studentMoralExpressionService.editMoralExpression(studentMoralExpression);
+                if (!Objects.equals(commes.getCode(),"200"))
+                    success = false;
+            }else {
+                break;
+            }
+        }
+        return success ? Commes.successMes() : Commes.errorMes("401","保存失败");
+    }
+
 
 }

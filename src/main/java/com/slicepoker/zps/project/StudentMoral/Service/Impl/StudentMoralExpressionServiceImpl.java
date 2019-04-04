@@ -112,11 +112,14 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
                                         cb.equal(root.get("grade"),studentMoralExpression.getGrade())
                                 ),
                                 cb.or(
-                                        cb.equal(root.get("studentClass"),studentMoralExpression.getStudentClass()),
-                                        cb.equal(root.get("studentName"),studentMoralExpression.getStudentName())
+                                        cb.equal(root.get("major"),studentMoralExpression.getMajor()),
+                                        cb.equal(root.get("studentClass"),studentMoralExpression.getStudentClass())
                                 )
                         )
                 );
+                if (studentMoralExpression.getStudentName()!=null && !"".equals(studentMoralExpression.getStudentName())){
+                    list.add(cb.equal(root.get("studentName"),studentMoralExpression.getStudentName()));
+                }
                 if (studentMoralExpression.getMoralExpressionName()!=null && !"".equals(studentMoralExpression.getMoralExpressionName())){
                     list.add(cb.equal(root.get("moralExpressionName"),studentMoralExpression.getMoralExpressionName()));
                 }
@@ -240,5 +243,25 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
         }
     }
 
-
+    /**
+     * @param studentMoralExpression
+     * @description 编辑
+     * **/
+    @Override
+    public Commes editMoralExpression(StudentMoralExpression studentMoralExpression) {
+        try {
+            StudentMoralExpression studentMoralExpression1 = studentMoralExpressionRespority.findByIdAndDeletedIsFalse(studentMoralExpression.getId());
+            if (studentMoralExpression1!=null){
+                studentMoralExpression1.setStates("ME001");
+                studentMoralExpression1.setMoralExpressionScore(studentMoralExpression.getMoralExpressionScore());
+                studentMoralExpressionRespority.saveAndFlush(studentMoralExpression1);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("402","没有该实体");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.errorMes("401","查询失败");
+        }
+    }
 }
