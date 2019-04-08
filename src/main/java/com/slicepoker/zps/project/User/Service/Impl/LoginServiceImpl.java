@@ -56,7 +56,12 @@ public class LoginServiceImpl implements LoginService {
 
     public Commes setToken(User user){
         UserRoleContact userRoleContact = userRoleContactRespority.findByStudentNumberAndDeletedIsFalse(user.getId());
-        String role = userRoleContact.getRoleName();
+        String role;
+        if(userRoleContact!=null){
+            role = userRoleContact.getRoleName();
+        }else {
+            role = null;
+        }
         String token = Jwts.builder().setSubject(user.getUserName()).claim("roles",role).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256,"secretkey").compact();
         return Commes.success(token);

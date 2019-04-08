@@ -34,7 +34,7 @@ public class PermissionServiceImpl implements PermissionService {
             Permission permission = permissionRespority.findByIdAndDeletedIsFalse(id);
             if (permission!=null){
                 permission.setDeleted(true);
-                permissionRespority.saveAndFlush(permission);
+                permissionRespority.save(permission);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("","");
@@ -54,7 +54,7 @@ public class PermissionServiceImpl implements PermissionService {
         try {
             Permission permission1 = permissionRespority.findByPermissionNameAndDeletedIsFalse(permission.getPermissionName());
             if (permission1==null){
-                permissionRespority.saveAndFlush(permission);
+                permissionRespority.save(permission);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("401","已存在该条数据");
@@ -102,7 +102,7 @@ public class PermissionServiceImpl implements PermissionService {
             if (permission1!=null){
                 permission1.setPermissionCode(permission.getPermissionCode());
                 permission1.setPermissionName(permission.getPermissionName());
-                permissionRespority.saveAndFlush(permission1);
+                permissionRespority.save(permission1);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("401","查询失败");

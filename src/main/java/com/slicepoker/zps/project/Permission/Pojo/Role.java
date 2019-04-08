@@ -19,7 +19,7 @@ public class Role {
 
     private String roleName; //角色名称
 
-    private Long roleCode; //角色代码
+    private String roleCode; //角色代码
 
     private boolean deleted = false; //删除
 }

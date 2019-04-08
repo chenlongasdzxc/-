@@ -19,11 +19,11 @@ public class RolePermissionContact {
 
     private String roleName; //角色名称
 
-    private Long roleCode; //角色代码
+    private String roleCode; //角色代码
 
     private String permissionName; //权限名称
 
-    private Long permissionCode; //权限代码
+    private String permissionCode; //权限代码
 
     private boolean deleted = false; //删除
 }

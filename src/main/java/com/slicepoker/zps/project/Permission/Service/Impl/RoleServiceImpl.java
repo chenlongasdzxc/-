@@ -54,7 +54,8 @@ public class RoleServiceImpl implements RoleService {
        try {
            Role role1 = roleRespority.findByRoleNameAndDeletedIsFalse(role.getRoleName());
            if (role1==null){
-               return Commes.success(roleRespority.save(role));
+               roleRespority.save(role);
+                return Commes.successMes();
            }else {
                return Commes.errorMes("401","该实体已存在");
            }
