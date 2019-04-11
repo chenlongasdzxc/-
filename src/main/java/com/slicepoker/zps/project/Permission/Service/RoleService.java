@@ -17,4 +17,6 @@ public interface RoleService {
     Commes findFuzzy(Role role, Pageable pageable);
 
     Commes update(Role role);
+
+    Commes findAll();
 }

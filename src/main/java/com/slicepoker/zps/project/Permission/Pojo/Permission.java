@@ -21,5 +21,7 @@ public class Permission {
 
     private String permissionCode; //权限代码
 
+    private String value; //描述
+
     private boolean deleted = false; //删除
 }

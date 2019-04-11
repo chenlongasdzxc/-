@@ -18,7 +18,7 @@ public class UserRoleContact {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private String userName; //姓名
+    private String userName; //用户名
 
     private Long studentNumber; //学号
 

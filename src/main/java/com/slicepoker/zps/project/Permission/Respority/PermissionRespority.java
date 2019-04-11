@@ -4,6 +4,8 @@ import com.slicepoker.zps.project.Permission.Pojo.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 /**
  * @author Zps
  * @date 2019/4/4 15:05
@@ -13,4 +15,8 @@ public interface PermissionRespority extends JpaRepository<Permission,Long>, Jpa
     Permission findByIdAndDeletedIsFalse(Long id);
 
     Permission findByPermissionNameAndDeletedIsFalse(String permissionName);
+
+    List findAllByDeletedIsFalse();
+
+    Permission findByPermissionCodeAndDeletedIsFalse(String permissionCode);
 }

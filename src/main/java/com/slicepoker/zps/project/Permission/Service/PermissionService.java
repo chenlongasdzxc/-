@@ -17,4 +17,6 @@ public interface PermissionService {
     Commes update(Permission permission);
 
     Commes findFuzzy(Permission permission, Pageable pageable);
+
+    Commes findAll();
 }

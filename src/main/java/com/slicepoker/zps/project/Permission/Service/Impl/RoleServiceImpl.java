@@ -113,4 +113,22 @@ public class RoleServiceImpl implements RoleService {
             return Commes.badRequestError();
         }
     }
+
+    /**
+     * @description查找全部
+     * **/
+    @Override
+    public Commes findAll() {
+        try {
+            List<Role> list = roleRespority.findAllByDeletedIsFalse();
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
 }

@@ -37,4 +37,9 @@ public class RoleController {
     public Commes findFuzzy(Role role, Pageable pageable){
         return roleService.findFuzzy(role, pageable);
     }
+
+    @GetMapping("/findAll")
+    public Commes findAll(){
+        return roleService.findAll();
+    }
 }

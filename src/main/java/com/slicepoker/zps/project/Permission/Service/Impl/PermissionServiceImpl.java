@@ -112,4 +112,22 @@ public class PermissionServiceImpl implements PermissionService {
             return Commes.badRequestError();
         }
     }
+
+    /**
+     * @description 查询所有未删除数据
+     * **/
+    @Override
+    public Commes findAll() {
+        try {
+            List<Permission> list = permissionRespority.findAllByDeletedIsFalse();
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","查询失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
 }

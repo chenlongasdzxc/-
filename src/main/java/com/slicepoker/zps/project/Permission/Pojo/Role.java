@@ -21,5 +21,7 @@ public class Role {
 
     private String roleCode; //角色代码
 
+    private String value; //描述
+
     private boolean deleted = false; //删除
 }

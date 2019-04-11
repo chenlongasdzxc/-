@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * @author Zps
  * @date 2019/4/4 15:13
@@ -13,4 +15,13 @@ public interface UserRoleContactRespority extends JpaRepository<UserRoleContact,
 
 
     UserRoleContact findByStudentNumberAndDeletedIsFalse(Long studentNumber);
+
+    List findByStudentNumberAndUserNameAndDeletedIsFalse(Long studentNumber,String userName);
+
+    UserRoleContact findByIdAndDeletedIsFalse(Long id);
+
+    UserRoleContact findByRoleNameAndStudentNumberAndDeletedIsFalse(String roleName,Long studentNumber);
+
+    UserRoleContact findByRoleCodeAndStudentNumberAndDeletedIsFalse(String roleCode,Long studentNumber);
+
 }

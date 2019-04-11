@@ -38,4 +38,9 @@ public class PermissionController {
         return permissionService.findFuzzy(permission, pageable);
     }
 
+    @GetMapping("/findAll")
+    public Commes findAll(){
+        return permissionService.findAll();
+    }
+
 }
