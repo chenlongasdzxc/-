@@ -18,9 +18,13 @@ public interface MoralDeductionService {
 
     Commes findByType(String moralDeductionType);
 
-    Commes findmoralDeduction();
+    Commes findMoralDeduction();
 
     Commes findMoralDeductionType();
 
     Commes findFuzzy(MoralDeduction moralDeduction, Pageable pageable);
+
+    MoralDeduction findByMoralDeductionType(String moralDeductionType);
+
+
 }

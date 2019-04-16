@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  **/
 public interface StudentMoralExpressionTotalRespority extends JpaRepository<StudentMoralExpressionTotal,Long>, JpaSpecificationExecutor<StudentMoralExpressionTotal> {
 
-    StudentMoralExpressionTotal findByStudentNumberAndDeletedIsFalse(Long studentNumber);
+    StudentMoralExpressionTotal findByStudentNumberAndMoralExpressionYearAndDeletedIsFalse(Long studentNumber,String moralExpressionYear);
 }

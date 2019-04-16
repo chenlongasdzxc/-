@@ -55,5 +55,11 @@ public class RolePermissionContactController {
     }
 
 
+    @GetMapping("/findPermissionCode/{studentNumber}")
+    public Commes findPermissionCode(@PathVariable(name="studentNumber") Long studentNumber){
+        return rolePressionContactService.findPermissionCode(studentNumber);
+    }
+
+
 
 }

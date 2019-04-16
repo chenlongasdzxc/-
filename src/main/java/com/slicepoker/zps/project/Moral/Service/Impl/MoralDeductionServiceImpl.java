@@ -105,7 +105,7 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
      * 查找全部未删除的德育减分项目名称
      * **/
     @Override
-    public Commes findmoralDeduction() {
+    public Commes findMoralDeduction() {
         try {
             List<MoralDeduction> list = moralDeductionRespority.findMoralDeduction();
             if (!list.isEmpty()){
@@ -163,6 +163,22 @@ public class MoralDeductionServiceImpl implements MoralDeductionService {
         }catch (Exception e){
             e.printStackTrace();
             return Commes.errorMes("401","查询失败");
+        }
+    }
+
+
+    @Override
+    public MoralDeduction findByMoralDeductionType(String moralDeductionType) {
+        try {
+            MoralDeduction moralDeduction = moralDeductionRespority.findByMoralDeductionTypeAndDeletedIsFalse(moralDeductionType);
+            if (moralDeduction!=null){
+                return moralDeduction;
+            }else {
+                return null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

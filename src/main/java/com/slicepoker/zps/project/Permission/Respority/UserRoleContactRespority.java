@@ -24,4 +24,7 @@ public interface UserRoleContactRespority extends JpaRepository<UserRoleContact,
 
     UserRoleContact findByRoleCodeAndStudentNumberAndDeletedIsFalse(String roleCode,Long studentNumber);
 
+    @Query(value="select roleCode from UserRoleContact where studentNumber =?1 and deleted = false")
+    List<String> findRoleCode(Long StudentNumber);
+
 }

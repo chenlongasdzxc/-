@@ -79,7 +79,6 @@ public class UserRoleContactServiceImpl implements UserRoleContactService {
     @Override
     public Commes add(Long studentNumber,String userName,String roleCode) {
         try {
-                deleteUserRoleContact(studentNumber, userName);
                 UserRoleContact userRoleContact = new UserRoleContact();
                         userRoleContact.setRoleName(findRoleName(roleCode));
                         userRoleContact.setRoleCode(roleCode);
@@ -105,7 +104,7 @@ public class UserRoleContactServiceImpl implements UserRoleContactService {
     }
 
 
-    private void deleteUserRoleContact(Long studentNumber,String userName){
+    public void deleteUserRoleContact(Long studentNumber,String userName){
         List<UserRoleContact> list = userRoleContactRespority.findByStudentNumberAndUserNameAndDeletedIsFalse(studentNumber, userName);
         if (list.size()>0){
             for (UserRoleContact userRoleContact:list) {
@@ -114,6 +113,9 @@ public class UserRoleContactServiceImpl implements UserRoleContactService {
             }
         }
     }
+
+
+
 
 
 

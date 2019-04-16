@@ -14,4 +14,6 @@ public interface UserRoleContactService {
     Commes delete(Long id);
 
     Commes findByStudentNumber(Long studentNumber,String userName);
+
+    void deleteUserRoleContact(Long studentNumber,String userName);
 }

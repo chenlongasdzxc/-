@@ -23,4 +23,9 @@ public interface MoralDeductionRespority extends JpaRepository<MoralDeduction,Lo
 
     @Query(value="select moralDeductionType from MoralDeduction where deleted = false ")
     List findMoralDeductionType();
+
+    @Query(value="select moralDeductionName from MoralDeduction where deleted = false ")
+    List findMoralDeductionName();
+
+    MoralDeduction findByMoralDeductionTypeAndDeletedIsFalse(String moralDeduction);
 }

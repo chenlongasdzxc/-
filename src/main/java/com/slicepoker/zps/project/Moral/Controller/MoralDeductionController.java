@@ -30,7 +30,7 @@ public class MoralDeductionController {
 
     @GetMapping("/find")
     public Commes find(){
-        return moralDeductionService.findmoralDeduction();
+        return moralDeductionService.findMoralDeduction();
     }
 
     @GetMapping("/findAll")

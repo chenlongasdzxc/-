@@ -51,7 +51,6 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
                                 ),
                                 cb.or(
                                         cb.equal(root.get("studentNumber"),studentMoralExpression.getStudentNumber()),
-                                        cb.equal(root.get("moralExpressionYear"),studentMoralExpression.getMoralExpressionYear()),
                                         cb.equal(root.get("moralExpressionName"),studentMoralExpression.getMoralExpressionName())
                                 )
                         )
@@ -59,6 +58,11 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
                 if (studentMoralExpression.getStates()!=null && !"".equals(studentMoralExpression.getStates())){
                     list1.add(
                         cb.equal(root.get("states"),studentMoralExpression.getStates())
+                    );
+                }
+                if (studentMoralExpression.getMoralExpressionYear()!=null && !"".equals(studentMoralExpression.getMoralExpressionYear())){
+                    list1.add(
+                            cb.equal(root.get("moralExpressionYear"),studentMoralExpression.getMoralExpressionYear())
                     );
                 }
                 return cb.and(list1.toArray(new Predicate[list1.size()]));
@@ -173,7 +177,7 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
 
 
     private void setStudentMoralExpressionTotal(StudentMoralExpression studentMoralExpression,double score){
-        StudentMoralExpressionTotal studentMoralExpressionTotal = studentMoralExpressionTotalRespority.findByStudentNumberAndDeletedIsFalse(studentMoralExpression.getStudentNumber());
+        StudentMoralExpressionTotal studentMoralExpressionTotal = studentMoralExpressionTotalRespority.findByStudentNumberAndMoralExpressionYearAndDeletedIsFalse(studentMoralExpression.getStudentNumber(),studentMoralExpression.getMoralExpressionYear());
         if (studentMoralExpressionTotal!=null){
             studentMoralExpressionTotal.setMoralExpressionTotalScore(score);
             studentMoralExpressionTotalRespority.save(studentMoralExpressionTotal);

@@ -43,7 +43,7 @@ public class UserRoleContactController {
                       @RequestBody List<UserRoleContact> params){
         Boolean success = true;
         Commes commes;
-        deleteUserRoleContact(studentNumber, userName);
+        userRoleContactService.deleteUserRoleContact(studentNumber, userName);
         if (params.size()>0){
             for (UserRoleContact userRoleContact:params){
                 if (success){
@@ -60,14 +60,4 @@ public class UserRoleContactController {
         return success ? Commes.successMes() : Commes.errorMes("401","保存失败");
     }
 
-
-    private void deleteUserRoleContact(Long studentNumber,String userName){
-        List<UserRoleContact> list = userRoleContactRespority.findByStudentNumberAndUserNameAndDeletedIsFalse(studentNumber,userName);
-        if (list.size()>0){
-            for (UserRoleContact userRoleContact:list) {
-                userRoleContact.setDeleted(true);
-                userRoleContactRespority.save(userRoleContact);
-            }
-        }
-    }
 }
