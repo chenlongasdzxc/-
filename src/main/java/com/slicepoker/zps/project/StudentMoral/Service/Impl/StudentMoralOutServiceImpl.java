@@ -4,7 +4,9 @@ import com.slicepoker.zps.project.Moral.Pojo.MoralOut;
 import com.slicepoker.zps.project.Moral.Respority.MoralOutRespority;
 import com.slicepoker.zps.project.Student.Pojo.StudentMoral;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOut;
+import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOutTotal;
 import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralOutRespority;
+import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralOutTotalRespority;
 import com.slicepoker.zps.project.StudentMoral.Service.StudentMoralOutService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Zps
@@ -29,6 +32,9 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
 
     @Autowired
     private MoralOutRespority moralOutRespority;
+
+    @Autowired
+    private StudentMoralOutTotalRespority studentMoralOutTotalRespority;
 
     /**
      * @param studentMoralOut
@@ -158,7 +164,7 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
 
     /**
      * @param studentMoralOut
-     * @description
+     * @description  更新
      * **/
     @Override
     public Commes update(StudentMoralOut studentMoralOut) {
@@ -170,6 +176,9 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
                 studentMoralOut1.setYear(studentMoralOut.getYear());
                 studentMoralOut1.setMoralOutScore(findMoralOutScore(studentMoralOut.getMoralOutName(),studentMoralOut.getMoralOutType()));
                 studentMoralOutRespority.saveAndFlush(studentMoralOut1);
+                if (Objects.equals(studentMoralOut1.getComprehensiveQualityStates(),"MPCQS001")){
+                    setMoralOutTotalFirst(studentMoralOut1);
+                }
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("402","没有该实体");
@@ -179,4 +188,20 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
             return Commes.errorMes("401","查询失败");
         }
     }
+
+    private void setMoralOutTotalFirst(StudentMoralOut studentMoralOut){
+        StudentMoralOutTotal studentMoralOutTotal = studentMoralOutTotalRespority.findByStudentNumberAndMoralOutYearAndDeletedIsFalse(studentMoralOut.getStudentNumber(),studentMoralOut.getYear());
+        if (studentMoralOutTotal==null){
+            StudentMoralOutTotal studentMoralOutTotal1 = new StudentMoralOutTotal();
+            studentMoralOutTotal1.setStudentNumber(studentMoralOut.getStudentNumber());
+            studentMoralOutTotal1.setStudentName(studentMoralOut.getStudentName());
+            studentMoralOutTotal1.setStudentClass(studentMoralOut.getStudentClass());
+            studentMoralOutTotal1.setMajor(studentMoralOut.getMajor());
+            studentMoralOutTotal1.setGrade(studentMoralOut.getGrade());
+            studentMoralOutTotal1.setMoralOutYear(studentMoralOut.getYear());
+            studentMoralOutTotal1.setMoralOutTotal(0);
+            studentMoralOutTotalRespority.save(studentMoralOutTotal1);
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.slicepoker.zps.project.StudentMoral.Service;
 
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralDeduction;
+import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralDeductionTotal;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,8 @@ public interface StudentMoralDeductionService {
     Commes findFuzzy(StudentMoralDeduction studentMoralDeduction, Pageable pageable);
 
     Commes findPersonalData(StudentMoralDeduction studentMoralDeduction,Pageable pageable);
+
+    Commes update(Long id,String states);
+
+    Commes findFuzzyTotal(StudentMoralDeductionTotal studentMoralDeductionTotal,Pageable pageable);
 }

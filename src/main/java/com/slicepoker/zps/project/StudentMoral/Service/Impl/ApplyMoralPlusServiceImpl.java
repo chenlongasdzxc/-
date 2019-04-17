@@ -2,8 +2,10 @@ package com.slicepoker.zps.project.StudentMoral.Service.Impl;
 
 import com.slicepoker.zps.project.Moral.Pojo.MoralPlus;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOut;
+import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOutTotal;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralPlus;
 import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralOutRespority;
+import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralOutTotalRespority;
 import com.slicepoker.zps.project.StudentMoral.Respority.StudentMoralPlusRespority;
 import com.slicepoker.zps.project.StudentMoral.Service.ApplyMoralPlusService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
@@ -28,6 +30,10 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
 
     @Autowired
     private StudentMoralOutRespority studentMoralOutRespority;
+
+
+    @Autowired
+    private StudentMoralOutTotalRespority studentMoralOutTotalRespority;
 
     @Override
     public Commes applyMoral(StudentMoralPlus studentMoralPlus) {
@@ -143,7 +149,7 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
 
     /**
      * @param studentMoralOut
-     * @description 申请综合素质课外加分
+     * @description 更新申请综合素质课外加分
      * **/
     @Override
     public Commes updateMoralOut(StudentMoralOut studentMoralOut) {
@@ -152,6 +158,8 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
             if (studentMoralOut1!=null){
                 studentMoralOut1.setComprehensiveQualityStates(studentMoralOut.getComprehensiveQualityStates());
                 studentMoralOutRespority.saveAndFlush(studentMoralOut1);
+                double score = sumMoralOutTotal(studentMoralOut1);
+                setMoralOutTotal(studentMoralOut1,score);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("402","没有该实体");
@@ -162,7 +170,11 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
         }
     }
 
-
+    /**
+     * @param pageable
+     * @param studentMoralOut
+     * @description 模糊查询申请综合素质课外加分
+     * **/
     @Override
     public Commes findFuzzyMoralOut(StudentMoralOut studentMoralOut, Pageable pageable) {
         try {
@@ -188,4 +200,30 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
             return Commes.errorMes("401","查询失败");
         }
     }
+
+
+
+    private double sumMoralOutTotal(StudentMoralOut studentMoralOut){
+        double score = studentMoralOutRespority.sunMoralOutScore(studentMoralOut.getStudentNumber(),studentMoralOut.getYear());
+        return score;
+    }
+
+    private void setMoralOutTotal(StudentMoralOut studentMoralOut,double score){
+        StudentMoralOutTotal studentMoralOutTotal = studentMoralOutTotalRespority.findByStudentNumberAndMoralOutYearAndDeletedIsFalse(studentMoralOut.getStudentNumber(),studentMoralOut.getYear());
+        if (studentMoralOutTotal==null){
+            StudentMoralOutTotal studentMoralOutTotal1 = new StudentMoralOutTotal();
+            studentMoralOutTotal1.setStudentNumber(studentMoralOut.getStudentNumber());
+            studentMoralOutTotal1.setStudentName(studentMoralOut.getStudentName());
+            studentMoralOutTotal1.setStudentClass(studentMoralOut.getStudentClass());
+            studentMoralOutTotal1.setMajor(studentMoralOut.getMajor());
+            studentMoralOutTotal1.setGrade(studentMoralOut.getGrade());
+            studentMoralOutTotal1.setMoralOutYear(studentMoralOut.getYear());
+            studentMoralOutTotal1.setMoralOutTotal(score);
+            studentMoralOutTotalRespority.save(studentMoralOutTotal1);
+        }else {
+            studentMoralOutTotal.setMoralOutTotal(score);
+            studentMoralOutTotalRespority.save(studentMoralOutTotal);
+        }
+    }
+
 }

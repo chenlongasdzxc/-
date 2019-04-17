@@ -1,5 +1,6 @@
 package com.slicepoker.zps.project.Comprehensive.Pojo;
 
+import com.slicepoker.zps.project.Util.ApplyEntity;
 import com.slicepoker.zps.project.Util.BaseEntily;
 import lombok.Data;
 
@@ -12,24 +13,24 @@ import javax.persistence.*;
 @Entity
 @Data
 @Table(name="tb_comprehensiveQuality")
-public class ComprehensiveQuality extends BaseEntily {
+public class ComprehensiveQuality extends ApplyEntity {
 
 
-    private double moralEScore; //德育表现分
+    private double moralExpressionScore = 0; //德育表现分
 
-    private String moralJName; //加分项目名称
+    private String moralOutNameList;  //课外加分名称list
 
-    private double moralJScore; //加分分值
+    private double moralOutScore = 0;  //课外加分
 
-    private String moralSName; //减分项目名称
+    private String moralPlusNameList; //德育加分名称list
 
-    private double moralSScore; //减分分值
+    private double moralPlusScore = 0; //德育加分
 
-    private String outSchoolName; //F课外项目名称
+    private String moralDeductionNameList; //德育减分名称list
 
-    private double outSchoolScore; //F课外分值
+    private double moralDeductionScore = 0; //德育减分
 
-    private double gpa;  //绩点
+    private String comprehensiveQualityYear; //综合素质年度
 
-    private double gpaScore; //绩点得分  35+7gpa
+    private boolean deleted = false;
 }
