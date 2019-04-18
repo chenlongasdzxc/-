@@ -118,6 +118,12 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
                                         cb.equal(root.get("studentNumber"),studentMoralOut.getStudentNumber())
                                  )
                 );
+                if(studentMoralOut.getMoralOutType()!=null && !"".equals(studentMoralOut.getMoralOutType())){
+                    list.add(cb.equal(root.get("moralOutType"),studentMoralOut.getMoralOutType()));
+                }
+                if (studentMoralOut.getYear()!=null && !"".equals(studentMoralOut.getYear())){
+                    list.add(cb.equal(root.get("year"),studentMoralOut.getYear()));
+                }
                 if (studentMoralOut.getStates()!=null && !"".equals(studentMoralOut.getStates())){
                     list.add(cb.equal(root.get("states"),studentMoralOut.getStates()));
                 }
@@ -175,10 +181,7 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
                 studentMoralOut1.setMoralOutName(studentMoralOut.getMoralOutName());
                 studentMoralOut1.setYear(studentMoralOut.getYear());
                 studentMoralOut1.setMoralOutScore(findMoralOutScore(studentMoralOut.getMoralOutName(),studentMoralOut.getMoralOutType()));
-                studentMoralOutRespority.saveAndFlush(studentMoralOut1);
-                if (Objects.equals(studentMoralOut1.getComprehensiveQualityStates(),"MPCQS001")){
-                    setMoralOutTotalFirst(studentMoralOut1);
-                }
+                studentMoralOutRespority.save(studentMoralOut1);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("402","没有该实体");
@@ -189,19 +192,5 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
         }
     }
 
-    private void setMoralOutTotalFirst(StudentMoralOut studentMoralOut){
-        StudentMoralOutTotal studentMoralOutTotal = studentMoralOutTotalRespority.findByStudentNumberAndMoralOutYearAndDeletedIsFalse(studentMoralOut.getStudentNumber(),studentMoralOut.getYear());
-        if (studentMoralOutTotal==null){
-            StudentMoralOutTotal studentMoralOutTotal1 = new StudentMoralOutTotal();
-            studentMoralOutTotal1.setStudentNumber(studentMoralOut.getStudentNumber());
-            studentMoralOutTotal1.setStudentName(studentMoralOut.getStudentName());
-            studentMoralOutTotal1.setStudentClass(studentMoralOut.getStudentClass());
-            studentMoralOutTotal1.setMajor(studentMoralOut.getMajor());
-            studentMoralOutTotal1.setGrade(studentMoralOut.getGrade());
-            studentMoralOutTotal1.setMoralOutYear(studentMoralOut.getYear());
-            studentMoralOutTotal1.setMoralOutTotal(0);
-            studentMoralOutTotalRespority.save(studentMoralOutTotal1);
-        }
-    }
 
 }

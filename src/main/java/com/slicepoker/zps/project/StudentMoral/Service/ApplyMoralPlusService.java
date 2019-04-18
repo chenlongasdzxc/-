@@ -13,7 +13,7 @@ public interface ApplyMoralPlusService {
 
     Commes applyMoral(StudentMoralPlus studentMoralPlus);
 
-    Commes update(StudentMoralPlus studentMoralPlus);
+    Commes updateMoralPlus(StudentMoralPlus studentMoralPlus);
 
     Commes findFuzzy(StudentMoralPlus studentMoralPlus, Pageable pageable);
 

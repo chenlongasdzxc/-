@@ -21,27 +21,42 @@ public class ApplyComprehensiveController {
     @Autowired
     private ApplyMoralPlusService applyMoralPlusService;
 
-    @GetMapping("/update")
-    public Commes update(StudentMoralPlus studentMoralPlus){
-        return applyMoralPlusService.update(studentMoralPlus);
+    @GetMapping("/updateMoralPlus")
+    public Commes updateMoralPlus(StudentMoralPlus studentMoralPlus){
+        return applyMoralPlusService.updateMoralPlus(studentMoralPlus);
     }
+
+
 
     @GetMapping("/findFuzzy")
     public Commes findFuzzy(StudentMoralPlus studentMoralPlus, Pageable pageable){
         return applyMoralPlusService.findFuzzy(studentMoralPlus,pageable);
     }
 
+
+    /**
+     * @param id
+     * @description 取消综合素质德育加分申请
+     * **/
     @GetMapping("/cancelApply")
     public Commes cancelApply(Long id){
         return applyMoralPlusService.cancelApply(id);
     }
 
-
+    /**
+     * @param studentMoralOut
+     * @description 更新综合素质课外加分申请
+     * **/
     @GetMapping("/updateMoralOut")
     public Commes updateMoralOut(StudentMoralOut studentMoralOut){
         return applyMoralPlusService.updateMoralOut(studentMoralOut);
     }
 
+    /**
+     * @param studentMoralOut
+     * @param pageable
+     * @description 模糊查询综合素质课外加分
+     * **/
     @GetMapping("/findFuzzyMoralOut")
     public Commes findFuzzyMoralOut(StudentMoralOut studentMoralOut,Pageable pageable){
         return applyMoralPlusService.findFuzzyMoralOut(studentMoralOut, pageable);
