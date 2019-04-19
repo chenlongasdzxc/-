@@ -1,5 +1,7 @@
 package com.slicepoker.zps.project.StudentMoral.Service.Impl;
 
+import com.slicepoker.zps.project.Comprehensive.Pojo.ComprehensiveQuality;
+import com.slicepoker.zps.project.Comprehensive.Service.ComprehensiveQualityService;
 import com.slicepoker.zps.project.Moral.Respority.MoralExpressionRespority;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralExpression;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralExpressionTotal;
@@ -32,6 +34,9 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
 
     @Autowired
     private MoralExpressionRespority moralExpressionRespority;
+
+    @Autowired
+    private ComprehensiveQualityService comprehensiveQualityService;
 
     /**
      * @param studentMoralExpression
@@ -175,12 +180,19 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
         return average;
     }
 
-
+    /**
+     * @param score
+     * @param studentMoralExpression
+     * @description 设置德育表现总分，并向综合素质中注入德育表现
+     * **/
     private void setStudentMoralExpressionTotal(StudentMoralExpression studentMoralExpression,double score){
         StudentMoralExpressionTotal studentMoralExpressionTotal = studentMoralExpressionTotalRespority.findByStudentNumberAndMoralExpressionYearAndDeletedIsFalse(studentMoralExpression.getStudentNumber(),studentMoralExpression.getMoralExpressionYear());
         if (studentMoralExpressionTotal!=null){
             studentMoralExpressionTotal.setMoralExpressionTotalScore(score);
+            studentMoralExpressionTotal.setMoralExpressionNameList(moralExpressionNameList(studentMoralExpression));
             studentMoralExpressionTotalRespority.save(studentMoralExpressionTotal);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralExpression(studentMoralExpressionTotal);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }else {
             StudentMoralExpressionTotal studentMoralExpressionTotal1 = new StudentMoralExpressionTotal();
             studentMoralExpressionTotal1.setStudentName(studentMoralExpression.getStudentName());
@@ -190,7 +202,11 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
             studentMoralExpressionTotal1.setMajor(studentMoralExpression.getMajor());
             studentMoralExpressionTotal1.setMoralExpressionYear(studentMoralExpression.getMoralExpressionYear());
             studentMoralExpressionTotal1.setMoralExpressionTotalScore(score);
-            studentMoralExpressionTotalRespority.saveAndFlush(studentMoralExpressionTotal1);
+            studentMoralExpressionTotal1.setMoralExpressionNameList(moralExpressionNameList(studentMoralExpression));
+            studentMoralExpressionTotalRespority.save(studentMoralExpressionTotal1);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralExpression(studentMoralExpressionTotal1);
+            comprehensiveQualityService.update(comprehensiveQuality);
+
         }
     }
 
@@ -267,5 +283,38 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
             e.printStackTrace();
             return Commes.errorMes("401","查询失败");
         }
+    }
+
+    /**
+     * @param studentMoralExpression
+     * @description 设置德育表现名称list
+     * **/
+    private String moralExpressionNameList(StudentMoralExpression studentMoralExpression){
+        String moralExpressionNameList = studentMoralExpressionRespority.moralExpressionNameList(studentMoralExpression.getStudentNumber(),studentMoralExpression.getMoralExpressionYear());
+        if (moralExpressionNameList!=null &&!"".equals(moralExpressionNameList)){
+            return moralExpressionNameList;
+        }else {
+            return null;
+        }
+    }
+
+
+    /**
+     * @param studentMoralExpressionTotal
+     * @return comprehensiveQuality
+     * @description 设置综合素质德育表现分数
+     * **/
+    private ComprehensiveQuality setComprehensiveQualityMoralExpression(StudentMoralExpressionTotal studentMoralExpressionTotal){
+        ComprehensiveQuality comprehensiveQuality1 = new ComprehensiveQuality();
+        comprehensiveQuality1.setStudentNumber(studentMoralExpressionTotal.getStudentNumber());
+        comprehensiveQuality1.setStudentClass(studentMoralExpressionTotal.getStudentClass());
+        comprehensiveQuality1.setStudentName(studentMoralExpressionTotal.getStudentName());
+        comprehensiveQuality1.setGrade(studentMoralExpressionTotal.getGrade());
+        comprehensiveQuality1.setMajor(studentMoralExpressionTotal.getMajor());
+        comprehensiveQuality1.setMoralExpressionNameList(studentMoralExpressionTotal.getMoralExpressionNameList());  //课外加分名称list
+        comprehensiveQuality1.setMoralExpressionScore(studentMoralExpressionTotal.getMoralExpressionTotalScore());   //课外加分分数
+        comprehensiveQuality1.setStates("CM001");  //未查看
+        comprehensiveQuality1.setComprehensiveQualityYear(studentMoralExpressionTotal.getMoralExpressionYear());
+        return comprehensiveQuality1;
     }
 }

@@ -3,6 +3,7 @@ package com.slicepoker.zps.project.StudentMoral.Respority;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralDeductionTotal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author Zps
@@ -11,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface StudentMoralDeductionTotalRespority extends JpaRepository<StudentMoralDeductionTotal,Long>, JpaSpecificationExecutor<StudentMoralDeductionTotal> {
 
     StudentMoralDeductionTotal findByStudentNumberAndYearAndDeletedIsFalse(Long studentNumber,String year);
+
+
 }

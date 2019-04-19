@@ -1,5 +1,7 @@
 package com.slicepoker.zps.project.StudentMoral.Service.Impl;
 
+import com.slicepoker.zps.project.Comprehensive.Pojo.ComprehensiveQuality;
+import com.slicepoker.zps.project.Comprehensive.Service.ComprehensiveQualityService;
 import com.slicepoker.zps.project.Moral.Pojo.MoralPlus;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOut;
 import com.slicepoker.zps.project.StudentMoral.Pojo.StudentMoralOutTotal;
@@ -39,6 +41,10 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
 
     @Autowired
     private StudentMoralPlusTotalRespority studentMoralPlusTotalRespority;
+
+
+    @Autowired
+    private ComprehensiveQualityService comprehensiveQualityService;
 
     @Override
     public Commes applyMoral(StudentMoralPlus studentMoralPlus) {
@@ -239,6 +245,12 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
 
     }
 
+
+    /**
+     * @param score
+     * @param studentMoralOut
+     * @description 设置已审核综合素质课外加分总分，并将数据录入综合素质
+     * **/
     private void setMoralOutTotal(StudentMoralOut studentMoralOut,double score){
         StudentMoralOutTotal studentMoralOutTotal = studentMoralOutTotalRespority.findByStudentNumberAndMoralOutYearAndDeletedIsFalse(studentMoralOut.getStudentNumber(),studentMoralOut.getYear());
         if (studentMoralOutTotal==null){
@@ -250,14 +262,16 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
             studentMoralOutTotal1.setGrade(studentMoralOut.getGrade());
             studentMoralOutTotal1.setMoralOutYear(studentMoralOut.getYear());
             studentMoralOutTotal1.setMoralOutTotal(score);
-            studentMoralOutTotal1.setMoralOutNameList(studentMoralOut.getMoralOutName());
+            studentMoralOutTotal1.setMoralOutNameList(setMoralOutNameList(studentMoralOut));
             studentMoralOutTotalRespority.save(studentMoralOutTotal1);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralOut(studentMoralOutTotal1);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }else {
             studentMoralOutTotal.setMoralOutTotal(score);
-            if (Objects.equals(studentMoralOut.getComprehensiveQualityStates(),"CQMO002") && studentMoralOutTotal.getMoralOutNameList()!=null && !"".equals(studentMoralOutTotal.getMoralOutNameList())){
-                studentMoralOutTotal.setMoralOutNameList(studentMoralOutTotal.getMoralOutNameList() + "," + studentMoralOut.getMoralOutName());
-            }
+            studentMoralOutTotal.setMoralOutNameList(setMoralOutNameList(studentMoralOut));
             studentMoralOutTotalRespority.save(studentMoralOutTotal);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralOut(studentMoralOutTotal);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }
     }
 
@@ -270,6 +284,11 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
         }
     }
 
+    /**
+     * @param studentMoralPlus
+     * @param score
+     * @description 设置已审核综合素质德育加分总分，并将数据录入综合素质
+     * **/
     private void setStudentMoralPlusTotal(StudentMoralPlus studentMoralPlus,double score){
         StudentMoralPlusTotal studentMoralPlusTotal = studentMoralPlusTotalRespority.findByStudentNumberAndMoralPlusYearAndDeletedIsFalse(studentMoralPlus.getStudentNumber(),studentMoralPlus.getYear());
         if (studentMoralPlusTotal==null){
@@ -280,18 +299,83 @@ public class ApplyMoralPlusServiceImpl implements ApplyMoralPlusService {
             studentMoralPlusTotal1.setMajor(studentMoralPlus.getMajor());
             studentMoralPlusTotal1.setGrade(studentMoralPlus.getGrade());
             studentMoralPlusTotal1.setMoralPlusYear(studentMoralPlus.getYear());
-            studentMoralPlusTotal1.setMoralPlusNameList(studentMoralPlus.getMoralPlusName());
+            studentMoralPlusTotal1.setMoralPlusNameList(setMoralPlusNameList(studentMoralPlus));
             studentMoralPlusTotal1.setMoralPlusTotal(score);
             studentMoralPlusTotalRespority.save(studentMoralPlusTotal1);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralPlus(studentMoralPlusTotal1);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }else {
             studentMoralPlusTotal.setMoralPlusTotal(score);
-            if (Objects.equals(studentMoralPlus.getComprehensiveQualityStates(),"CQMP002") && studentMoralPlusTotal.getMoralPlusNameList()!=null && !"".equals(studentMoralPlusTotal.getMoralPlusNameList())){
-                studentMoralPlusTotal.setMoralPlusNameList(studentMoralPlusTotal.getMoralPlusNameList() + "," + studentMoralPlus.getMoralPlusName());
-            }
+            studentMoralPlusTotal.setMoralPlusNameList(setMoralPlusNameList(studentMoralPlus));
             studentMoralPlusTotalRespority.save(studentMoralPlusTotal);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralPlus(studentMoralPlusTotal);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }
     }
 
+    /**
+     * @param studentMoralOut
+     * @description 设置课外加分名称list
+     * **/
+    private String setMoralOutNameList(StudentMoralOut studentMoralOut){
+       String moralOutNameList = studentMoralOutRespority.concatMoralOutName(studentMoralOut.getStudentNumber(),studentMoralOut.getYear());
+       if (moralOutNameList!=null && !"".equals(moralOutNameList)){
+           return moralOutNameList;
+       }else {
+           return "";
+       }
+    }
 
+    /**
+     * @param studentMoralPlus
+     * @description 设置德育加分名称list
+     * **/
+    private String setMoralPlusNameList(StudentMoralPlus studentMoralPlus){
+        String moralPlusNameList = studentMoralPlusRespority.concatMoralOutName(studentMoralPlus.getStudentNumber(),studentMoralPlus.getYear());
+        if (moralPlusNameList!=null && !"".equals(moralPlusNameList)){
+            return moralPlusNameList;
+        }else {
+            return "";
+        }
+    }
+
+    /**
+     * @param studentMoralOutTotal
+     * @return comprehensiveQuality
+     * @description 设置综合素质课外加分
+     * **/
+    private ComprehensiveQuality setComprehensiveQualityMoralOut(StudentMoralOutTotal studentMoralOutTotal){
+        ComprehensiveQuality comprehensiveQuality1 = new ComprehensiveQuality();
+        comprehensiveQuality1.setStudentNumber(studentMoralOutTotal.getStudentNumber());
+        comprehensiveQuality1.setStudentClass(studentMoralOutTotal.getStudentClass());
+        comprehensiveQuality1.setStudentName(studentMoralOutTotal.getStudentName());
+        comprehensiveQuality1.setGrade(studentMoralOutTotal.getGrade());
+        comprehensiveQuality1.setMajor(studentMoralOutTotal.getMajor());
+        comprehensiveQuality1.setMoralOutNameList(studentMoralOutTotal.getMoralOutNameList());  //课外加分名称list
+        comprehensiveQuality1.setMoralOutScore(studentMoralOutTotal.getMoralOutTotal());   //课外加分分数
+        comprehensiveQuality1.setStates("CM001");  //未查看
+        comprehensiveQuality1.setComprehensiveQualityYear(studentMoralOutTotal.getMoralOutYear());
+        return comprehensiveQuality1;
+    }
+
+
+    /**
+     * @param studentMoralPlusTotal
+     * @return ComprehensiveQuality
+     * @description 设置综合素质德育加分
+     * **/
+    private ComprehensiveQuality setComprehensiveQualityMoralPlus(StudentMoralPlusTotal studentMoralPlusTotal){
+        ComprehensiveQuality comprehensiveQuality1 = new ComprehensiveQuality();
+        comprehensiveQuality1.setStudentNumber(studentMoralPlusTotal.getStudentNumber());
+        comprehensiveQuality1.setStudentClass(studentMoralPlusTotal.getStudentClass());
+        comprehensiveQuality1.setStudentName(studentMoralPlusTotal.getStudentName());
+        comprehensiveQuality1.setGrade(studentMoralPlusTotal.getGrade());
+        comprehensiveQuality1.setMajor(studentMoralPlusTotal.getMajor());
+        comprehensiveQuality1.setMoralPlusNameList(studentMoralPlusTotal.getMoralPlusNameList());  //德育加分名称list
+        comprehensiveQuality1.setMoralPlusScore(studentMoralPlusTotal.getMoralPlusTotal());   //德育加分分数
+        comprehensiveQuality1.setStates("CM001");  //未查看
+        comprehensiveQuality1.setComprehensiveQualityYear(studentMoralPlusTotal.getMoralPlusYear());  //年度
+        return comprehensiveQuality1;
+    }
 
 }

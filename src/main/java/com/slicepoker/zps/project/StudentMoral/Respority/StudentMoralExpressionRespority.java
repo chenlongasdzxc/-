@@ -22,4 +22,7 @@ public interface StudentMoralExpressionRespority extends JpaRepository<StudentMo
 
     @Query(value="select sum(moralExpressionScore) from StudentMoralExpression where studentNumber =?1 and moralExpressionYear=?2 and states = 'ME002'")
     double moralExpressionScore(Long studentNumber,String moralExpressionYear);
+
+    @Query(value="SELECT group_concat(moral_expression_name) FROM tb_student_moral_expression where student_number =?1 and moral_expression_year =?2 and states = 'ME002' and deleted = false ",nativeQuery=true)
+    String moralExpressionNameList(Long studentNumber,String moralExpressionYear);
 }

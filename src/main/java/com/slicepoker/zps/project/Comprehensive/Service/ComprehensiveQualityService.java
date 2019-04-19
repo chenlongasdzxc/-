@@ -9,6 +9,6 @@ import com.slicepoker.zps.project.User.Pojo.Commes;
  **/
 public interface ComprehensiveQualityService {
 
-    Commes add(ComprehensiveQuality comprehensiveQuality);
+    Commes update(ComprehensiveQuality comprehensiveQuality);
 
 }

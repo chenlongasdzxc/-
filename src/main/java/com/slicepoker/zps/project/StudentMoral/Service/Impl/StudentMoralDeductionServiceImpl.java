@@ -1,5 +1,7 @@
 package com.slicepoker.zps.project.StudentMoral.Service.Impl;
 
+import com.slicepoker.zps.project.Comprehensive.Pojo.ComprehensiveQuality;
+import com.slicepoker.zps.project.Comprehensive.Service.ComprehensiveQualityService;
 import com.slicepoker.zps.project.Moral.Pojo.MoralDeduction;
 import com.slicepoker.zps.project.Moral.Respority.MoralDeductionRespority;
 import com.slicepoker.zps.project.Moral.Service.MoralDeductionService;
@@ -36,6 +38,9 @@ public class StudentMoralDeductionServiceImpl implements StudentMoralDeductionSe
     @Autowired
     private StudentMoralDeductionTotalRespority studentMoralDeductionTotalRespority;
 
+    @Autowired
+    private ComprehensiveQualityService comprehensiveQualityService;
+
 
     /**
      * @param id
@@ -71,7 +76,8 @@ public class StudentMoralDeductionServiceImpl implements StudentMoralDeductionSe
                 studentMoralDeduction.setMoralDeductionScore(moralDeduction.getMoralDeductionScore()*studentMoralDeduction.getMoralDeductionNumber());
                 studentMoralDeduction.setStates("MD001");
                 studentMoralDeductionRespority.save(studentMoralDeduction);
-                setTotal(studentMoralDeduction);
+                double score = sumMoralDeductionScore(studentMoralDeduction);
+                setStudentMoralDeductionTotal(studentMoralDeduction,score);
                 return Commes.successMes();
             }else {
                 return Commes.errorMes("401","查询德育减分失败");
@@ -185,10 +191,13 @@ public class StudentMoralDeductionServiceImpl implements StudentMoralDeductionSe
         }
     }
 
-
     private double sumMoralDeductionScore(StudentMoralDeduction studentMoralDeduction){
-        double score = studentMoralDeductionRespority.sumMoralDeductionScore(studentMoralDeduction.getStudentNumber(),studentMoralDeduction.getMoralDeductionYear());
-        return score;
+        Double score = studentMoralDeductionRespority.sumMoralDeductionScore(studentMoralDeduction.getStudentNumber(),studentMoralDeduction.getMoralDeductionYear());
+        if (score!=null && !"".equals(score)){
+            return score;
+        }else {
+            return 0;
+        }
     }
 
     private void setStudentMoralDeductionTotal(StudentMoralDeduction studentMoralDeduction,double score){
@@ -202,28 +211,41 @@ public class StudentMoralDeductionServiceImpl implements StudentMoralDeductionSe
             studentMoralDeductionTotal1.setStudentName(studentMoralDeduction.getStudentName());
             studentMoralDeductionTotal1.setStudentNumber(studentMoralDeduction.getStudentNumber());
             studentMoralDeductionTotal1.setStudentMoralDeductionScoreTotal(score);
+            studentMoralDeductionTotal1.setMoralDeductionNameList(moralDeductionNameList(studentMoralDeduction));
             studentMoralDeductionTotalRespority.save(studentMoralDeductionTotal1);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralDeduction(studentMoralDeductionTotal1);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }else {
             studentMoralDeductionTotal.setStudentMoralDeductionScoreTotal(score);
+            studentMoralDeductionTotal.setMoralDeductionNameList(moralDeductionNameList(studentMoralDeduction));
             studentMoralDeductionTotalRespority.save(studentMoralDeductionTotal);
+            ComprehensiveQuality comprehensiveQuality = setComprehensiveQualityMoralDeduction(studentMoralDeductionTotal);
+            comprehensiveQualityService.update(comprehensiveQuality);
         }
     }
 
-    private void setTotal(StudentMoralDeduction studentMoralDeduction){
-        StudentMoralDeductionTotal studentMoralDeductionTotal = studentMoralDeductionTotalRespority.findByStudentNumberAndYearAndDeletedIsFalse(studentMoralDeduction.getStudentNumber(),studentMoralDeduction.getMoralDeductionYear());
-        if (studentMoralDeductionTotal==null){
-            StudentMoralDeductionTotal studentMoralDeductionTotal1 = new StudentMoralDeductionTotal();
-            studentMoralDeductionTotal1.setYear(studentMoralDeduction.getMoralDeductionYear());
-            studentMoralDeductionTotal1.setGrade(studentMoralDeduction.getGrade());
-            studentMoralDeductionTotal1.setMajor(studentMoralDeduction.getMajor());
-            studentMoralDeductionTotal1.setStudentClass(studentMoralDeduction.getStudentClass());
-            studentMoralDeductionTotal1.setStudentName(studentMoralDeduction.getStudentName());
-            studentMoralDeductionTotal1.setStudentNumber(studentMoralDeduction.getStudentNumber());
-            studentMoralDeductionTotal1.setStudentMoralDeductionScoreTotal(0);
-            studentMoralDeductionTotalRespority.save(studentMoralDeductionTotal1);
+    private String moralDeductionNameList(StudentMoralDeduction studentMoralDeduction){
+        String moralDeductionNameList = studentMoralDeductionRespority.moralDeductionName(studentMoralDeduction.getStudentNumber(),studentMoralDeduction.getMoralDeductionYear());
+        if (moralDeductionNameList!=null && !"".equals(moralDeductionNameList)){
+            return moralDeductionNameList;
+        }else {
+            return null;
         }
     }
 
+    private ComprehensiveQuality setComprehensiveQualityMoralDeduction(StudentMoralDeductionTotal studentMoralDeductionTotal){
+        ComprehensiveQuality comprehensiveQuality1 = new ComprehensiveQuality();
+        comprehensiveQuality1.setStudentNumber(studentMoralDeductionTotal.getStudentNumber());
+        comprehensiveQuality1.setStudentClass(studentMoralDeductionTotal.getStudentClass());
+        comprehensiveQuality1.setStudentName(studentMoralDeductionTotal.getStudentName());
+        comprehensiveQuality1.setGrade(studentMoralDeductionTotal.getGrade());
+        comprehensiveQuality1.setMajor(studentMoralDeductionTotal.getMajor());
+        comprehensiveQuality1.setMoralDeductionNameList(studentMoralDeductionTotal.getMoralDeductionNameList());  //课外加分名称list
+        comprehensiveQuality1.setMoralDeductionScore(studentMoralDeductionTotal.getStudentMoralDeductionScoreTotal());   //课外加分分数
+        comprehensiveQuality1.setStates("CM001");  //未查看
+        comprehensiveQuality1.setComprehensiveQualityYear(studentMoralDeductionTotal.getYear());
+        return comprehensiveQuality1;
+    }
 
     /**
      * @param pageable

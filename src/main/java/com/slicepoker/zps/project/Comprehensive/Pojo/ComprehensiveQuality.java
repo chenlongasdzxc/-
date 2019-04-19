@@ -12,9 +12,10 @@ import javax.persistence.*;
  **/
 @Entity
 @Data
-@Table(name="tb_comprehensiveQuality")
+@Table(name="tb_comprehensive_quality")
 public class ComprehensiveQuality extends ApplyEntity {
 
+    private String moralExpressionNameList; //德育表现分名称list
 
     private double moralExpressionScore = 0; //德育表现分
 
@@ -29,6 +30,12 @@ public class ComprehensiveQuality extends ApplyEntity {
     private String moralDeductionNameList; //德育减分名称list
 
     private double moralDeductionScore = 0; //德育减分
+
+    private boolean cetFour = false;  //英语四级
+
+    private boolean nCRE = false; //计算机二级
+
+    private double comprehensiveQualityScore; //综合素质总分
 
     private String comprehensiveQualityYear; //综合素质年度
 

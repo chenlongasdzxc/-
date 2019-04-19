@@ -32,4 +32,7 @@ public interface StudentMoralPlusRespority extends JpaRepository<StudentMoralPlu
 
     @Query(value="select sum(moralPlusScore) from StudentMoralPlus where studentNumber =?1 and year =?2 and comprehensiveQualityStates = 'CQMP002' and deleted  = false ")
     Double sumMoralPlusScore(Long studentNumber,String year);
+
+    @Query(value="SELECT group_concat(moral_plus_name)  FROM tb_student_moral_plus where student_number =?1 and year =?2 and comprehensive_quality_states = 'CQMP002' and deleted = false",nativeQuery=true)
+    String concatMoralOutName(Long studentNumber,String year);
 }

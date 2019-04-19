@@ -16,6 +16,6 @@ public interface StudentMoralOutRespority extends JpaRepository<StudentMoralOut,
     @Query(value="select sum(moralOutScore) from StudentMoralOut where studentNumber =?1 and year =?2 and comprehensiveQualityStates = 'CQMO002' and deleted = false ")
     Double sunMoralOutScore(Long studentNumber,String year);
 
-    @Query(value="SELECT group_concat(moral_out_name)  FROM tb_student_moral_out where studentNumber =?1 and year =?2 and comprehensiveQualityStates = 'CQMO002' and deleted = false",nativeQuery=true)
+    @Query(value="SELECT group_concat(moral_out_name)  FROM tb_student_moral_out where student_number =?1 and year =?2 and comprehensive_quality_states = 'CQMO002' and deleted = false",nativeQuery=true)
     String concatMoralOutName(Long studentNumber,String year);
 }

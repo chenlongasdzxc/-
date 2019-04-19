@@ -15,9 +15,11 @@ import javax.persistence.Table;
 @Table(name="tb_student_moral_deduction_total")
 public class StudentMoralDeductionTotal extends BaseEntily {
 
-    private double studentMoralDeductionScoreTotal;
+    private double studentMoralDeductionScoreTotal;  //德育减分总分
 
-    private String year;
+    private String moralDeductionNameList;  //名称list
+
+    private String year;  //年度
 
     private boolean deleted = false;
 }

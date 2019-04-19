@@ -18,6 +18,8 @@ public class StudentMoralExpressionTotal extends BaseEntily {
 
     private String moralExpressionYear;
 
+    private String moralExpressionNameList;
+
     private Double moralExpressionTotalScore;
 
     private boolean deleted=false;
