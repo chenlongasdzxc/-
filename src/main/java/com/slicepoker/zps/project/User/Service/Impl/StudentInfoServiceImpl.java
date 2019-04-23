@@ -196,4 +196,20 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         }
         return list1;
     }
+
+
+    @Override
+    public Commes findMajorList() {
+        try {
+            List list = studentInfoRespority.findMajorList();
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("201","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
 }

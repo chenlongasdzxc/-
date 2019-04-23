@@ -60,18 +60,19 @@ public class StudentMoralPlusServiceImpl implements StudentMoralPlusService {
         try {
             Page<StudentMoralPlus> page = studentMoralPlusRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
-                list.add(
-                        cb.or(
-                                cb.and(
-                                        cb.equal(root.get("studentNumber"),studentMoralPlus.getStudentNumber()),
-                                        cb.equal(root.get("deleted"),false)
-                                ),
-                                cb.or(
-                                        cb.equal(root.get("states"),studentMoralPlus.getStates()),
-                                        cb.equal(root.get("year"),studentMoralPlus.getYear())
-                                )
-                        )
-                );
+                list.add(cb.equal(root.get("deleted"),false));
+                if (studentMoralPlus.getStudentNumber()!=null && !"".equals(studentMoralPlus.getStudentNumber())){
+                    list.add(cb.equal(root.get("studentNumber"),studentMoralPlus.getStudentNumber()));
+                }
+                if (studentMoralPlus.getStates()!=null && !"".equals(studentMoralPlus.getStates())){
+                    list.add(cb.equal(root.get("states"),studentMoralPlus.getStates()));
+                }
+                if (studentMoralPlus.getYear()!=null && !"".equals(studentMoralPlus.getYear())){
+                    list.add(cb.equal(root.get("year"),studentMoralPlus.getYear()));
+                }
+                if (studentMoralPlus.getComprehensiveQualityStates()!=null && !"".equals(studentMoralPlus.getComprehensiveQualityStates())){
+                    list.add(cb.equal(root.get("comprehensiveQualityStates"),studentMoralPlus.getComprehensiveQualityStates()));
+                }
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);
             return Commes.success(page);

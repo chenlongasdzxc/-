@@ -112,12 +112,10 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
         try {
             Page<StudentMoralOut> page = studentMoralOutRespority.findAll(((root, query, cb) ->{
                 List<Predicate> list = new ArrayList<>();
-                list.add(
-                                cb.and(
-                                        cb.equal(root.get("deleted"),false),
-                                        cb.equal(root.get("studentNumber"),studentMoralOut.getStudentNumber())
-                                 )
-                );
+                list.add(cb.equal(root.get("deleted"),false));
+                if (studentMoralOut.getStudentNumber()!=null && !"".equals(studentMoralOut.getStudentNumber())){
+                    list.add(cb.equal(root.get("studentNumber"),studentMoralOut.getStudentNumber()));
+                }
                 if(studentMoralOut.getMoralOutType()!=null && !"".equals(studentMoralOut.getMoralOutType())){
                     list.add(cb.equal(root.get("moralOutType"),studentMoralOut.getMoralOutType()));
                 }
@@ -126,6 +124,9 @@ public class StudentMoralOutServiceImpl implements StudentMoralOutService {
                 }
                 if (studentMoralOut.getStates()!=null && !"".equals(studentMoralOut.getStates())){
                     list.add(cb.equal(root.get("states"),studentMoralOut.getStates()));
+                }
+                if (studentMoralOut.getComprehensiveQualityStates()!=null && !"".equals(studentMoralOut.getComprehensiveQualityStates())){
+                    list.add(cb.equal(root.get("comprehensiveQualityStates"),studentMoralOut.getComprehensiveQualityStates()));
                 }
                 return cb.and(list.toArray(new Predicate[list.size()]));
             }),pageable);

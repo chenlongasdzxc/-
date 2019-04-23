@@ -136,11 +136,13 @@ public class StudentMoralDeductionServiceImpl implements StudentMoralDeductionSe
         try {
             Page<StudentMoralDeduction> page = studentMoralDeductionRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list = new ArrayList<>();
-                list.add(cb.and(
-                        cb.equal(root.get("deleted"),false),
-                        cb.equal(root.get("major"),studentMoralDeduction.getMajor()),
-                        cb.equal(root.get("studentClass"),studentMoralDeduction.getStudentClass())
-                ));
+                list.add(cb.equal(root.get("deleted"),false));
+                if (studentMoralDeduction.getMajor()!=null && !"".equals(studentMoralDeduction.getMajor())){
+                    list.add(cb.equal(root.get("major"),studentMoralDeduction.getMajor()));
+                }
+                if (studentMoralDeduction.getStudentClass()!=null && !"".equals(studentMoralDeduction.getStudentClass())){
+                    list.add(cb.equal(root.get("studentClass"),studentMoralDeduction.getStudentClass()));
+                }
                 if (studentMoralDeduction.getGrade()!=null && !"".equals(studentMoralDeduction.getGrade())){
                     list.add(cb.equal(root.get("grade"),studentMoralDeduction.getGrade()));
                 }

@@ -15,4 +15,6 @@ public interface ComPrehensiveQualityRespority extends JpaRepository<Comprehensi
     ComprehensiveQuality findByStudentNumberAndComprehensiveQualityYearAndDeletedIsFalse(Long studentNumber,String comprehensiveQualityYear);
 
     List findByStudentNumberAndDeletedIsFalse(Long studentNumber);
+
+    ComprehensiveQuality findByIdAndDeletedIsFalse(Long id);
 }

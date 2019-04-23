@@ -47,28 +47,24 @@ public class StudentMoralExpressionServiceImpl implements StudentMoralExpression
         try {
             List<StudentMoralExpression> list = studentMoralExpressionRespority.findAll(((root, query, cb) -> {
                 List<Predicate> list1 = new ArrayList<>();
-                list1.add(
-                        cb.and(
-                                cb.and(
-                                        cb.equal(root.get("deleted"),false),
-                                        cb.equal(root.get("grade"),studentMoralExpression.getGrade()),
-                                        cb.equal(root.get("studentClass"),studentMoralExpression.getStudentClass())
-                                ),
-                                cb.or(
-                                        cb.equal(root.get("studentNumber"),studentMoralExpression.getStudentNumber()),
-                                        cb.equal(root.get("moralExpressionName"),studentMoralExpression.getMoralExpressionName())
-                                )
-                        )
-                );
+                list1.add(cb.equal(root.get("deleted"),false));
+                if (studentMoralExpression.getStudentClass()!=null && !"".equals(studentMoralExpression.getStudentClass())){
+                    list1.add(cb.equal(root.get("studentClass"),studentMoralExpression.getStudentClass()));
+                }
+                if (studentMoralExpression.getGrade()!=null && !"".equals(studentMoralExpression.getGrade())){
+                    list1.add(cb.equal(root.get("grade"),studentMoralExpression.getGrade()));
+                }
+                if (studentMoralExpression.getStudentNumber()!=null && !"".equals(studentMoralExpression.getStudentNumber())){
+                    list1.add(cb.equal(root.get("studentNumber"),studentMoralExpression.getStudentNumber()));
+                }
+                if (studentMoralExpression.getMoralExpressionName()!=null && !"".equals(studentMoralExpression.getMoralExpressionName())){
+                    list1.add(cb.equal(root.get("moralExpressionName"),studentMoralExpression.getMoralExpressionName()));
+                }
                 if (studentMoralExpression.getStates()!=null && !"".equals(studentMoralExpression.getStates())){
-                    list1.add(
-                        cb.equal(root.get("states"),studentMoralExpression.getStates())
-                    );
+                    list1.add(cb.equal(root.get("states"),studentMoralExpression.getStates()));
                 }
                 if (studentMoralExpression.getMoralExpressionYear()!=null && !"".equals(studentMoralExpression.getMoralExpressionYear())){
-                    list1.add(
-                            cb.equal(root.get("moralExpressionYear"),studentMoralExpression.getMoralExpressionYear())
-                    );
+                    list1.add(cb.equal(root.get("moralExpressionYear"),studentMoralExpression.getMoralExpressionYear()));
                 }
                 return cb.and(list1.toArray(new Predicate[list1.size()]));
             }));

@@ -52,4 +52,9 @@ public class StudentInfoController {
     public Commes findStudentList(StudentInformation studentInformation){
         return studentInfoService.findStudentList(studentInformation);
     }
+
+    @GetMapping("/findMajorList")
+    public Commes findMajorList(){
+        return studentInfoService.findMajorList();
+    }
 }

@@ -5,7 +5,13 @@ import com.slicepoker.zps.project.Comprehensive.Respority.ComPrehensiveQualityRe
 import com.slicepoker.zps.project.Comprehensive.Service.ComprehensiveQualityService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Zps
@@ -115,5 +121,85 @@ public class ComprehensiveQualityServiceImpl implements ComprehensiveQualityServ
         comprehensiveQuality1.setMoralOutScore(comprehensiveQuality.getMoralOutScore());
         comprehensiveQuality1.setStates(comprehensiveQuality.getStates());
         comPrehensiveQualityRespority.save(comprehensiveQuality1);
+    }
+
+    /**
+     * @param comprehensiveQuality
+     * @param pageable
+     * @description 模糊查询综合素质分
+     * **/
+    @Override
+    public Commes findFuzzy(ComprehensiveQuality comprehensiveQuality, Pageable pageable) {
+        try {
+            Page<ComprehensiveQuality> page = comPrehensiveQualityRespority.findAll(((root, query, cb) -> {
+                List<Predicate> list = new ArrayList<>();
+                list.add(cb.equal(root.get("deleted"),false));
+                if (comprehensiveQuality.getStudentNumber()!=null && !"".equals(comprehensiveQuality.getStudentNumber())){
+                    list.add(cb.equal(root.get("studentNumber"),comprehensiveQuality.getStudentNumber()));
+                }
+                if (comprehensiveQuality.getStudentName()!=null && !"".equals(comprehensiveQuality.getStudentName())){
+                    list.add(cb.equal(root.get("studentName"),comprehensiveQuality.getStudentName()));
+                }
+                if (comprehensiveQuality.getMajor()!=null && !"".equals(comprehensiveQuality.getMajor())){
+                    list.add(cb.equal(root.get("major"),comprehensiveQuality.getMajor()));
+                }
+                if (comprehensiveQuality.getGrade()!=null && !"".equals(comprehensiveQuality.getGrade())){
+                    list.add(cb.equal(root.get("grade"),comprehensiveQuality.getGrade()));
+                }
+                if(comprehensiveQuality.getStates()!=null && !"".equals(comprehensiveQuality.getStates())){
+                    list.add(cb.equal(root.get("states"),comprehensiveQuality.getStates()));
+                }
+                if (comprehensiveQuality.getComprehensiveQualityYear()!=null && !"".equals(comprehensiveQuality.getComprehensiveQualityYear())){
+                    list.add(cb.equal(root.get("comprehensiveQualityYear"),comprehensiveQuality.getComprehensiveQualityYear()));
+                }
+                return cb.and(list.toArray(new Predicate[list.size()]));
+            }),pageable);
+            return Commes.success(page);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
+
+
+    /**
+     * @param studentNumber
+     * @description 查找个人综合素质分
+     * **/
+    @Override
+    public Commes findPersonal(Long studentNumber) {
+        try {
+            List<ComprehensiveQuality> list = comPrehensiveQualityRespority.findByStudentNumberAndDeletedIsFalse(studentNumber);
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("201","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
+
+    /**
+     * @param id
+     * @param states
+     * @description 设置状态
+     * **/
+    @Override
+    public Commes setStates(Long id,String states) {
+        try {
+            ComprehensiveQuality comprehensiveQuality = comPrehensiveQualityRespority.findByIdAndDeletedIsFalse(id);
+            if (comprehensiveQuality!=null){
+                comprehensiveQuality.setStates(states);
+                comPrehensiveQualityRespority.save(comprehensiveQuality);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("401","没有该实体");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
     }
 }

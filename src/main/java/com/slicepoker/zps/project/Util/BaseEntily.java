@@ -1,5 +1,7 @@
 package com.slicepoker.zps.project.Util;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,19 +12,21 @@ import javax.persistence.*;
  **/
 @Data
 @MappedSuperclass
+@ExcelTarget("studentInformation")
 public class BaseEntily {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private Long studentNumber;
-
+    @Excel(name= "年级")
     private Long grade;
-
-    private String studentClass;
-
-    private String studentName;
-
+    @Excel(name= "专业")
     private String major;
+    @Excel(name= "班级")
+    private String studentClass;
+    @Excel(name= "姓名")
+    private String studentName;
+    @Excel(name= "学号")
+    private Long studentNumber;
 }
