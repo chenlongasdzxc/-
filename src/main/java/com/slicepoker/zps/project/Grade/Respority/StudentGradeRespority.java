@@ -18,6 +18,11 @@ public interface StudentGradeRespority extends JpaRepository<StudentGrade,Long>,
     @Query(value="select distinct(gradeName) from StudentGrade where gradeYear =?1 and deleted = false and major =?2")
     List findMajorGradeNameList(String gradeYear,String major);
 
+    @Query(value="select distinct(score) from StudentGrade where gradeYear =?1 and gradeName =?2 and deleted = false")
+    double findGradeScore(String gradeYear,String gradeName);
+
+    List findByMajorAndGradeYearAndDeletedIsFalse(String major,String gradeYear);
+
     @Query(value="select distinct(gradeName) from StudentGrade where gradeYear =?1 and deleted = false")
     List findGradeNameList(String gradeYear);
 

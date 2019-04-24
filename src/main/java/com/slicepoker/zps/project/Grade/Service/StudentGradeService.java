@@ -22,4 +22,8 @@ public interface StudentGradeService {
     Commes update(StudentGrade studentGrade);
 
     Commes findGradeNameList(String year,String major);
+
+    Commes updateStates(Long id,String states);
+
+
 }

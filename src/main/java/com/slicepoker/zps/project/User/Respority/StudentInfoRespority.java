@@ -29,5 +29,8 @@ public interface StudentInfoRespority extends JpaRepository<StudentInformation,L
     @Query(value="select distinct(major) from StudentInformation where deleted = false ")
     List findMajorList();
 
+    @Query(value="select distinct(studentClass) from StudentInformation where major =?1 and deleted = false ")
+    List findStudentClass(String major);
+
 
 }

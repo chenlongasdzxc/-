@@ -1,19 +1,17 @@
 package com.slicepoker.zps.project.Grade.Pojo;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import lombok.Data;
 
 import javax.persistence.*;
 
 /**
  * @author Zps
- * @date 2019/4/23 14:28
+ * @date 2019/4/24 10:21
  **/
-
 @Data
 @Entity
-@Table(name="tb_student_gpa")
-public class StudentGPA {
+@Table(name="tb_gpa")
+public class Gpa {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -23,13 +21,11 @@ public class StudentGPA {
 
     private String major; //专业
 
-    private String gpaName; //要计算绩点科目名称
-
-    private double credit; //学分
+    private String gpaNameList; //要计算绩点科目名称
 
     private double gpaScore; //成绩-gpaScore
 
-    private double gpaNameCount; //
+    private double creditCount; //要计算学分总计
 
     private boolean deleted = false;
 }

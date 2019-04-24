@@ -25,4 +25,6 @@ public interface StudentInfoService {
     Commes findStudentList(StudentInformation studentInformation);
 
     Commes findMajorList();
+
+    Commes findStudentClass(String major);
 }

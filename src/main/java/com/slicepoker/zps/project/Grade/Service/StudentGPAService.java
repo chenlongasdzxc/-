@@ -12,4 +12,10 @@ public interface StudentGPAService {
     Commes update(StudentGPA studentGPA);
 
     Commes findAll();
+
+    Commes delete(Long id);
+
+    void deletedList(String major,String year);
+
+    Commes findAllGpa();
 }

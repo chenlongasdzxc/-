@@ -197,7 +197,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         return list1;
     }
 
-
+    /**
+     * @description获取专业list
+     * **/
     @Override
     public Commes findMajorList() {
         try {
@@ -206,6 +208,25 @@ public class StudentInfoServiceImpl implements StudentInfoService {
                 return Commes.success(list);
             }else {
                 return Commes.errorMes("201","没有数据");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
+
+
+    /**
+     * @description获取班级list
+     * **/
+    @Override
+    public Commes findStudentClass(String major) {
+        try {
+            List list = studentInfoRespority.findStudentClass(major);
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
             }
         }catch (Exception e){
             e.printStackTrace();

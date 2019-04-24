@@ -28,5 +28,9 @@ public class StudentGrade extends BaseEntily {
 
     private String states;
 
+    private double gpa; //单科绩点
+
+    private boolean warning = false;
+
     private boolean deleted = false;
 }

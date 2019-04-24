@@ -4,11 +4,14 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.slicepoker.zps.project.Grade.Pojo.StudentGPA;
 import com.slicepoker.zps.project.Grade.Pojo.StudentGrade;
+import com.slicepoker.zps.project.Grade.Respority.StudentGPARespority;
 import com.slicepoker.zps.project.Grade.Respority.StudentGradeRespority;
 import com.slicepoker.zps.project.Grade.Service.StudentGradeService;
 import com.slicepoker.zps.project.User.Pojo.Commes;
 import com.slicepoker.zps.project.User.Pojo.StudentInformation;
+import org.apache.poi.ss.formula.functions.Count;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +38,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
     @Autowired
     private StudentGradeRespority studentGradeRespority;
 
+    @Autowired
+    private StudentGPARespority studentGPARespority;
+
     /**
      * @description 导出模板
      * **/
@@ -58,7 +64,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
         }
 
     }
-
+    /**
+     * @description 导入模板
+     * **/
     public Commes importExcel(MultipartFile file){
         if (file == null ){
             return Commes.badRequestError();
@@ -72,9 +80,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
                     StudentGrade studentGrade1 = studentGradeRespority.findByStudentNumberAndGradeNameAndGradeYear(studentGrade.getStudentNumber(),studentGrade.getGradeName(),studentGrade.getGradeYear());
                     if (studentGrade1!=null){
                         studentGrade.setId(studentGrade1.getId());
-                        studentGrade.setStates("GS001");
                     }
                     studentGrade.setStates("GS001");
+                    dudge(studentGrade);
                     studentGradeRespority.save(studentGrade);
                 }
                 return Commes.successMes();
@@ -98,6 +106,9 @@ public class StudentGradeServiceImpl implements StudentGradeService {
                 list.add(cb.equal(root.get("deleted"),false));
                 if (studentGrade.getGradeYear()!=null && !"".equals(studentGrade.getGradeYear())){
                     list.add(cb.equal(root.get("gradeYear"),studentGrade.getGradeYear()));
+                }
+                if (studentGrade.getGradeName()!=null && !"".equals(studentGrade.getGradeName())){
+                    list.add(cb.equal(root.get("gradeName"),studentGrade.getGradeName()));
                 }
                 if (studentGrade.getStudentClass()!=null && !"".equals(studentGrade.getStudentClass())){
                     list.add(cb.equal(root.get("studentClass"),studentGrade.getStudentClass()));
@@ -158,5 +169,53 @@ public class StudentGradeServiceImpl implements StudentGradeService {
             e.printStackTrace();
             return Commes.badRequestError();
         }
+    }
+
+    /**
+     *
+     * @param id
+     * @param states
+     * @description 更新状态
+     * **/
+    @Override
+    public Commes updateStates(Long id, String states) {
+        try {
+            StudentGrade studentGrade = studentGradeRespority.findByIdAndDeletedIsFalse(id);
+            if (studentGrade!=null){
+                studentGrade.setStates(states);
+                studentGradeRespority.save(studentGrade);
+                countGPA(studentGrade);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("401","没有找到给实体");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
+
+    /**
+     * @param studentGrade
+     * @description 判断成绩是否及格且成绩不为零，纳入成绩预警
+     * **/
+    private StudentGrade dudge(StudentGrade studentGrade){
+        if (studentGrade.getGradeScore()<=60 && studentGrade.getGradeScore() !=0){
+            studentGrade.setWarning(true);
+            return studentGrade;
+        }else {
+            return studentGrade;
+        }
+    }
+
+
+    private double countGPA(StudentGrade studentGrade){
+        double gpa = 0;
+        StudentGPA studentGPA = studentGPARespority.findByYearAndMajorAndGpaNameAndDeletedIsFalse(studentGrade.getGradeYear(),studentGrade.getMajor(),studentGrade.getGradeName());
+        if (studentGPA!=null){
+            gpa = (studentGrade.getGradeScore() - studentGPA.getGpaScore()) / 10 * studentGrade.getScore();
+            return gpa;
+        }
+        return gpa;
     }
 }

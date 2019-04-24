@@ -57,4 +57,10 @@ public class StudentInfoController {
     public Commes findMajorList(){
         return studentInfoService.findMajorList();
     }
+
+
+    @GetMapping("/findStudentClass/{major}")
+    public Commes findStudentClass(@PathVariable(name="major") String major){
+        return studentInfoService.findStudentClass(major);
+    }
 }

@@ -1,6 +1,8 @@
 package com.slicepoker.zps.project.Grade.Service.Impl;
 
+import com.slicepoker.zps.project.Grade.Pojo.Gpa;
 import com.slicepoker.zps.project.Grade.Pojo.StudentGPA;
+import com.slicepoker.zps.project.Grade.Respority.GpaRespority;
 import com.slicepoker.zps.project.Grade.Respority.StudentGPARespority;
 import com.slicepoker.zps.project.Grade.Respority.StudentGradeRespority;
 import com.slicepoker.zps.project.Grade.Service.StudentGPAService;
@@ -22,6 +24,13 @@ public class StudentGPAServiceImpl implements StudentGPAService {
     @Autowired
     private StudentGPARespority studentGPARespority;
 
+    @Autowired
+    private GpaRespority gpaRespority;
+
+    @Autowired
+    private StudentGradeRespority studentGradeRespority;
+
+
     /**
      * @param studentGPA
      * @description 更新
@@ -29,17 +38,13 @@ public class StudentGPAServiceImpl implements StudentGPAService {
     @Override
     public Commes update(StudentGPA studentGPA) {
         try {
-            StudentGPA studentGPA1 = studentGPARespority.findByYearAndMajorAndDeletedIsFalse(studentGPA.getYear(),studentGPA.getMajor());
-            if (studentGPA1==null){
-                studentGPA.setGpaName(studentGPA.getGpaName().substring(1,studentGPA.getGpaName().length()-1));
-                return Commes.success(studentGPARespority.save(studentGPA));
+            if (studentGPA!=null && !"".equals(studentGPA)){
+                double score = studentGradeRespority.findGradeScore(studentGPA.getYear(),studentGPA.getGpaName());
+                studentGPA.setCredit(score);
+                studentGPARespority.save(studentGPA);
+                return Commes.successMes();
             }else {
-                studentGPA1.setGpaScore(studentGPA.getGpaScore());
-                studentGPA1.setGpaName(studentGPA.getGpaName().substring(1,studentGPA.getGpaName().length()-1));
-                studentGPA1.setGpaNameCount(studentGPA.getGpaNameCount());
-                studentGPA1.setMajor(studentGPA.getMajor());
-                studentGPA1.setYear(studentGPA.getYear());
-                return Commes.success(studentGPARespority.save(studentGPA1));
+                return Commes.errorMes("401","对象为空");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -56,6 +61,63 @@ public class StudentGPAServiceImpl implements StudentGPAService {
                 return Commes.success(list);
             }else {
                 return Commes.errorMes("401","查找数据失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
+
+
+    /**
+     * @param id
+     * @description 删除
+     * **/
+    @Override
+    public Commes delete(Long id) {
+        try {
+            StudentGPA studentGPA = studentGPARespority.findByIdAndDeletedIsFalse(id);
+            if (studentGPA!=null){
+                studentGPA.setDeleted(true);
+                studentGPARespority.save(studentGPA);
+                return Commes.successMes();
+            }else {
+                return Commes.errorMes("401","没有该实体");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Commes.badRequestError();
+        }
+    }
+
+
+    @Override
+    public void deletedList(String major, String year) {
+        try {
+            List<StudentGPA> list = studentGPARespority.findByMajorAndYearAndDeletedIsFalse(major, year);
+            if (list.size()>0){
+                for (StudentGPA studentGPA:list) {
+                    studentGPA.setDeleted(true);
+                    studentGPARespority.save(studentGPA);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * @param
+     * **/
+    @Override
+    public Commes findAllGpa() {
+        try {
+            List<Gpa> list = gpaRespority.findAllByDeletedIsFalse();
+            if (list.size()>0){
+                return Commes.success(list);
+            }else {
+                return Commes.errorMes("401","没有数据");
             }
         }catch (Exception e){
             e.printStackTrace();
